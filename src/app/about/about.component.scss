@@ -1,0 +1,18 @@
+.about-bg{
+    background-image: url('../../assets/img/hero/about.jpg');
+    background-repeat: no-repeat;
+}
+
+.how-apply-bg{
+    background-image: url('../../assets/img/gallery/how-applybg.png');
+    background-repeat: no-repeat;
+}
+
+.cv-bg{
+    background-image: url('../../assets/img/gallery/cv_bg.jpg');
+    background-repeat: no-repeat;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
