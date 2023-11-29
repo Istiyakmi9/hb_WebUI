@@ -1,0 +1,87 @@
+<!-- <p>navbar works!</p> -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Toggle button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- Navbar brand -->
+        <a class="navbar-brand mt-2 mt-lg-0 ms-3" href="#">
+          <img
+            src="assets/img/logo/logo.png"
+            height="50"
+            alt="MDB Logo"
+            loading="lazy"
+          />
+        </a>
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-dark">
+          <li class="nav-item ms-4">
+            <a href="javascript:void(0)" class="nav-link" [routerLink]="['/home']" routerLinkActive="active" href="#">Home</a>
+          </li>
+          <li class="nav-item ms-4">
+            <a href="javascript:void(0)" class="nav-link" [routerLink]="['/joblisting']" routerLinkActive="active"  href="#">Find a Job</a>
+          </li>
+          <li class="nav-item ms-4">
+            <a href="javascript:void(0)" class="nav-link" [routerLink]="['/about']" routerLinkActive="active" href="#">About</a>
+          </li>
+          <li class="nav-item ms-4">
+            <!-- <a class="nav-link" href="#">Contact</a> -->
+            <a [ngbPopover]="popContent" class="nav-link" href="#"  triggers="mouseenter">Page</a>
+          </li>
+          <li class="nav-item ms-4">
+            <a href="javascript:void(0)" class="nav-link" [routerLink]="['/contact']" routerLinkActive="active"  href="#">Contact</a>
+          </li>
+        </ul>
+        <ng-template #popContent>
+          <ul class="p-0 list-group" style="min-width: 8vw !important;" trigger="mouseleave">
+            <li class="list-group-item border-0">
+              <a href="javascript:void(0)" class="text-decoration-none text-dark" [routerLink]="['/blog']" routerLinkActive="active">
+                Blog
+              </a>
+            </li>
+            <li class="list-group-item border-0">
+              <a href="javascript:void(0)" class="text-decoration-none text-dark" [routerLink]="['/blogdetail']" routerLinkActive="active">
+                Blog Details
+              </a>
+            </li>
+            <li class="list-group-item border-0">
+              <a href="javascript:void(0)" class="text-decoration-none text-dark" [routerLink]="['/elements']" routerLinkActive="active" >
+                Elements
+              </a>
+            </li>
+            <li class="list-group-item border-0">
+              <a href="javascript:void(0)" class="text-decoration-none text-dark" [routerLink]="['/jobdetail']" routerLinkActive="active">
+                Job Detail
+              </a>
+            </li>
+          </ul>
+        </ng-template>
+        <!-- Left links -->
+      </div>
+      <!-- Collapsible wrapper -->
+  
+      <!-- Right elements -->
+      <div class="d-flex align-items-center me-5">
+        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Login</button>
+        <button class="btn btn-outline-danger my-2 my-sm-0 ms-2" type="submit">Register</button>
+       
+      </div>
+      <!-- Right elements -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
