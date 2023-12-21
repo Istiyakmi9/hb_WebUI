@@ -13,6 +13,10 @@ import { BlogComponent } from './blog/blog.component';
 import { BlogdetailComponent } from './blogdetail/blogdetail.component';
 import { ElementsComponent } from './elements/elements.component';
 import { JobdetailComponent } from './jobdetail/jobdetail.component';
+import { iNavigation } from 'src/providers/iNavigation';
+import { AjaxService } from 'src/providers/ajax.service';
+import { JwtService } from 'src/auth/jwtService';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,9 +34,14 @@ import { JobdetailComponent } from './jobdetail/jobdetail.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    AjaxService,
+    iNavigation,
+    JwtService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
