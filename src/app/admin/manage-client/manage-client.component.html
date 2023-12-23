@@ -1,0 +1,141 @@
+<div class="col-12 full-v main-container">
+  <div class="col-12 row p-0 m-0">
+    <div class="right-panel container col-md-12 p-0">
+      <div class="x_panel mt-2">
+        <div class="x_header">
+          <div class="d-flex justify-content-between">
+            <div class="col-8">
+              <div class="px-1">
+                <app-breadcrums [title]="'Client'" [subtitle]="'Details'"></app-breadcrums>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="isReady">
+          <div class="x_content mt-4">
+            <form [formGroup]="clientForm" autocomplete="off">
+              <div class="col-12 row">
+                <div class="col-md-4">
+                  <label class="form-label">Company Name</label>
+                  <input type="text" placeholder="Company Name" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Client Type</label>
+                  <select class="form-select">
+                    <option value="0" disabled selected>Select Client Type</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Description</label>
+                  <textarea type="text" rows="5" placeholder="Description" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="700"></textarea>
+                </div>
+              </div>
+              <div class="col-12 row">
+                <div class="col-md-4">
+                  <label class="form-label">Email</label>
+                  <input type="email" placeholder="Email" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="75">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Alternate Email</label>
+                  <input type="email" placeholder="Alternate Email" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="75">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Alternate Email</label>
+                  <input type="email" placeholder="Alternate Email" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="75">
+                </div>
+              </div>
+              <div class="col-12 row m-0">
+                <div class="col-md-6">
+                  <div class="x_panel">
+                    <div class="x_header">
+                      <div class="x_header_title">
+                        <h2>Bank Detail<small>Bank related detail for transaction.</small></h2>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mb-3 mb-3 row">
+                      <!-- <label class="form-label">Address *</label> -->
+                      <div class="col-md-12 mt-4">
+                        <label class="form-label">Bank Name</label>
+                        <input placeholder="Bank name" class="form-control" name="BankName"  oninput="this.value = this.value.toUpperCase()" maxlength="40"
+                           onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"/>
+                      </div>
+                      <div class="col-md-12 mt-4">
+                        <label class="form-label">Account No.#</label>
+                        <input placeholder="Account No.#" class="form-control" OnlyNumber="30" name="AccountNo"   OnlyNumber="34" onkeypress="return event.charCode >=48 && event.charCode <=57"/>
+                      </div>
+                      <div class="col-md-12 mt-4">
+                        <label class="form-label">IFSC Code</label>
+                        <input placeholder="IFSC Code" class="form-control" name="IFSC" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"
+                          oninput="this.value = this.value.toUpperCase()"  maxlength="11"/>
+                      </div>
+                      <div class="col-md-12 mt-4">
+                        <label class="form-label">Branch Name (Optional)</label>
+                        <input placeholder="Branch name" class="form-control" name="BranchName"  oninput="this.value = this.value.toUpperCase()" maxlength="40"
+                           onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="x_panel">
+                    <div class="x_header">
+                      <div class="x_header_title">
+                        <h2>Organization/Client Other Detail<small>
+                            Other detail like Address, State etc.</small></h2>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mb-3 mb-3 row">
+                      <div class="col-md-6 mt-4">
+                        <label class="form-label">Country *</label>
+                        <input placeholder="Country" class="form-control" name="Country"  maxlength="50" oninput="this.value = this.value.toUpperCase()" [ngClass]="{'error-field': submitted && f.Country.errors !== null && f.Country.errors.required}"/>
+                      </div>
+                      <div class="col-md-6 mt-4">
+                        <label class="form-label">State *</label>
+                        <input placeholder="State" class="form-control" name="State"  maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()" [ngClass]="{'error-field': submitted && f.State.errors !== null && f.State.errors.required}"/>
+                      </div>
+                      <div class="col-md-6 mt-4">
+                        <label class="form-label">City *</label>
+                        <input placeholder="City" class="form-control" name="City"  maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()" [ngClass]="{'error-field': submitted && f.City.errors !== null && f.City.errors.required}"/>
+                      </div>
+                      <div class="col-md-6 mt-4">
+                        <label class="form-label">Pincode *</label>
+                        <input placeholder="Pincode" class="form-control" name="Pincode" OnlyNumber="6" [ngClass]="{'error-field': submitted && f.Pincode.errors !== null && f.Pincode.errors.required}"
+                           />
+                      </div>
+                      <div class="col-md-6 mt-4">
+                        <label class="form-label">Address Line 1 *</label>
+                        <textarea placeholder="Address Line 1" class="form-control" name="FirstAddress" oninput="this.value = this.value.toUpperCase()" [ngClass]="{'error-field': submitted && f.FirstAddress.errors !== null && f.FirstAddress.errors.required}"
+                           maxlength="500"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Employee Register or Update message modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="p-2 modal-content">
+      <div class="modal-body text-dark d-flex align-items-center mb-0 pb-0">
+        <div class="wrapper-checkmark me-3">
+          <svg class="checkmark-register" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+        Congratulation!! employee detail registered/ updated successfully!
+      </div>
+      <div class="modal-footer mt-0 pt-0 border-top-0">
+        <a href="javascript:void(0)" class="text-decoration-none text-dark fw-bold" (click)="gotoClientPage()">OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End -->

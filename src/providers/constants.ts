@@ -10,3 +10,7 @@ export const AccessToken = ProjectName + "_access_token";
 export const Master = ProjectName + "_master";
 export const String = "string";
 export const Home = "home";
+
+
+export const Client = "client";
+export const ManageClient = "manageclient";

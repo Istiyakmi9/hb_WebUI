@@ -18,7 +18,8 @@ const routes: Routes = [
   {path: "blog", component:BlogComponent},
   {path: "blogdetail", component:BlogdetailComponent},
   {path: "elements", component:ElementsComponent},
-  {path: "jobdetail", component:JobdetailComponent}
+  {path: "jobdetail", component:JobdetailComponent},
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
 ];
 
 @NgModule({
