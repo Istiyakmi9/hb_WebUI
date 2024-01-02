@@ -40,7 +40,7 @@
           </li>
           <li class="nav-item ms-4">
             <!-- <a class="nav-link" href="#">Contact</a> -->
-            <a [ngbPopover]="popContent" class="nav-link" href="#"  triggers="mouseenter">Page</a>
+            <a [ngbPopover]="popContent" class="nav-link" href="javascript:void(0)" (click)="navigateClient()"  triggers="mouseenter">Page</a>
           </li>
           <li class="nav-item ms-4">
             <a href="javascript:void(0)" class="nav-link" [routerLink]="['/contact']" routerLinkActive="active"  href="#">Contact</a>
@@ -76,8 +76,12 @@
 
       <!-- Right elements -->
       <div class="d-flex align-items-center me-5">
-        <button class="btn btn-outline-danger my-2 my-sm-0" (click)="loginPopup()">Login</button>
-        <button class="btn btn-outline-danger my-2 my-sm-0 ms-2" type="submit">Register</button>
+        <div class="col-auto">
+          <button class="btn btn-outline-danger my-2 my-sm-0" (click)="loginPopup()">Login</button>
+        </div>
+        <div class="col-auto ms-3">
+          <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Register</button>
+        </div>
       </div>
       <!-- Right elements -->
     </div>
@@ -118,8 +122,8 @@
         <a href="javascript:void(0)">Forgot Password</a>
       </div>
       <div class="modal-footer border-top-0">
-        <button type="button" class="btn btn-secondary me-4" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="UserLogin()">Login</button>
+        <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn" (click)="UserLogin()">Login</button>
       </div>
     </div>
   </div>

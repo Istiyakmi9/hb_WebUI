@@ -12,5 +12,5 @@ export const String = "string";
 export const Home = "home";
 
 
-export const Client = "client";
-export const ManageClient = "manageclient";
+export const Client = "admin/client";
+export const ManageClient = "admin/manageclient";

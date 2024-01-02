@@ -19,11 +19,21 @@ const routes: Routes = [
   {path: "blogdetail", component:BlogdetailComponent},
   {path: "elements", component:ElementsComponent},
   {path: "jobdetail", component:JobdetailComponent},
-  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
+  {matcher: (url) => {
+    if(url[0].path.split(/\/(.*)/s)[0] == "admin") {
+      return {
+        consumed: url
+      };
+    }
+    return null;
+  },
+  path: '',
+  loadChildren: () => import('./admin/admin.module')
+  .then(m => m.AdminModule)}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
