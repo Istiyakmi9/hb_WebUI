@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
+import { Client } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 declare var $: any;
 
@@ -80,6 +81,10 @@ export class NavbarComponent {
   hidePassword() {
     document.getElementById('Password').setAttribute('type', 'password');
     this.isShowPassword = false;
+  }
+
+  navigateClient() {
+    this.nav.navigate(Client, null);
   }
 
 }
