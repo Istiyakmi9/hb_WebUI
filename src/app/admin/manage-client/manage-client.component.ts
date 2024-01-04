@@ -97,7 +97,7 @@ export class ManageClientComponent implements OnInit {
       ErrorToast("Please fill all the mandatory filled");
       return;
     }
-    
+
     let value = this.clientForm.value;
     this.http.post("client/manageClient", value).then(res => {
       if (res.ResponseBody) {
@@ -112,6 +112,7 @@ export class ManageClientComponent implements OnInit {
   }
 
   gotoClientPage() {
+    $('#messageModal').modal('hide');
     this.nav.navigate(Client, null)
   }
 

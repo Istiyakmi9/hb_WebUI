@@ -115,7 +115,7 @@
                       </div>
                       <div class="col-md-12 mt-4">
                         <label class="form-label">Account No.#</label>
-                        <input placeholder="Account No.#" formControlName="AccountNo" class="form-control" OnlyNumber="30" 
+                        <input placeholder="Account No.#" formControlName="AccountNo" class="form-control" OnlyNumber="30"
                         onkeypress="return event.charCode >=48 && event.charCode <=57" [ngClass]="{'error-field': submitted && f.AccountNo.errors !== null && f.AccountNo.errors.required}"/>
                       </div>
                       <div class="col-md-12 mt-4">
@@ -150,7 +150,7 @@
                       </div>
                       <div class="col-md-6 mt-4">
                         <label class="form-label">State *</label>
-                        <input placeholder="State" class="form-control" formControlName="State" maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()"
+                        <input placeholder="State" class="form-control" formControlName="State" maxlength="50" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()"
                         [ngClass]="{'error-field': submitted && f.State.errors !== null && f.State.errors.required}"/>
                       </div>
                       <div class="col-md-6 mt-4">

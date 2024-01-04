@@ -1,11 +1,8 @@
-import {
-  HttpClient,
-  HttpResponse,
-  HttpErrorResponse
-} from "@angular/common/http";
+import { HttpClient, HttpResponse, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { JwtService, ResponseModel } from "src/auth/jwtService";
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class AjaxService {
@@ -24,12 +21,11 @@ export class AjaxService {
   }
 
   private GetBaseUrl() {
-    return "http://localhost:8080/";
+    return environment.baseUrl;
   }
 
   login(Url: string, Param: any): Promise<ResponseModel> {
     let url = `${this.GetBaseUrl()}${Url}`;
-    this.tokenHelper.setCompanyCode(Param.CompanyCode);
     return new Promise((resolve, reject) => {
       this.http
         .post(url, Param, {
@@ -39,11 +35,12 @@ export class AjaxService {
             try {
               if (this.tokenHelper.IsValidResponse(res.body)) {
                 let loginData: ResponseModel = res.body;
-                if (this.tokenHelper.setLoginDetail(loginData.ResponseBody)) {
-                  resolve(res.body);
-                } else {
-                  resolve(null);
-                }
+                // if (this.tokenHelper.setLoginDetail(loginData.ResponseBody)) {
+                //   resolve(res.body);
+                // } else {
+                //   resolve(null);
+                // }
+                resolve(res.body);
               } else {
                 reject(null);
               }

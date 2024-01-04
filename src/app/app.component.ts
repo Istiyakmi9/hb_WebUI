@@ -30,4 +30,17 @@ export class AppComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.navRouter.unsubscribe();
   }
+
+  closeToast() {
+    document.getElementById("toast").classList.add("d-none");
+    let $Toast = document.getElementById("toast");
+    let $Error = document.getElementById("warning-box");
+    let $Warning = document.getElementById("error-box");
+    if ($Toast) {
+      $Toast.classList.add("d-none");
+      $Error.classList.add("d-none");
+      $Warning.classList.add("d-none");
+    }
+  }
+
 }
