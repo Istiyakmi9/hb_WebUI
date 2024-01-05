@@ -14,3 +14,5 @@ export const Home = "home";
 
 export const Client = "admin/client";
 export const ManageClient = "admin/manageclient";
+export const Employee = "admin/employee";
+export const ManageEmployee = "admin/manageemployee";
