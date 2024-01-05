@@ -6,12 +6,16 @@ import { ClientComponent } from './client/client.component';
 import { ManageClientComponent } from './manage-client/manage-client.component';
 import { UtilModule } from '../util/util.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EmployeeComponent } from './employee/employee.component';
+import { ManageEmployeeComponent } from './manage-employee/manage-employee.component';
 
 
 @NgModule({
   declarations: [
     ClientComponent,
-    ManageClientComponent
+    ManageClientComponent,
+    EmployeeComponent,
+    ManageEmployeeComponent
   ],
   imports: [
     CommonModule,
