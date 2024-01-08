@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Filter, AjaxService } from 'src/providers/ajax.service';
-import { CommonService } from 'src/providers/common.service';
+import { ErrorToast, Toast } from 'src/providers/common.service';
 import { ManageClient } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 
@@ -30,8 +30,7 @@ export class ClientComponent implements OnInit {
   }
 
   constructor(private http: AjaxService,
-              private nav: iNavigation,
-              private common: CommonService) { }
+              private nav: iNavigation) { }
 
   ngOnInit(): void {
     this.clientsData = new Filter();
@@ -61,11 +60,13 @@ export class ClientComponent implements OnInit {
         else
           this.clientsData.TotalRecords = 0;
 
+        Toast("Record found");
         this.isLoading = false;
         this.isClientFound = true;
       }
     }).catch(e => {
       this.isLoading = false;
+      ErrorToast("Fail to get cients");
     })
   }
 
@@ -78,7 +79,7 @@ export class ClientComponent implements OnInit {
     }
     if (FieldName == 'CompanyName')
       this.orderByNameAsc = !flag;
-    if (FieldName == 'PrimaryPhoneNo')
+    if (FieldName == 'Mobile')
       this.orderByMobileAsc = !flag;
     if (FieldName == 'Email')
       this.orderByEmailAsc = !flag;
@@ -86,11 +87,11 @@ export class ClientComponent implements OnInit {
       this.orderByClientTypeAsc = !flag;
     if (FieldName == 'Address')
       this.orderByAddressAsc = !flag;
+
     this.clientsData = new Filter();
     this.clientsData.SortBy = FieldName +" "+ Order;
     this.loadData()
   }
-
 
   EditCurrent(data: any) {
     if (data !== null) {
@@ -169,7 +170,7 @@ export class ClientComponent implements OnInit {
   }
 }
 
-export class clientModel {
+class clientModel {
   CompanyName: string = '';
   ClientTypeId: number = 0;
   Mobile: number = null;
