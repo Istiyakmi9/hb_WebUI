@@ -128,4 +128,26 @@ class EmployeeDetail {
   roleId: number = 0;
   designationId: number = 0;
   reporteeId: number = 0;
+  pan: string = null;
+  aadhar: string = null;
+  passportNumber: string = null;
+  bankName: string = null;
+  branch: string = null;
+  IfscCode: string = null;
+  jobTypeId: number = 0;
+  experienceInMonths: number = 0;
+  LastCompanyName: string = null;
+  lastWorkingDate: Date = null;
+  designation: string = null;
+  salary: number = 0;
+  expectedSalary: number = 0;
+  expectedDesignation: string = null;
+  employeeMedicalDetailId: number = 0;
+  medicalConsultancyId: number = 0;
+  ConsultedBy: string = null;
+  consultedOn: Date = null;
+  referenceId: number = 0;
+  reportId: number = 0;
+  ReportPath: string = null;
+
 }
