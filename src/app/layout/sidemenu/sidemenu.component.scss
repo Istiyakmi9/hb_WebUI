@@ -1,0 +1,160 @@
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  font-weight: 600;
+  color: #222;
+  margin: 0px 2px;
+  display: block;
+}
+
+.menu-items {
+  // overflow: auto !important;
+  height: calc(100vh - 4rem) !important;
+  border-right: 1px solid #c5c5c5;
+}
+
+.menu-container {
+  height: 88vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.menu-container::-webkit-scrollbar-thumb {
+  background-color: transparent !important;
+}
+
+.menu-container:hover::-webkit-scrollbar-thumb {
+  background: #cab5b5 !important;
+}
+
+.menu-top {
+  height: 4rem;
+}
+
+.active-link {
+  background: #c6c6c663!important;
+  color: #00158e !important;
+  font-weight: 500 !important;
+
+  .mene-item {
+    font-weight: 500 !important;
+  }
+}
+
+.nav-link-menu {
+  margin: 0 !important;
+  color: #222 !important;
+  padding-left: 2rem !important;
+}
+
+.menu-item-group {
+  background: #fbf7f7;
+}
+
+.mene-item {
+  font-weight: 400;
+}
+
+.nav-link-menu:hover {
+  .mene-item {
+    font-weight: 500 !important;
+  }
+
+  background-color: #17181729 !important;
+}
+
+.i-chip {
+  background: white;
+  color: darkgrey;
+  margin: 0px 10px;
+  border-radius: 4px;
+  width: 2.5rem;
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+
+}
+
+.accordion {
+  width: 100%;
+}
+
+.accordion-item {
+  background-color: #fff;
+  color: #111;
+  margin: 0.5rem 0;
+  border-radius: 0.5rem;
+}
+
+.accordion-item-header {
+  padding: 0rem 0rem 0rem 0.2rem;
+  min-height: 3.5rem;
+  line-height: 1.25rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  color: darkgray;
+}
+
+.active {
+  font-weight: 700 !important;
+  background: #eee !important;
+  color: #286090 !important;
+  span {
+    background: #286090 !important;
+    color: white !important;
+    padding: 8px 0px !important;
+  }
+}
+
+.rotate-caret {
+  transform: rotate(90deg);
+  transform-origin: center !important;
+  transition: all 0.3s linear;
+}
+
+.accordion-item-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.accordion-item-body-content {
+  line-height: 1.5rem;
+  border-top: 1px solid;
+  border-image: linear-gradient(to right, transparent, #34495e, transparent) 1;
+}
+
+::-webkit-scrollbar {
+  width: 4px !important;
+}
+
+.active-body {
+  max-height: 500px;
+}
+
+.mene-item {
+  font-size: .76vw !important;
+}
+
+.menu-item-icon {
+font-size: 0.8vw !important;
+}
+
+.title_menu {
+  margin-left: 1rem !important;
+}
+
+.nav-link-menu{
+  padding: 0.7rem 1.8rem !important;
+  font-size: 0.8rem !important;
+}
+
+.catagory-icons {
+  width: 1.3vw;
+  margin-right: 1rem;
+}

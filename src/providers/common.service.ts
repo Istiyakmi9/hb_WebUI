@@ -585,7 +585,7 @@ export class UserDetail {
   CreatedOn: Date = null;
   Designation: string = null;
   DOB: Date = null;
-  EmailId: string = null;
+  Email: string = null;
   FirstName: string = "User";
   LastName: string = "User";
   MediaName: string = null;

@@ -1,0 +1,46 @@
+<div class="container-fluid mx-0 px-0 navbar-container">
+  <div class="card rounded-0">
+    <div class="d-flex align-items-center justify-content-between p-2">
+      <div class="col-md-2 d-flex">
+        <img src="assets/img/logo/logo-icon.png" width="15%" alt="" class="">
+        <div class="form-control py-0 d-flex align-items-center my-auto rounded rounded-pill">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" class="form-control border-0" placeholder="Search">
+        </div>
+      </div>
+      <div class="col-md-8"></div>
+      <div class="col-auto d-flex align-items-center justify-content-between">
+        <div class="col-auto border rounded rounded-circle bg-light px-2 py-1 mx-2">
+          <a href="javascript:void(0)" class="text-decoration-none">
+            <i class="fa-solid fa-bars fa-lg"></i>
+          </a>
+        </div>
+        <div class="col-auto border rounded rounded-circle bg-light px-2 py-1 mx-2 position-relative">
+          <a href="javascript:void(0)" class="text-decoration-none">
+            <i class="fa-solid fa-bell fa-lg"></i>
+          </a>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            2
+            <span class="visually-hidden">unread messages</span>
+          </span>
+        </div>
+        <div class="col-auto border rounded rounded-circle bg-light px-2 py-1 mx-2">
+          <a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-user fa-lg"></i>
+          </a>
+          <ul class="dropdown-menu text-center">
+            <li>
+              <img src="assets/face.jpg" alt="" class="img-xl rounded rounded-circle">
+              <p class="mb-0" *ngIf="userName != null">{{userName}}</p>
+            </li>
+            <hr>
+            <li><a class="dropdown-item" href="javascript:void(0)">Manage Account</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)">Change Password</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)" (click)="LogoutUser()">Log Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
