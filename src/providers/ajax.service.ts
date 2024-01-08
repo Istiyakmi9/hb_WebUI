@@ -35,12 +35,11 @@ export class AjaxService {
             try {
               if (this.tokenHelper.IsValidResponse(res.body)) {
                 let loginData: ResponseModel = res.body;
-                // if (this.tokenHelper.setLoginDetail(loginData.ResponseBody)) {
-                //   resolve(res.body);
-                // } else {
-                //   resolve(null);
-                // }
-                resolve(res.body);
+                if (this.tokenHelper.setLoginDetail(loginData.ResponseBody)) {
+                  resolve(res.body);
+                } else {
+                  resolve(null);
+                }
               } else {
                 reject(null);
               }

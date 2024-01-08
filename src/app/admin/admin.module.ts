@@ -7,13 +7,17 @@ import { ManageClientComponent } from './manage-client/manage-client.component';
 import { UtilModule } from '../util/util.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { ManageEmployeeComponent } from './manage-employee/manage-employee.component';
 
 
 @NgModule({
   declarations: [
     ClientComponent,
     ManageClientComponent,
-    DashboardComponent
+    DashboardComponent,
+    EmployeeComponent,
+    ManageEmployeeComponent
   ],
   imports: [
     CommonModule,

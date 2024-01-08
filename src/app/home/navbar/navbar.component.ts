@@ -57,7 +57,7 @@ export class NavbarComponent {
       this.http.login('authenticate', loginValue).then((result: ResponseModel) => {
         if (result.ResponseBody) {
           let Data = result.ResponseBody;
-          //this.jwtService.setLoginDetail(Data);
+          this.jwtService.setLoginDetail(Data);
           $("#loginModal").modal("hide");
           Toast("Please wait loading dashboard ...", 15);
           this.nav.navigate(Dashboard, null);
