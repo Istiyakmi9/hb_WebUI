@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { Toast } from 'src/providers/common.service';
@@ -18,12 +19,12 @@ export class ManageEmployeeComponent implements OnInit {
   employeeForm: FormGroup;
   employeeDetail: EmployeeDetail = new EmployeeDetail();
   employeeId: number = 0;
-  
+  lastWorkingDatemodel: NgbDateStruct;
 
   constructor(private fb: FormBuilder,
               private http: AjaxService,
               private nav: iNavigation){}
-  
+
   ngOnInit(): void {
     let data = this.nav.getValue();
     if (data){
@@ -33,7 +34,7 @@ export class ManageEmployeeComponent implements OnInit {
       this.initForm();
       this.isReady = true;
     }
-      
+
   }
 
   loadData(){
@@ -76,21 +77,36 @@ export class ManageEmployeeComponent implements OnInit {
 
   initForm(){
     this.employeeForm = this.fb.group({
+      employeeId: new FormControl(this.employeeDetail.employeeId),
       firstName: new FormControl(this.employeeDetail.firstName),
       lastName: new FormControl(this.employeeDetail.lastName),
       fatherName: new FormControl(this.employeeDetail.fatherName),
       motherName: new FormControl(this.employeeDetail.motherName),
       email: new FormControl(this.employeeDetail.email),
       mobile: new FormControl(this.employeeDetail.mobile),
-      alternetNumber: new FormControl(this.employeeDetail.alternetNumber),
+      alternateNumber: new FormControl(this.employeeDetail.alternateNumber),
       address: new FormControl(this.employeeDetail.address),
       city: new FormControl(this.employeeDetail.city),
       state: new FormControl(this.employeeDetail.state),
       country: new FormControl(this.employeeDetail.country),
       roleId: new FormControl(this.employeeDetail.roleId),
       designationId: new FormControl(this.employeeDetail.designationId),
-      reporteeId: new FormControl(this.employeeDetail.reporteeId)
-
+      reporteeId: new FormControl(this.employeeDetail.reporteeId),
+      pan: new FormControl(this.employeeDetail.pan),
+      aadhar: new FormControl(this.employeeDetail.aadhar),
+      accountNo: new FormControl(this.employeeDetail.accountNo),
+      bankName: new FormControl(this.employeeDetail.bankName),
+      ifscCode: new FormControl(this.employeeDetail.ifscCode),
+      branch: new FormControl(this.employeeDetail.branch),
+      experienceInMonths: new FormControl(this.employeeDetail.experienceInMonths),
+      passportNumber: new FormControl(this.employeeDetail.passportNumber),
+      jobTypeId: new FormControl(this.employeeDetail.jobTypeId),
+      lastCompanyName: new FormControl(this.employeeDetail.lastCompanyName),
+      designation: new FormControl(this.employeeDetail.designation),
+      salary: new FormControl(this.employeeDetail.salary),
+      expectedSalary: new FormControl(this.employeeDetail.expectedSalary),
+      expectedDesignation: new FormControl(this.employeeDetail.expectedDesignation),
+      pinCode: new FormControl(this.employeeDetail.pinCode)
     })
   }
 
@@ -110,6 +126,11 @@ export class ManageEmployeeComponent implements OnInit {
     return this.employeeForm.controls;
   }
 
+  onLastWorkingDateSelection(e: NgbDateStruct) {
+    let date = new Date(e.year, e.month -1, e.day);
+    this.employeeForm.get("lastWorkingDate").setValue(date);
+  }
+
 }
 
 class EmployeeDetail {
@@ -120,7 +141,7 @@ class EmployeeDetail {
   motherName: string = null;
   email: string = null;
   mobile: string = null;
-  alternetNumber: string = null;
+  alternateNumber: string = null;
   address: string = null;
   city: string = null;
   state: string = null;
@@ -133,10 +154,10 @@ class EmployeeDetail {
   passportNumber: string = null;
   bankName: string = null;
   branch: string = null;
-  IfscCode: string = null;
+  ifscCode: string = null;
   jobTypeId: number = 0;
   experienceInMonths: number = 0;
-  LastCompanyName: string = null;
+  lastCompanyName: string = null;
   lastWorkingDate: Date = null;
   designation: string = null;
   salary: number = 0;
@@ -149,5 +170,6 @@ class EmployeeDetail {
   referenceId: number = 0;
   reportId: number = 0;
   ReportPath: string = null;
-
+  accountNo: string = null;
+  pinCode: number = 0;
 }
