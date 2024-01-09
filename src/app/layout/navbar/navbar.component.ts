@@ -16,10 +16,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     let currentUser = this.user.getInstance();
-    if (currentUser) {
-      let name = currentUser.Email.split("@");
-      this.userName = name[0];
-    }
+    // if (currentUser) {
+    //   let name = currentUser.Email.split("@");
+    //   this.userName = name[0];
+    // }
   }
 
   LogoutUser() {

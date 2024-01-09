@@ -64,7 +64,7 @@ export class ManageEmployeeComponent implements OnInit {
   updateEmployee(){
     this.isReady = true;
     let value = this.employeeForm.value;
-    this.http.put(`employee/updateEmployee/${this.employeeDetail.employeeId}`,value).then((res:ResponseModel) => {
+    this.http.put(`employee/updateEmployee/${this.employeeDetail.EmployeeId}`,value).then((res:ResponseModel) => {
       if(res.ResponseBody){
         Toast("Employee Updated successfully");
         $('#messageModalEmployee').modal('show');
@@ -77,36 +77,41 @@ export class ManageEmployeeComponent implements OnInit {
 
   initForm(){
     this.employeeForm = this.fb.group({
-      employeeId: new FormControl(this.employeeDetail.employeeId),
-      firstName: new FormControl(this.employeeDetail.firstName),
-      lastName: new FormControl(this.employeeDetail.lastName),
-      fatherName: new FormControl(this.employeeDetail.fatherName),
-      motherName: new FormControl(this.employeeDetail.motherName),
-      email: new FormControl(this.employeeDetail.email),
-      mobile: new FormControl(this.employeeDetail.mobile),
-      alternateNumber: new FormControl(this.employeeDetail.alternateNumber),
-      address: new FormControl(this.employeeDetail.address),
-      city: new FormControl(this.employeeDetail.city),
-      state: new FormControl(this.employeeDetail.state),
-      country: new FormControl(this.employeeDetail.country),
-      roleId: new FormControl(this.employeeDetail.roleId),
-      designationId: new FormControl(this.employeeDetail.designationId),
-      reporteeId: new FormControl(this.employeeDetail.reporteeId),
-      pan: new FormControl(this.employeeDetail.pan),
-      aadhar: new FormControl(this.employeeDetail.aadhar),
-      accountNo: new FormControl(this.employeeDetail.accountNo),
-      bankName: new FormControl(this.employeeDetail.bankName),
-      ifscCode: new FormControl(this.employeeDetail.ifscCode),
-      branch: new FormControl(this.employeeDetail.branch),
-      experienceInMonths: new FormControl(this.employeeDetail.experienceInMonths),
-      passportNumber: new FormControl(this.employeeDetail.passportNumber),
-      jobTypeId: new FormControl(this.employeeDetail.jobTypeId),
-      lastCompanyName: new FormControl(this.employeeDetail.lastCompanyName),
-      designation: new FormControl(this.employeeDetail.designation),
-      salary: new FormControl(this.employeeDetail.salary),
-      expectedSalary: new FormControl(this.employeeDetail.expectedSalary),
-      expectedDesignation: new FormControl(this.employeeDetail.expectedDesignation),
-      pinCode: new FormControl(this.employeeDetail.pinCode)
+      EmployeeId: new FormControl(this.employeeDetail.EmployeeId),
+      FirstName: new FormControl(this.employeeDetail.FirstName),
+      LastName: new FormControl(this.employeeDetail.LastName),
+      FatherName: new FormControl(this.employeeDetail.FatherName),
+      MotherName: new FormControl(this.employeeDetail.MotherName),
+      Email: new FormControl(this.employeeDetail.Email),
+      Mobile: new FormControl(this.employeeDetail.Mobile),
+      AlternateNumber: new FormControl(this.employeeDetail.AlternateNumber),
+      Address: new FormControl(this.employeeDetail.Address),
+      City: new FormControl(this.employeeDetail.City),
+      State: new FormControl(this.employeeDetail.State),
+      Country: new FormControl(this.employeeDetail.Country),
+      RoleId: new FormControl(this.employeeDetail.RoleId),
+      DesignationId: new FormControl(this.employeeDetail.DesignationId),
+      ReporteeId: new FormControl(this.employeeDetail.ReporteeId),
+      Pan: new FormControl(this.employeeDetail.Pan),
+      Aadhar: new FormControl(this.employeeDetail.Aadhar),
+      AccountNo: new FormControl(this.employeeDetail.AccountNo),
+      BankName: new FormControl(this.employeeDetail.BankName),
+      IfscCode: new FormControl(this.employeeDetail.IfscCode),
+      Branch: new FormControl(this.employeeDetail.Branch),
+      ExperienceInMonths: new FormControl(this.employeeDetail.ExperienceInMonths),
+      PassportNumber: new FormControl(this.employeeDetail.PassportNumber),
+      JobTypeId: new FormControl(this.employeeDetail.JobTypeId),
+      LastCompanyName: new FormControl(this.employeeDetail.LastCompanyName),
+      Designation: new FormControl(this.employeeDetail.Designation),
+      Salary: new FormControl(this.employeeDetail.Salary),
+      ExpectedSalary: new FormControl(this.employeeDetail.ExpectedSalary),
+      ExpectedDesignation: new FormControl(this.employeeDetail.ExpectedDesignation),
+      PinCode: new FormControl(this.employeeDetail.PinCode),
+      MedicalConsultancyId: new FormControl(this.employeeDetail.MedicalConsultancyId),
+      ConsultedBy: new FormControl(this.employeeDetail.ConsultedBy),
+      ReferenceId: new FormControl(this.employeeDetail.ReferenceId),
+      ReportId: new FormControl(this.employeeDetail.ReportId),
+      ReportPath: new FormControl(this.employeeDetail.ReportPath)
     })
   }
 
@@ -131,45 +136,50 @@ export class ManageEmployeeComponent implements OnInit {
     this.employeeForm.get("lastWorkingDate").setValue(date);
   }
 
+  consultedOnSelection(e: NgbDateStruct) {
+    let date = new Date(e.year, e.month -1, e.day);
+    this.employeeForm.get("consultedOn").setValue(date);
+  }
+
 }
 
 class EmployeeDetail {
-  employeeId: number = 0;
-  firstName: string = null;
-  lastName: string = null;
-  fatherName: string = null;
-  motherName: string = null;
-  email: string = null;
-  mobile: string = null;
-  alternateNumber: string = null;
-  address: string = null;
-  city: string = null;
-  state: string = null;
-  country: string = null;
-  roleId: number = 0;
-  designationId: number = 0;
-  reporteeId: number = 0;
-  pan: string = null;
-  aadhar: string = null;
-  passportNumber: string = null;
-  bankName: string = null;
-  branch: string = null;
-  ifscCode: string = null;
-  jobTypeId: number = 0;
-  experienceInMonths: number = 0;
-  lastCompanyName: string = null;
-  lastWorkingDate: Date = null;
-  designation: string = null;
-  salary: number = 0;
-  expectedSalary: number = 0;
-  expectedDesignation: string = null;
-  employeeMedicalDetailId: number = 0;
-  medicalConsultancyId: number = 0;
+  EmployeeId: number = 0;
+  FirstName: string = null;
+  LastName: string = null;
+  FatherName: string = null;
+  MotherName: string = null;
+  Email: string = null;
+  Mobile: string = null;
+  AlternateNumber: string = null;
+  Address: string = null;
+  City: string = null;
+  State: string = null;
+  Country: string = null;
+  RoleId: number = 0;
+  DesignationId: number = 0;
+  ReporteeId: number = 0;
+  Pan: string = null;
+  Aadhar: string = null;
+  PassportNumber: string = null;
+  BankName: string = null;
+  Branch: string = null;
+  IfscCode: string = null;
+  JobTypeId: number = 0;
+  ExperienceInMonths: number = 0;
+  LastCompanyName: string = null;
+  LastWorkingDate: Date = null;
+  Designation: string = null;
+  Salary: number = 0;
+  ExpectedSalary: number = 0;
+  ExpectedDesignation: string = null;
+  EmployeeMedicalDetailId: number = 0;
+  MedicalConsultancyId: number = 0;
   ConsultedBy: string = null;
-  consultedOn: Date = null;
-  referenceId: number = 0;
-  reportId: number = 0;
+  ConsultedOn: Date = null;
+  ReferenceId: number = 0;
+  ReportId: number = 0;
   ReportPath: string = null;
-  accountNo: string = null;
-  pinCode: number = 0;
+  AccountNo: string = null;
+  PinCode: number = 0;
 }
