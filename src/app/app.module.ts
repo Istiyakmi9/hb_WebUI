@@ -11,6 +11,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppHttpIntercepter } from 'src/auth/app.intercepter';
 import { ToastComponent } from './toast/toast.component';
 import { HomeModule } from './home/home.module';
+import { UserService } from 'src/providers/userService';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { HomeModule } from './home/home.module';
     AjaxService,
     iNavigation,
     JwtService,
+    UserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpIntercepter,

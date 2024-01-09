@@ -1,0 +1,17 @@
+.content-wrapper {
+  height: calc(100vh - 4rem) !important;
+  overflow: auto;
+  background: #efefef !important;
+}
+
+.l-panel {
+  width: 15% !important;
+  display: block;
+  transition: all 0.2s linear !important;
+}
+
+.r-panel {
+  width: calc(100% - 15%) !important;
+  transition: all 0.2s linear !important;
+}
+

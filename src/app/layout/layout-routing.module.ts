@@ -5,7 +5,6 @@ import { LayoutComponent } from './layout/layout.component';
 const routes: Routes = [
   {
     path: '',
-    component: LayoutComponent,
     loadChildren: () => import('../admin/admin.module')
     .then(m => m.AdminModule)
   }

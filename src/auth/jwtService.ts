@@ -24,17 +24,17 @@ export class JwtService {
     }
 
     setLoginDetail(data: any): Boolean {
-        let res: LoginResponse = data as LoginResponse;
-        let flag: Boolean = false;
-        if(res !== undefined && res !== null) {
-            if(res.Menu !== null && res.ReportColumnMapping !== null && res.UserDetail !== null) {
-                this.removeJwtToken();
-                this.setJwtToken(res.UserDetail["Token"], res.UserDetail["TokenExpiryDuration"]);
-                localStorage.setItem(Master, JSON.stringify(res));
-                flag = true;
-            }
-        }
-        return flag;
+      let res: LoginResponse = data as LoginResponse;
+      let flag: Boolean = false;
+      if(res !== undefined && res !== null) {
+          if(res.UserDetail !== null) {
+              this.removeJwtToken();
+              this.setJwtToken(res.UserDetail["Token"], res.UserDetail["TokenExpiryDuration"]);
+              localStorage.setItem(Master, JSON.stringify(res));
+              flag = true;
+          }
+      }
+      return flag;
     }
 
     removeJwtToken() {
@@ -127,7 +127,5 @@ export interface ResponseModel {
 }
 
 export class LoginResponse {
-    Menu: any = null;
-    ReportColumnMapping: any = null;
     UserDetail: any = null;
 }
