@@ -11,7 +11,6 @@ import { EmployeeComponent } from './employee/employee.component';
 import { ManageEmployeeComponent } from './manage-employee/manage-employee.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-
 @NgModule({
   declarations: [
     ClientComponent,
