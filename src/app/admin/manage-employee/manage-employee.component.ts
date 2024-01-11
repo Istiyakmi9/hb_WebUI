@@ -20,6 +20,7 @@ export class ManageEmployeeComponent implements OnInit {
   employeeDetail: EmployeeDetail = new EmployeeDetail();
   employeeId: number = 0;
   lastWorkingDatemodel: NgbDateStruct;
+  isLoading: boolean = false;
 
   constructor(private fb: FormBuilder,
               private http: AjaxService,
@@ -48,30 +49,32 @@ export class ManageEmployeeComponent implements OnInit {
   }
 
   addEmployee(){
-    this.isReady = true;
+    this.isLoading = true;
     let value = this.employeeForm.value;
     this.http.post("employee/addEmployee", value).then((res:ResponseModel) => {
       if(res.ResponseBody){
         Toast("Employee Inserted successfully");
         $('#messageModalEmployee').modal('show');
-        this.isReady = false;
+        this.isLoading = false;
       }
     }).catch(e => {
       alert(e.message)
+      this.isLoading = false;
     })
   }
 
   updateEmployee(){
-    this.isReady = true;
+    this.isLoading = true;
     let value = this.employeeForm.value;
     this.http.put(`employee/updateEmployee/${this.employeeDetail.EmployeeId}`,value).then((res:ResponseModel) => {
       if(res.ResponseBody){
         Toast("Employee Updated successfully");
         $('#messageModalEmployee').modal('show');
-        this.isReady = false;
+        this.isLoading = false;
       }
     }).catch(e => {
       alert(e.message)
+      this.isLoading = false;
     })
   }
 
