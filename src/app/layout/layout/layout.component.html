@@ -1,10 +1,10 @@
 <div class="vh-100 overflow-hidden">
   <app-navbar></app-navbar>
   <div class="d-flex container-scroller h-100 w-100">
-    <div class="l-panel">
+    <div class="l-panel" [ngClass]="{'d-none': isDashboard}">
       <app-sidemenu></app-sidemenu>
     </div>
-    <div class="r-panel">
+    <div class="r-panel" [ngClass]="{'col-md-12': isDashboard, 'r-panel': !isDashboard}">
       <div class="content-wrapper">
         <router-outlet></router-outlet>
       </div>
