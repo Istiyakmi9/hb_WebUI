@@ -10,6 +10,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { ManageEmployeeComponent } from './manage-employee/manage-employee.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChattingComponent } from './chatting/chatting.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ManageClientComponent,
     DashboardComponent,
     EmployeeComponent,
-    ManageEmployeeComponent
+    ManageEmployeeComponent,
+    ChattingComponent
   ],
   imports: [
     CommonModule,

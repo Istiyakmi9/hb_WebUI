@@ -1,6 +1,6 @@
 import { Component, DoCheck } from '@angular/core';
 import { Router } from '@angular/router';
-import { Dashboard } from 'src/providers/constants';
+import { Chatting } from 'src/providers/constants';
 
 @Component({
   selector: 'app-layout',
@@ -9,15 +9,15 @@ import { Dashboard } from 'src/providers/constants';
 })
 export class LayoutComponent implements DoCheck {
 
-  isDashboard: boolean = false;
+  isChattingPage: boolean = false;
 
   constructor(private router: Router) {}
 
   ngDoCheck(): void {
     let route = this.router.url;
-    if (route.includes(Dashboard))
-      this.isDashboard = true;
+    if (route.includes(Chatting))
+      this.isChattingPage = true;
     else
-      this.isDashboard = false;
+      this.isChattingPage = false;
   }
 }
