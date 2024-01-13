@@ -123,10 +123,13 @@
       </div>
       <div class="modal-footer border-top-0 d-flex">
         <div class="col-auto me-2">
-          <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn login-btn" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> Close</button>
         </div>
         <div class="col-auto">
-          <button type="button" class="btn ms-2" (click)="UserLogin()">Login</button>
+          <button class="btn btn-custom-pink ms-3  login-btn" [disabled]="isLoading" (click)="UserLogin()">
+            <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
+            {{ isLoading ? 'Wait' : 'Submit' }}
+          </button>
         </div>
       </div>
     </div>
