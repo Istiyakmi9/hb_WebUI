@@ -67,11 +67,11 @@
                   <img src="assets/face.jpg" alt="" class="rounded rounded-circle profile-image">
                 </div>
                 <div class="col-auto ms-3">
-                  <p class="mb-0 fw-bold text-start position-relative">
+                  <div class="mb-0 fw-bold text-start d-flex align-items-center">
                     {{item.FullName}}.
-                    <img src="https://cdn.worldvectorlogo.com/logos/twitter-verified-badge.svg" width="1%" alt="">
-                    <a href="javascript:void(0)" class="text-decoration-none">Follow</a>
-                  </p>
+                    <i class="fa-solid fa-circle-check ms-1 text-primary"></i>
+                    <a href="javascript:void(0)" class="text-decoration-none ms-2">Follow</a>
+                  </div>
                   <small>
                     {{item.PostedOn | date: 'MMMM d, y, h:mm:ss a'}}
                     <i class="fa-solid fa-earth-americas ps-1"></i>
