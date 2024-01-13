@@ -223,7 +223,7 @@
 
 <!--Post Job Modal -->
 <div class="modal fade" id="postJobModal" tabindex="-1" aria-labelledby="postJobModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content px-3">
       <div class="modal-header border-bottom-0">
         <h1 class="modal-title fs-5" id="postJobModalLabel">Post Job</h1>
@@ -365,6 +365,10 @@
           <div class="mt-3">
             <input type="file" id="uploadPost" multiple class="d-none" accept=".jpg, .jpeg, .png, video/mp4, video/x-m4v,video/*" (change)="uploadMessageImg($event)"/>
             <button class="btn btn-secondary" (click)="fireBrowserFile()">Browse File</button>
+            <button class="btn btn-outline-danger ms-2" (click)="cleanFile()">
+              <i class="fa-solid fa-eraser pe-1"></i>
+              Clean file
+            </button>
             <span *ngIf="fileDetail.length > 0" class="ps-3 fw-bold text-dark">{{fileDetail.length}} file selected</span>
           </div>
         </form>

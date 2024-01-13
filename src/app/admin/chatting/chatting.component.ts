@@ -403,6 +403,10 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   reset() {
     this.postJobForm.reset();
   }
+
+  cleanFile() {
+    this.fileDetail = [];
+  }
 }
 
 interface Item {
