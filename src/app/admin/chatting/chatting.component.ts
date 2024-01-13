@@ -111,6 +111,9 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   postForm: any = null;
   profileURL: string = null;
   imgBaseUrl: string = null;
+  contries: Array<any> = [];
+  currencies: Array<any> = [];
+  currentUser: any = null;
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -128,9 +131,9 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    let currentUser = this.user.getInstance();
-    if (currentUser && currentUser.Email) {
-      let name = currentUser.Email.split("@");
+    this.currentUser = this.user.getInstance();
+    if (this.currentUser && this.currentUser.Email) {
+      let name = this.currentUser.Email.split("@");
       this.userName = name[0];
     }
     this.totalImageCount = this.posts.length;
@@ -337,6 +340,29 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  eidtPost(item: any) {
+    this.isLoading = true;
+    if (item && item.UserPostId > 0) {
+      this.http.get(`userposts/getUserPostByUserPostId/${item.UserPostId}`).then((res:ResponseModel) => {
+        if (res.ResponseBody) {
+          if (res.ResponseBody.UserPost && res.ResponseBody.UserPost.length > 0) {
+            this.postJobDeatil = res.ResponseBody.UserPost[0];
+            if (this.postJobDeatil.FileDetail != null && this.postJobDeatil.FileDetail != "[]")
+              this.fileDetail = JSON.parse(this.postJobDeatil.FileDetail);
+          }
+
+          this.contries = res.ResponseBody.Countries;
+          this.currencies = res.ResponseBody.currencies;
+          this.initForm();
+          $("#postJobModal").modal("show");
+          this.isLoading = false;
+        }
+      }).catch(e => {
+        this.isLoading = false;
+      })
+    }
+  }
+
   deletePost(item: any) {
     if (item) {
       this.posts = this.posts.filter(x => x.PostId != item.PostId);
@@ -356,6 +382,8 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   }
 
   postJobPopup() {
+    this.postJobDeatil = new PostJobModal();
+    this.initForm();
     $("#postJobModal").modal("show");
   }
 
@@ -365,6 +393,15 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
 
   get f() {
     return this.postJobForm.controls;
+  }
+
+  fullTextView(e: any) {
+    e.target.parentElement.previousElementSibling.classList.remove("description-container");
+    e.target.classList.add('d-none');
+  }
+
+  reset() {
+    this.postJobForm.reset();
   }
 }
 
@@ -397,4 +434,6 @@ class PostJobModal {
   MaxAgeLimit: number = 0;
   NoOfPosts: number = 0;
   ContractPeriodInMonths: number = 0;
+  Files: Array<any> = [];
+  FileDetail: string = null;
 }

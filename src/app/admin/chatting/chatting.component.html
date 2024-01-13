@@ -34,7 +34,7 @@
             <div class="col-auto">
               <img src="assets/face.jpg" alt="" class="rounded rounded-circle profile-image">
             </div>
-            <button class="btn btn-secondary w-100 text-start ms-2 rounded rounded-pill" (click)="postPopup()">Start a post</button>
+            <button class="btn w-100 text-start ms-2 fw-semibold rounded rounded-pill" style="background-color: #f1e6e6;" (click)="postPopup()">Start a post</button>
           </div>
           <hr>
           <div class="row align-items-center justify-content-evenly mb-3">
@@ -60,16 +60,17 @@
           </div>
         </div>
         <ng-container *ngIf="posts != null && posts.length > 0">
-          <div class="card shadow mt-3 p-3" *ngFor="let item of posts">
+          <div class="card shadow mt-3 p-3" *ngFor="let item of posts; let i = index;">
             <div class="col-md-12 d-flex  p-2 justify-content-between">
               <div class="col-auto d-flex align-items-center">
                 <div class="col-auto">
                   <img src="assets/face.jpg" alt="" class="rounded rounded-circle profile-image">
                 </div>
-                <div class="col-auto ms-3">
+                <div class="col-auto ms-3 text-start">
                   <div class="mb-0 fw-bold text-start d-flex align-items-center">
                     {{item.FullName}}.
-                    <i class="fa-solid fa-circle-check ms-1 text-primary"></i>
+                    <!-- <i class="fa-solid fa-circle-check ms-1 text-primary"></i> -->
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" class="ms-1" alt="" width="4%">
                     <a href="javascript:void(0)" class="text-decoration-none ms-2">Follow</a>
                   </div>
                   <small>
@@ -78,12 +79,30 @@
                   </small>
                 </div>
               </div>
-              <a href="javascript:void(0)" class="text-decoration-none text-danger" data-bs-toggle="tooltip" (click)="deletePost(item)"
-               data-bs-placement="right" title="Delete post">
-                <i class="fa-solid fa-xmark"></i>
-              </a>
+              <div class="dropdown col-auto" *ngIf="currentUser != null && currentUser.EmployeeId == item.PostedBy">
+                <a href="javascript:void(0)" class="text-decoration-none text-primary" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0)" (click)="eidtPost(item)">
+                      <i class="fa-solid fa-pencil pe-1"></i>
+                      Edit Post
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item mt-2" href="javascript:void(0)" (click)="deletePost(item)">
+                      <i class="fa-regular fa-trash-can pe-1"></i>
+                      Delet Post
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <p class="mb-0 text-start ">{{item.CompleteDescription}}</p>
+            <div class="description-container text-start" [data-name]="'description'+i">{{item.CompleteDescription}}</div>
+            <p class="mb-0 text-end">
+              <a href="javascript:void(0)" class="text-decoration-none pe-auto" (click)="fullTextView($event)">Read more ...</a>
+            </p>
             <div class="gallery-lightbox-container" *ngIf="item.Files != null && item.Files.length > 0">
               <div class="gallery"  [ngStyle]="{'column-count': item.Files.length == 1 ? 1 : item.Files.length == 2 ? 2 : 3}">
                   <div *ngFor="let data of item.Files; let i=index" class="gallery-img">
@@ -224,13 +243,14 @@
             <div class="col-md-6">
               <label class="form-label">Catagory Type</label>
               <select class="form-select" formControlName="CatagoryTypeId">
-                <option value="0" disabled selected>Select Catagory Type</option>
+                <option value="0" disabled >Select Catagory Type</option>
               </select>
             </div>
             <div class="col-md-6">
               <label class="form-label">Country</label>
               <select class="form-select" formControlName="CountryId">
-                <option value="0" disabled selected>Select Country</option>
+                <option value="0" disabled >Select Country</option>
+                <option [value]="item.Id" *ngFor="let item of contries">{{item.Name}}</option>
               </select>
             </div>
           </div>
@@ -239,7 +259,7 @@
               <label class="form-label">HRA Allowance</label>
               <select class="form-select" formControlName="IsHRAAllowance">
                 <option [ngValue]="true">Yes</option>
-                <option [ngValue]="false" selected>No</option>
+                <option [ngValue]="false" >No</option>
               </select>
             </div>
             <div class="col-md-6">
@@ -252,7 +272,7 @@
               <label class="form-label">Travel Allowance</label>
               <select class="form-select" formControlName="IsTravelAllowance">
                 <option [ngValue]="true">Yes</option>
-                <option [ngValue]="false" selected>No</option>
+                <option [ngValue]="false" >No</option>
               </select>
             </div>
             <div class="col-md-6">
@@ -265,7 +285,7 @@
               <label class="form-label">Food Allowance</label>
               <select class="form-select" formControlName="IsFoodAllowance">
                 <option [ngValue]="true">Yes</option>
-                <option [ngValue]="false" selected>No</option>
+                <option [ngValue]="false" >No</option>
               </select>
             </div>
             <div class="col-md-6">
@@ -278,7 +298,7 @@
               <label class="form-label">Foreign Return Compulsory</label>
               <select class="form-select" formControlName="IsForeignReturnCompulsory">
                 <option [ngValue]="true">Yes</option>
-                <option [ngValue]="false" selected>No</option>
+                <option [ngValue]="false" >No</option>
               </select>
             </div>
             <div class="col-md-6">
@@ -301,7 +321,7 @@
               <label class="form-label">OT Include</label>
               <select class="form-select" formControlName="IsOTIncluded">
                 <option [ngValue]="true">Yes</option>
-                <option [ngValue]="false" selected>No</option>
+                <option [ngValue]="false" >No</option>
               </select>
             </div>
             <div class="col-md-6">
@@ -318,6 +338,7 @@
               <label class="form-label">Salary Currency</label>
               <select class="form-select" formControlName="SalaryCurrency">
                 <option value=null disabled>Select Salary Currency</option>
+                <option [value]="item.Name" *ngFor="let item of currencies">{{item.Name}}</option>
               </select>
             </div>
           </div>
@@ -349,8 +370,13 @@
         </form>
       </div>
       <div class="modal-footer border-top-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="saveJobPost()">Save changes</button>
+        <button class="btn btn-danger" data-bs-dismiss="modal" (click)="reset()">
+          <i class="fa-solid fa-ban"></i>
+          Reset</button>
+        <button class="btn btn-custom-pink ms-3" [disabled]="isLoading" (click)="saveJobPost()">
+          <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
+          {{ isLoading ? 'Processing' : 'Save' }}
+        </button>
       </div>
     </div>
   </div>

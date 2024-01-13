@@ -212,3 +212,11 @@ input[readonly] {
   width: 4.5rem !important;
   height: 4.5rem !important;
 }
+
+.description-container {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 5; /* Number of lines to show */
+  text-overflow: ellipsis;
+}
