@@ -3,5 +3,6 @@ export const environment = {
   env: "production",
 
   baseUrl: "https://www.hiringbell.com/hb/api/",
+  baseImgUrl: "https://www.hiringbell.com/resources/",
   FolderDelimiter: "\/"
 };
