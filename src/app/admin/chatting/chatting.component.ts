@@ -140,6 +140,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     this.imgBaseUrl = environment.baseImgUrl;
     this.initForm();
     this.loadData();
+    this.postJobPopup();
   }
 
   loadData() {
