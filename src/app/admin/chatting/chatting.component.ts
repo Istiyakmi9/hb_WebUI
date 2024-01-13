@@ -8,6 +8,7 @@ import { AjaxService } from 'src/providers/ajax.service';
 import { ResponseModel } from 'src/auth/jwtService';
 import { ErrorToast, Toast } from 'src/providers/common.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 declare var $: any;
 
 @Component({
@@ -90,75 +91,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     Icon: "fa-solid fa-calendar-check",
     Title: "Events",
   }];
-  posts: Array<any> = [{
-    PostId: 1,
-    UserImage: "assets/face.jpg",
-    UserName: "Nikola Tesla",
-    PostedOn: new Date(),
-    PostDetail: "Nikola Tesla inventions constitute numerous technological breakthroughs throughout his lifetime. Born in Smiljan, Croatia, in 1856, the math and physics genius contributed innovations that continue to impact our lives daily today. He held over three hundred patents, but was only recognized for some, indicating many of his ideas were tested and failed or never became well known. In 1882, upon graduation from the Technical University of Graz and Philosophy at the University of Prague, he drew the first sketches of his idea to build an electromagnetic motor. His first job entailed retailing DC power plants for ConEd which led to his immigration to the states in 1884.",
-    PostImages: [ {
-      ImageSrc: "assets/job/01.jpeg",
-      Format: "image",
-      ImageAlt: '1'
-    }]
-  }, {
-    PostId: 2,
-    UserImage: "assets/face.jpg",
-    UserName: "Nikola Tesla",
-    PostedOn: new Date(),
-    PostDetail: "The electrical coil named for its inventor is one of Tesla's showiest inventions, and he used it to its full dramatic extent in demonstrations held in his New York City lab. The coil uses polyphase alternating currents -- another of Tesla's discoveries -- to create a transformer capable of producing very high voltages. It brought forth impressive crackling sparks and sheets of electric flame that impressed the electrically savvy and the layman alike. They're primarily used for entertainment today.",
-    PostImages: [ {
-      ImageSrc: "assets/job/01.jpeg",
-      Format: "image",
-      ImageAlt: '1'
-    }, {
-      ImageSrc: "assets/job/02.jpeg",
-      Format: "image",
-      ImageAlt: '2'
-    }]
-  }, {
-    PostId: 3,
-    UserImage: "assets/face.jpg",
-    UserName: "Nikola Tesla",
-    PostedOn: new Date(),
-    PostDetail: "Tesla carried detailed plans for this AC motor in his head (a particular talent of his) until he could build a physical model the next year. The alternating current created magnetic poles that reversed themselves without mechanical aid, as DC motors required, and caused an armature (the revolving part of any electromechanical device) to whirl around the motor. This was his rotating magnetic field put into practice as a motor; within two years, he would use it in AC generators and transformers as well.",
-    PostImages: [{
-      ImageSrc: "assets/job/01.jpeg",
-      Format: "image",
-      ImageAlt: '1'
-    }, {
-      ImageSrc: "assets/job/02.jpeg",
-      Format: "image",
-      ImageAlt: '2'
-    }, {
-      ImageSrc: "assets/job/03.jpeg",
-      Format: "image",
-      ImageAlt: '3'
-    }]
-  }, {
-    PostId: 4,
-    UserImage: "assets/face.jpg",
-    UserName: "Nikola Tesla",
-    PostedOn: new Date(),
-    PostDetail: "Tesla arrived in New York in 1884 and was hired as an engineer at Thomas Edison’s Manhattan headquarters. He worked there for a year, impressing Edison with his diligence and ingenuity. At one point Edison told Tesla he would pay $50,000 for an improved design for his DC dynamos. After months of experimentation, Tesla presented a solution and asked for the money. Edison demurred, saying, “Tesla, you don’t understand our American humor.” Tesla quit soon after.",
-    PostImages: [{
-      ImageSrc: "assets/job/01.jpeg",
-      Format: "image",
-      ImageAlt: '1'
-    }, {
-      ImageSrc: "assets/job/02.jpeg",
-      Format: "image",
-      ImageAlt: '2'
-    }, {
-      ImageSrc: "assets/job/03.jpeg",
-      Format: "image",
-      ImageAlt: '3'
-    }, {
-      ImageSrc: "assets/job/04.jpeg",
-      Format: "image",
-      ImageAlt: '4'
-    }]
-  }];
+  posts: Array<any> = [];
   userName: string = null;
   postMessage: string = null;
   showCount:boolean = false;
@@ -172,12 +105,12 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   previews: Array<any> = [];
   isPageReady: boolean = false;
   isLoading: boolean = false;
-  imageIndex: number = 0;
   fileDetail: Array<any> = [];
   postJobForm: FormGroup;
   postJobDeatil: PostJobModal = new PostJobModal();
   postForm: any = null;
   profileURL: string = null;
+  imgBaseUrl: string = null;
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -201,6 +134,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
       this.userName = name[0];
     }
     this.totalImageCount = this.posts.length;
+    this.imgBaseUrl = environment.baseImgUrl;
     this.initForm();
     this.loadData();
   }
@@ -209,6 +143,22 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     this.isPageReady = false;
     this.http.get("userposts/getAllUserPosts").then((res:ResponseModel) => {
       if (res.ResponseBody) {
+        this.posts = res.ResponseBody;
+        if (this.posts) {
+          this.posts.forEach(x => {
+            if (x.Files && x.Files.length > 0) {
+              x.Files.forEach(y => {
+                if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
+                  y.Format = "image"
+                else
+                  y.Format = "video"
+
+                y.FilePath = this.imgBaseUrl + y.FilePath;
+              })
+            }
+          })
+        }
+        console.log(this.posts)
         this.isPageReady = true;
         Toast("Page loaded");
       }
@@ -310,9 +260,9 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
         };
         reader.readAsDataURL(selectedfile[i]);
         let file = <File>selectedfile[i];
-        this.imageIndex = new Date().getTime();
+        let imageIndex = new Date().getTime();
         this.fileDetail.push({
-          name: $`post_${this.imageIndex}`,
+          name: $`post_${imageIndex}`,
           file: file
         });
       }
@@ -328,9 +278,9 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
       };
       let selectedfile = event.target.files;
       let file = <File>selectedfile[0];
-      this.imageIndex = new Date().getTime();
+      let imageIndex = new Date().getTime();
       this.fileDetail.push({
-        name: $`profile_${this.imageIndex}`,
+        name: $`profile_${imageIndex}`,
         file: file
       });
     }

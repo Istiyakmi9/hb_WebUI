@@ -7,9 +7,10 @@
           </div>
           <div class="nameplate-container">
             <a href="javascript:voi(0)" class="text-decoration-none">
-              <i class="fa-solid fa-camera-retro fa-3x text-dark profile-picture-icon rounded rounded-circle p-3" *ngIf="profileURL == null"></i>
+              <!-- <i class="fa-solid fa-camera-retro fa-3x text-dark  rounded rounded-circle p-3" *ngIf="profileURL == null"></i> -->
               <div class="rounded rounded-circle">
                 <img [src]="profileURL" alt="profile" *ngIf="profileURL != null" class="rounded profile-picture rounded-circle">
+                <img src="assets/camera.svg" alt="profile" *ngIf="profileURL == null" class="rounded p-3 bg-light profile-picture-icon rounded-circle">
               </div>
               <h6 class="mt-3 text-dark fw-bold">Welcome, {{userName | uppercase}}!</h6>
             </a>
@@ -26,7 +27,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-5 col-lg-6 col-sm-4">
+      <div class="col-md-5 col-lg-6 col-sm-4" *ngIf="isPageReady">
         <!-- Post Section -->
         <div class="col-md-12 card shadow mb-3">
           <div class="col-md-12 d-flex align-items-center p-2">
@@ -58,63 +59,71 @@
             </div>
           </div>
         </div>
-        <div class="card shadow mt-3 p-3" *ngFor="let item of posts">
-          <div class="col-md-12 d-flex  p-2 justify-content-between">
-            <div class="col-auto d-flex align-items-center">
-              <div class="col-auto">
-                <img [src]="item.UserImage" alt="" class="rounded rounded-circle profile-image">
-              </div>
-              <div class="col-auto ms-3">
-                <p class="mb-0 fw-bold text-start">
-                  {{item.UserName}}.
-                  <a href="javascript:void(0)" class="text-decoration-none">Follow</a>
-                </p>
-                <small>
-                  {{item.PostedOn | date: 'MMMM d, y, h:mm:ss a'}}
-                  <i class="fa-solid fa-earth-americas ps-1"></i>
-                </small>
-              </div>
-            </div>
-            <a href="javascript:void(0)" class="text-decoration-none text-danger" data-bs-toggle="tooltip" (click)="deletePost(item)"
-             data-bs-placement="right" title="Delete post">
-              <i class="fa-solid fa-xmark"></i>
-            </a>
-          </div>
-          <p class="mb-0 text-start ">{{item.PostDetail}}</p>
-          <div class="gallery-lightbox-container">
-            <div class="gallery"  [ngStyle]="{'column-count': item.PostImages.length == 1 ? 1 : item.PostImages.length == 2 ? 2 : 3}">
-                <div *ngFor="let data of item.PostImages; let i=index" class="gallery-img">
-                  <ng-container *ngIf="data.Format == 'image'">
-                    <img (click)="onPreviewImage(i, item.PostImages)" [src]="data.ImageSrc" [alt]="data.ImageAlt">
-                  </ng-container>
-                  <ng-container *ngIf="data.Format == 'video'">
-                    <video [src]="data.ImageSrc" width="100%" controls></video>
-                  </ng-container>
+        <ng-container *ngIf="posts != null && posts.length > 0">
+          <div class="card shadow mt-3 p-3" *ngFor="let item of posts">
+            <div class="col-md-12 d-flex  p-2 justify-content-between">
+              <div class="col-auto d-flex align-items-center">
+                <div class="col-auto">
+                  <img src="assets/face.jpg" alt="" class="rounded rounded-circle profile-image">
                 </div>
+                <div class="col-auto ms-3">
+                  <p class="mb-0 fw-bold text-start position-relative">
+                    {{item.FullName}}.
+                    <img src="https://cdn.worldvectorlogo.com/logos/twitter-verified-badge.svg" width="1%" alt="">
+                    <a href="javascript:void(0)" class="text-decoration-none">Follow</a>
+                  </p>
+                  <small>
+                    {{item.PostedOn | date: 'MMMM d, y, h:mm:ss a'}}
+                    <i class="fa-solid fa-earth-americas ps-1"></i>
+                  </small>
+                </div>
+              </div>
+              <a href="javascript:void(0)" class="text-decoration-none text-danger" data-bs-toggle="tooltip" (click)="deletePost(item)"
+               data-bs-placement="right" title="Delete post">
+                <i class="fa-solid fa-xmark"></i>
+              </a>
             </div>
-            <div *ngIf="showMask" class="lightbox z-3" @animation2 (click)="onClosePreview()">
-                <span *ngIf="showCount" class="count">
-                    {{currentIndex + 1}}/{{totalImageCount}}
-                </span>
-                <button *ngIf="previewImage" class="close-btn" (click)="onClosePreview()">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-                <button *ngIf="controls" class="btn-lightbox-carousel btn-prev" (click)="prev($event)">
-                    <i class="fa-solid fa-circle-arrow-left icon-lightbox-carousel icon-prev"></i>
-                </button>
-                <button *ngIf="controls" class="btn-lightbox-carousel btn-next" (click)="next($event)">
-                    <i class="fa-solid fa-circle-arrow-right icon-lightbox-carousel icon-next"></i>
-                </button>
+            <p class="mb-0 text-start ">{{item.CompleteDescription}}</p>
+            <div class="gallery-lightbox-container" *ngIf="item.Files != null && item.Files.length > 0">
+              <div class="gallery"  [ngStyle]="{'column-count': item.Files.length == 1 ? 1 : item.Files.length == 2 ? 2 : 3}">
+                  <div *ngFor="let data of item.Files; let i=index" class="gallery-img">
+                    <ng-container *ngIf="data.Format == 'image'">
+                      <img (click)="onPreviewImage(i, item.Files)" [src]="data.FilePath" [alt]="data.FileDetailId">
+                    </ng-container>
+                    <ng-container *ngIf="data.Format == 'video'">
+                      <video [src]="data.FilePath" width="100%" controls></video>
+                    </ng-container>
+                  </div>
+              </div>
+              <div *ngIf="showMask" class="lightbox z-3" @animation2 (click)="onClosePreview()">
+                  <span *ngIf="showCount" class="count">
+                      {{currentIndex + 1}}/{{totalImageCount}}
+                  </span>
+                  <button *ngIf="previewImage" class="close-btn" (click)="onClosePreview()">
+                      <i class="fa-solid fa-xmark"></i>
+                  </button>
+                  <button *ngIf="controls" class="btn-lightbox-carousel btn-prev" (click)="prev($event)">
+                      <i class="fa-solid fa-circle-arrow-left icon-lightbox-carousel icon-prev"></i>
+                  </button>
+                  <button *ngIf="controls" class="btn-lightbox-carousel btn-next" (click)="next($event)">
+                      <i class="fa-solid fa-circle-arrow-right icon-lightbox-carousel icon-next"></i>
+                  </button>
 
-                <div *ngIf="previewImage"
-                    [@animation]="{value: 'visible'}"
-                    (@animation.done)="onAnimationEnd($event)"
-                    class="lightbox-img">
-                    <img [src]="currentLightboxImage.ImageSrc" [alt]="currentLightboxImage.ImageAlt">
-                </div>
+                  <div *ngIf="previewImage"
+                      [@animation]="{value: 'visible'}"
+                      (@animation.done)="onAnimationEnd($event)"
+                      class="lightbox-img">
+                      <img [src]="currentLightboxImage.FilePath" [alt]="currentLightboxImage.ImageAlt">
+                  </div>
+              </div>
             </div>
           </div>
-        </div>
+        </ng-container>
+        <ng-container *ngIf="posts == null || posts.length == 0">
+          <div class="card shadow mt-3 p-3">
+            <h3 class="my-5 py-5 text-dark fw-bold text-center">Record Not Found</h3>
+          </div>
+        </ng-container>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-4 position-sticky sticky-sidebar">
         <div class="card p-4">
