@@ -76,44 +76,49 @@ export class JwtService {
     HandleResponseStatus(e: HttpErrorResponse): boolean {
       let flag = false;
       let error: ResponseModel = e.error;
-      switch (e.status) {
-          case Success:
-              flag = true;
-              break;
-          case UnAuthorize:
-              let token = localStorage.getItem("access_token");
-              if(token !== null && token != "")
-                  document.getElementById("sessionexpiredBox").classList.remove('d-none');
-              else
-                  localStorage.clear();
-              ErrorToast("Unauthorized access. Please login again.");
+      try {
+        switch (e.status) {
+            case Success:
+                flag = true;
+                break;
+            case UnAuthorize:
+                let token = localStorage.getItem("access_token");
+                if(token !== null && token != "")
+                    document.getElementById("sessionexpiredBox").classList.remove('d-none');
+                else
+                    localStorage.clear();
+                ErrorToast("Unauthorized access. Please login again.");
+                this.nav.navigate("", null);
+                break;
+            case NotFound:
+                ErrorToast("Page not found. Please check your Url.");
+                break;
+            case Forbidden:
+              ErrorToast("Invalid user access. Please try login again.");
               this.nav.navigate("", null);
               break;
-          case NotFound:
-              ErrorToast("Page not found. Please check your Url.");
-              break;
-          case Forbidden:
-            ErrorToast("Invalid user access. Please try login again.");
-            this.nav.navigate("", null);
-            break;
-          case ServerError:
-          case BadRequest:
-              if(typeof(error.ResponseBody) == String) {
-                ErrorToast(error.ResponseBody);
-              } else {
-                if(error.ResponseBody.UserMessage != undefined &&
-                    error.ResponseBody.UserMessage != null &&
-                    error.ResponseBody.UserMessage != ""){
-                        ErrorToast(error.ResponseBody.UserMessage);
-                    } else {
-                        ErrorToast("Unknown error occured. Please contact to admin.");
-                    }
-              }
-              break;
-          default:
-              ErrorToast("Unknown error occured. Please contact to admin.");
-              break;
-      }
+            case ServerError:
+            case BadRequest:
+                if(typeof(error.ResponseBody) == String) {
+                  ErrorToast(error.ResponseBody);
+                } else {
+                  if(error.ResponseBody.UserMessage != undefined &&
+                      error.ResponseBody.UserMessage != null &&
+                      error.ResponseBody.UserMessage != ""){
+                          ErrorToast(error.ResponseBody.UserMessage);
+                      } else {
+                          ErrorToast("Unknown error occured. Please contact to admin.");
+                      }
+                }
+                break;
+            default:
+                ErrorToast("Unknown error occured. Please contact to admin.");
+                break;
+        }
+      } catch {
+        ErrorToast("Unknown error occured. Please contact to admin.");
+        flag = false;
+      }      
 
       return flag;
     }
