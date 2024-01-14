@@ -114,8 +114,8 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   contries: Array<any> = [];
   currencies: Array<any> = [];
   currentUser: any = null;
-  isPostEdit: boolean = false;
   selectedImage: any = null;
+  uploadedFile: Array<any> = [];
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -141,8 +141,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
     this.loadData();
-    this.isPostEdit = true;
-    this.getPostDetail(3);
   }
 
   loadData() {
@@ -200,7 +198,8 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
       MinAgeLimit: new FormControl(this.postJobDeatil.MinAgeLimit),
       MaxAgeLimit: new FormControl(this.postJobDeatil.MaxAgeLimit),
       NoOfPosts: new FormControl(this.postJobDeatil.NoOfPosts),
-      ContractPeriodInMonths: new FormControl(this.postJobDeatil.ContractPeriodInMonths)
+      ContractPeriodInMonths: new FormControl(this.postJobDeatil.ContractPeriodInMonths),
+      JobRequirementId: new FormControl(this.postJobDeatil.JobRequirementId)
     })
   }
 
@@ -347,7 +346,13 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
         }
       }
       formData.append("userPost", JSON.stringify(this.postJobForm.value));
-      this.http.post("userposts/uploadUserPosts", formData).then(res => {
+      let url = "";
+      if (this.postJobForm.get("UserPostId").value == 0)
+        url = "userposts/uploadUserPosts"
+      else
+        url = "userposts/updateUserPosts"
+      
+      this.http.post(url, formData).then(res => {
         if (res.ResponseBody) {
           this.bindData(res.ResponseBody);
           $("#postJobModal").modal("hide");
@@ -364,7 +369,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
 
   eidtPost(item: any) {
     if (item && item.UserPostId > 0) {
-      this.isPostEdit = true;
       this.getPostDetail(item.UserPostId);
     }
   }
@@ -372,14 +376,14 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   getPostDetail(posiId: number) {
     this.isLoading = true;
     this.fileDetail = [];
+    this.uploadedFile = [];
     this.http.get(`userposts/getUserPostByUserPostId/${posiId}`).then((res:ResponseModel) => {
       if (res.ResponseBody) {
         if (res.ResponseBody.UserPost && res.ResponseBody.UserPost.length > 0) {
           this.postJobDeatil = res.ResponseBody.UserPost[0];
           if (this.postJobDeatil.FileDetail != null && this.postJobDeatil.FileDetail != "[]") {
-            this.fileDetail = [];
-            this.fileDetail = JSON.parse(this.postJobDeatil.FileDetail);
-            this.fileDetail.forEach(y => {
+            this.uploadedFile = JSON.parse(this.postJobDeatil.FileDetail);
+            this.uploadedFile.forEach(y => {
               if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
                 y.Format = "image"
               else
@@ -458,9 +462,9 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
       this.isLoading = true;
       this.http.delete(`userposts/deleteImages/${this.postJobDeatil.UserPostId}/${this.selectedImage.FileDetailId}`).then(res => {
         if (res.ResponseBody) {
-          this.fileDetail = [];
-          this.fileDetail = res.ResponseBody;
-          this.fileDetail.forEach(y => {
+          this.uploadedFile = [];
+          this.uploadedFile = res.ResponseBody;
+          this.uploadedFile.forEach(y => {
             if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
               y.Format = "image"
             else
@@ -486,6 +490,7 @@ interface Item {
 
 class PostJobModal {
   UserPostId: number = 0;
+  JobRequirementId: number = 0;
   ShortDescription: string = null;
   CompleteDescription: string = null;
   CatagoryTypeId: number = 0;
