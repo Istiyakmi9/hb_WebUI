@@ -116,6 +116,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   currentUser: any = null;
   selectedImage: any = null;
   uploadedFile: Array<any> = [];
+  isFilesizeExceed: boolean = false;
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -274,6 +275,11 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
           file: file
         });
       }
+      let totalFileSize = this.fileDetail.map(x => x.file.size).reduce((acc, curr)=> {return acc+curr;}, 0)/(1024*1024);
+      if (totalFileSize > 6)
+        this.isFilesizeExceed = true;
+      else
+        this.isFilesizeExceed = false;
     }
   }
 
@@ -410,14 +416,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   deletePost(item: any) {
     if (item) {
       this.posts = this.posts.filter(x => x.PostId != item.PostId);
-      // this.http.get(``).then(res => {
-      //   if (res.ResponseBody) {
-      //     Toast("Post deleted successfully");
-      //     this.isLoading = false;
-      //   }
-      // }).catch(e => {
-      //   this.isLoading = false;
-      // })
     }
   }
 
@@ -443,11 +441,14 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   }
 
   reset() {
-    this.postJobForm.reset();
+    this.postJobDeatil = new PostJobModal();
+    this.initForm();
+    this.isFilesizeExceed = false;
   }
 
   cleanFile() {
     this.fileDetail = [];
+    this.isFilesizeExceed = false;
   }
 
   deleteImgConformPopup(item: any) {
