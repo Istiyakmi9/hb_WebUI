@@ -141,7 +141,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
     this.loadData();
-    this.getPostDetail(3);
   }
 
   loadData() {
