@@ -384,7 +384,8 @@
                 </div>
               </fieldset>
             </div>
-            <div class="mt-3 row col-md-4">
+            <div class="row col-md-4">
+              <span class="ps-3 fw-bold text-dark" *ngIf="isFilesizeExceed">File size is exceed from 6MB</span>
               <span class="ps-3 fw-bold text-dark">{{fileDetail.length > 0 ? fileDetail.length : 0}} file selected</span>
               <div class="col-md-12">
                 <input type="file" id="uploadPost" multiple class="d-none" accept=".jpg, .jpeg, .png, video/mp4, video/x-m4v,video/*" (change)="uploadMessageImg($event)"/>
@@ -408,7 +409,7 @@
         <button class="btn btn-danger" data-bs-dismiss="modal" (click)="reset()">
           <i class="fa-solid fa-ban"></i>
           Reset</button>
-        <button class="btn btn-primary-c ms-3" [disabled]="isLoading" (click)="saveJobPost()">
+        <button class="btn btn-primary-c ms-3" [disabled]="isLoading || isFilesizeExceed" (click)="saveJobPost()">
           <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
           {{ isLoading ? 'Processing' : 'Save' }}
         </button>
