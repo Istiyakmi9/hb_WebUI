@@ -114,6 +114,8 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   contries: Array<any> = [];
   currencies: Array<any> = [];
   currentUser: any = null;
+  isPostEdit: boolean = false;
+  selectedImage: any = null;
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -138,37 +140,40 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     }
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
-    this.initForm();
     this.loadData();
-    this.postJobPopup();
+    this.isPostEdit = true;
+    this.getPostDetail(3);
   }
 
   loadData() {
     this.isPageReady = false;
     this.http.get("userposts/getAllUserPosts").then((res:ResponseModel) => {
       if (res.ResponseBody) {
-        this.posts = res.ResponseBody;
-        if (this.posts) {
-          this.posts.forEach(x => {
-            if (x.Files && x.Files.length > 0) {
-              x.Files.forEach(y => {
-                if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
-                  y.Format = "image"
-                else
-                  y.Format = "video"
-
-                y.FilePath = this.imgBaseUrl + y.FilePath;
-              })
-            }
-          })
-        }
-        console.log(this.posts)
+        this.bindData(res.ResponseBody);
         this.isPageReady = true;
         Toast("Page loaded");
       }
     }).catch(e => {
       this.isPageReady = true;
     })
+  }
+
+  bindData(res: any) {
+    this.posts = res;
+    if (this.posts) {
+      this.posts.forEach(x => {
+        if (x.Files && x.Files.length > 0) {
+          x.Files.forEach(y => {
+            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
+              y.Format = "image"
+            else
+              y.Format = "video"
+
+            y.FilePath = this.imgBaseUrl + y.FilePath;
+          })
+        }
+      })
+    }
   }
 
   initForm() {
@@ -319,6 +324,21 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
 
   saveJobPost() {
     this.isLoading = true;
+    if (!this.postJobForm.get("IsForeignReturnCompulsory").value)
+      this.postJobForm.get("MinimunDaysRequired").setValue(0);
+
+    if (!this.postJobForm.get("IsOTIncluded").value)
+      this.postJobForm.get("MaxOTHours").setValue(0);
+
+    if (!this.postJobForm.get("IsHRAAllowance").value)
+      this.postJobForm.get("HRAAllowanceAmount").setValue(0);
+
+    if (!this.postJobForm.get("IsTravelAllowance").value)
+      this.postJobForm.get("TravelAllowanceAmount").setValue(0);
+
+    if (!this.postJobForm.get("IsFoodAllowance").value)
+      this.postJobForm.get("FoodAllowanceAmount").setValue(0);
+
     if (this.postJobForm.valid) {
       let formData = new FormData();
       if (this.fileDetail.length > 0) {
@@ -329,6 +349,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
       formData.append("userPost", JSON.stringify(this.postJobForm.value));
       this.http.post("userposts/uploadUserPosts", formData).then(res => {
         if (res.ResponseBody) {
+          this.bindData(res.ResponseBody);
           $("#postJobModal").modal("hide");
           Toast("Message posted successfully");
           this.isLoading = false;
@@ -342,26 +363,44 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   }
 
   eidtPost(item: any) {
-    this.isLoading = true;
     if (item && item.UserPostId > 0) {
-      this.http.get(`userposts/getUserPostByUserPostId/${item.UserPostId}`).then((res:ResponseModel) => {
-        if (res.ResponseBody) {
-          if (res.ResponseBody.UserPost && res.ResponseBody.UserPost.length > 0) {
-            this.postJobDeatil = res.ResponseBody.UserPost[0];
-            if (this.postJobDeatil.FileDetail != null && this.postJobDeatil.FileDetail != "[]")
-              this.fileDetail = JSON.parse(this.postJobDeatil.FileDetail);
-          }
-
-          this.contries = res.ResponseBody.Countries;
-          this.currencies = res.ResponseBody.currencies;
-          this.initForm();
-          $("#postJobModal").modal("show");
-          this.isLoading = false;
-        }
-      }).catch(e => {
-        this.isLoading = false;
-      })
+      this.isPostEdit = true;
+      this.getPostDetail(item.UserPostId);
     }
+  }
+
+  getPostDetail(posiId: number) {
+    this.isLoading = true;
+    this.fileDetail = [];
+    this.http.get(`userposts/getUserPostByUserPostId/${posiId}`).then((res:ResponseModel) => {
+      if (res.ResponseBody) {
+        if (res.ResponseBody.UserPost && res.ResponseBody.UserPost.length > 0) {
+          this.postJobDeatil = res.ResponseBody.UserPost[0];
+          if (this.postJobDeatil.FileDetail != null && this.postJobDeatil.FileDetail != "[]") {
+            this.fileDetail = [];
+            this.fileDetail = JSON.parse(this.postJobDeatil.FileDetail);
+            this.fileDetail.forEach(y => {
+              if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
+                y.Format = "image"
+              else
+                y.Format = "video"
+
+              y.FilePath = this.imgBaseUrl + y.FilePath;
+            });
+          }
+        } else {
+          this.postJobDeatil = new PostJobModal();
+        }
+
+        this.contries = res.ResponseBody.Countries;
+        this.currencies = res.ResponseBody.currencies;
+        this.initForm();
+        $("#postJobModal").modal("show");
+        this.isLoading = false;
+      }
+    }).catch(e => {
+      this.isLoading = false;
+    })
   }
 
   deletePost(item: any) {
@@ -383,9 +422,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   }
 
   postJobPopup() {
-    this.postJobDeatil = new PostJobModal();
-    this.initForm();
-    $("#postJobModal").modal("show");
+    this.getPostDetail(0);
   }
 
   postPopup() {
@@ -408,6 +445,38 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   cleanFile() {
     this.fileDetail = [];
   }
+
+  deleteImgConformPopup(item: any) {
+    if (item) {
+      this.selectedImage = item;
+      $("#delteImageConfirmModal").modal("show");
+    }
+  }
+
+  deletePostImage() {
+    if (this.selectedImage && this.selectedImage.FileDetailId && this.postJobDeatil.UserPostId > 0) {
+      this.isLoading = true;
+      this.http.delete(`userposts/deleteImages/${this.postJobDeatil.UserPostId}/${this.selectedImage.FileDetailId}`).then(res => {
+        if (res.ResponseBody) {
+          this.fileDetail = [];
+          this.fileDetail = res.ResponseBody;
+          this.fileDetail.forEach(y => {
+            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
+              y.Format = "image"
+            else
+              y.Format = "video"
+
+            y.FilePath = this.imgBaseUrl + y.FilePath;
+          });
+          Toast("Image deleted successfully");
+          $("#delteImageConfirmModal").modal("hide");
+          this.isLoading = false;
+        }
+      }).catch(e => {
+        this.isLoading = false;
+      })
+    }
+  }
 }
 
 interface Item {
@@ -422,17 +491,17 @@ class PostJobModal {
   CatagoryTypeId: number = 0;
   CountryId: number = 0;
   IsHRAAllowance: boolean = false;
-  HRAAllowanceAmount: number = 0;
+  HRAAllowanceAmount: number = null;
   IsTravelAllowance: boolean = false;
-  TravelAllowanceAmount: number = 0;
+  TravelAllowanceAmount: number = null;
   IsFoodAllowance: boolean = false;
-  FoodAllowanceAmount: number = 0;
+  FoodAllowanceAmount: number = null;
   IsForeignReturnCompulsory: boolean = false;
-  MinimunDaysRequired: number = 0;
+  MinimunDaysRequired: number = null;
   MinimunCTC: number = 0;
   MaximunCTC: number = 0;
   IsOTIncluded: boolean = false;
-  MaxOTHours: number = 0;
+  MaxOTHours: number = null;
   Bonus: number = 0;
   SalaryCurrency: string = null;
   MinAgeLimit: number = 0;

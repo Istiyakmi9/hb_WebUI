@@ -223,17 +223,17 @@ input[readonly] {
 
 /* Visual styles */
 .accordion {
-  color: #222;
-  border: 2px solid #18d1ae;
+  color: #fff;
+  border: 2px solid var(--primary)!important;;
   border-radius: 0.5rem;
   overflow: hidden;
 }
 .tab__label,
 .tab__close {
   display: flex;
-  color: #222;
+  color: #fff;
   font-weight: 700;
-  background: #18d1ae;
+  background: var(--primary)!important;;
   cursor: pointer;
 }
 .tab__label {
@@ -289,4 +289,42 @@ input[readonly] {
 }
 .tab .input-tab:checked ~ .tab__content {
   max-height: 300rem;
+}
+
+legend {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+
+fieldset {
+  border: 1px solid lightgray;
+  padding: 12px;
+}
+
+.remove-img-icon{
+  right: 15px;
+  top: 3px;
+  border-radius: 50%;
+  background: #0c0c0c;
+  padding: 2px 3px;
+  font-size: 13px;
+  color: #fff !important;
+  cursor: pointer !important;
+}
+
+.img-view-container img{
+  height: 12vh !important;
+  width: 100%;
+}
+
+.img-view-container:hover {
+  .remove-img-icon {
+    display: block !important;
+  }
+}
+
+#delteImageConfirmModal {
+  z-index: 999999 !important;
+  background: #222222b5 !important;
 }
