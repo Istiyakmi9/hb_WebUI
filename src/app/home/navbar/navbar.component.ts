@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
-import { Chatting } from 'src/providers/constants';
+import { AUTHSERVICE, Chatting } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 declare var $: any;
 declare var google: any;
@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
 
       if(credential) {
         this.jwtService.setGoogleJwtToken(credential);
-        this.http.login(`oauth/googlelogin`, { "Token": credential }).then((response: any) => {
+        this.http.login(`googlelogin`, { "Token": credential }, AUTHSERVICE).then((response: any) => {
           $("#loginModal").modal("hide");
           Toast("Please wait loading dashboard ...", 15);
           this.nav.navigate(Chatting, null);
@@ -85,7 +85,7 @@ export class NavbarComponent implements OnInit {
       }
 
       loginValue.Password = password.value;
-      this.http.login('oauth/authenticate', loginValue).then((result: ResponseModel) => {
+      this.http.login('authenticate', loginValue, AUTHSERVICE).then((result: ResponseModel) => {
         if (result.ResponseBody) {
           $("#loginModal").modal("hide");
           Toast("Please wait loading dashboard ...", 15);

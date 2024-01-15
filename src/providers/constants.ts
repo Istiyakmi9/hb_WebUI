@@ -11,6 +11,9 @@ export const Master = ProjectName + "_master";
 export const String = "string";
 export const Home = "home";
 
+export const CORESERVICE = "core";
+export const AUTHSERVICE = "oauth";
+
 
 export const Client = "admin/client";
 export const ManageClient = "admin/manageclient";

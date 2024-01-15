@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { JwtService, ResponseModel } from "src/auth/jwtService";
 import { environment } from "src/environments/environment";
+import { CORESERVICE } from "./constants";
 
 @Injectable()
 export class AjaxService {
@@ -24,8 +25,8 @@ export class AjaxService {
     return environment.baseUrl;
   }
 
-  login(Url: string, Param: any): Promise<ResponseModel> {
-    let url = `${this.GetBaseUrl()}${Url}`;
+  login(Url: string, Param: any, service: string = CORESERVICE): Promise<ResponseModel> {
+    let url = `${this.GetBaseUrl()}${service}/${Url}`;
     return new Promise((resolve, reject) => {
       this.http
         .post(url, Param, {
@@ -55,9 +56,9 @@ export class AjaxService {
     });
   }
 
-  get(Url: string): Promise<ResponseModel> {
+  get(Url: string, service: string = CORESERVICE): Promise<ResponseModel> {
     return new Promise((resolve, reject) => {
-      let url = `${this.GetBaseUrl()}${Url}`;
+      let url = `${this.GetBaseUrl()}${service}/${Url}`;
       return this.http
         .get(url, {
           observe: "response"
@@ -78,8 +79,8 @@ export class AjaxService {
     });
   }
 
-  post(Url: string, Param: any): Promise<any> {
-    let url = `${this.GetBaseUrl()}${Url}`;
+  post(Url: string, Param: any, service: string = CORESERVICE): Promise<any> {
+    let url = `${this.GetBaseUrl()}${service}/${Url}`;
     return new Promise((resolve, reject) => {
       this.http
         .post(url, Param, {
@@ -103,8 +104,8 @@ export class AjaxService {
     });
   }
 
-  put(Url: string, Param: any): Promise<any> {
-    let url = `${this.GetBaseUrl()}${Url}`;
+  put(Url: string, Param: any, service: string = CORESERVICE): Promise<any> {
+    let url = `${this.GetBaseUrl()}${service}/${Url}`;
     return new Promise((resolve, reject) => {
       this.http
         .put(url, Param, {
@@ -129,8 +130,8 @@ export class AjaxService {
     });
   }
 
-  delete(Url: string, Param?: any): Promise<any> {
-    let url = `${this.GetBaseUrl()}${Url}`;
+  delete(Url: string, Param?: any, service: string = CORESERVICE): Promise<any> {
+    let url = `${this.GetBaseUrl()}${service}/${Url}`;
     return new Promise((resolve, reject) => {
       this.http.delete(url, {
         headers: {
@@ -156,8 +157,8 @@ export class AjaxService {
     });
   }
 
-  upload(Url: string, Param: any): Promise<any> {
-    let url = `${this.GetBaseUrl()}${Url}`;
+  upload(Url: string, Param: any, service: string = CORESERVICE): Promise<any> {
+    let url = `${this.GetBaseUrl()}${service}/${Url}`;
     return new Promise((resolve, reject) => {
       this.http
         .post(url, Param, {
@@ -182,8 +183,8 @@ export class AjaxService {
     });
   }
 
-  forgotPassword(Url: string, Param: any): Promise<ResponseModel> {
-    let url = `${this.GetBaseUrl()}${Url}`;
+  forgotPassword(Url: string, Param: any, service: string = CORESERVICE): Promise<ResponseModel> {
+    let url = `${this.GetBaseUrl()}${service}/${Url}`;
     this.tokenHelper.setCompanyCode(Param.CompanyCode);
     return new Promise((resolve, reject) => {
       this.http
