@@ -35,6 +35,12 @@ export class AppHttpIntercepter implements HttpInterceptor {
                   "companyCode": this.tokenHelper.getCompanyCode()
               })
           });
+        } else if(request.url.toLowerCase().endsWith("googlelogin")) {
+            return request.clone({
+                headers: new HttpHeaders({
+                    "Authorization": `Bearer ${this.tokenHelper.getGoogleJwtToken()}`
+                })
+            });
         } else {
           switch (request.method.toLocaleLowerCase()) {
             case "post":

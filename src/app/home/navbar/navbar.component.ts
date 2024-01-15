@@ -1,24 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
 import { Chatting } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 declare var $: any;
+declare var google: any;
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   isLoading: boolean = false;
   isShowPassword: boolean = false;
+  clientId : "622966386962-pcep2a9p2l0j75p1nrl5m7clhlln3eil.apps.googleusercontent.com";
 
   constructor (private http: AjaxService,
               private jwtService: JwtService,
               private nav:iNavigation) {
 
+  }
+
+  ngOnInit(): void {
+    google.accounts.id.initialize({
+      client_id : "622966386962-pcep2a9p2l0j75p1nrl5m7clhlln3eil.apps.googleusercontent.com",
+      callback: (resp: any) => this.loginWithGoogle(resp)
+    });
+
+    google.accounts.id.renderButton(document.getElementById("google-oauth"), {
+      theme: 'filled_blue',
+      size: 'large',
+      shape: 'rectangle',
+      width: 350
+    });
+  }
+
+  loginWithGoogle(resp: any) {
+    if (resp && resp.clientId != undefined && resp.clientId == this.clientId) {
+      let credential = resp.credential;
+
+      if(credential) {
+        this.jwtService.setGoogleJwtToken(credential);
+        this.http.get(`user/googlelogin`).then((response: any) => {
+          
+        });
+      }
+    }
   }
 
   loginPopup() {
@@ -81,4 +110,12 @@ export class NavbarComponent {
     this.isShowPassword = false;
   }
 
+  googleLogin() {
+    let client_id = "622966386962-pcep2a9p2l0j75p1nrl5m7clhlln3eil.apps.googleusercontent.com";
+    const redirectUri = "http://localhost:4200"; // Adjust redirect URI if needed
+
+    
+
+    // window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&redirect_uri=${redirectUri}&scope=https%3A//www.googleapis.com/auth/drive.metadata.readonly&response_type=code`;
+  }
 }

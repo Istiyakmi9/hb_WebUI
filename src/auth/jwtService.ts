@@ -10,6 +10,15 @@ export class JwtService {
     constructor(private nav: iNavigation){ }
 
     private companyCode: string = null;
+    private googleToken: string = null;
+
+    getGoogleJwtToken() {
+        return this.googleToken;
+    }
+
+    setGoogleJwtToken(token: string) {
+        this.googleToken = token;
+    }
 
     getJwtToken() {
         let Token = localStorage.getItem(AccessToken);
