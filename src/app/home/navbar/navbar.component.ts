@@ -38,12 +38,12 @@ export class NavbarComponent implements OnInit {
   }
 
   loginWithGoogle(resp: any) {
-    if (resp && resp.clientId != undefined && resp.clientId == this.clientId) {
+    if (resp && resp.clientId != undefined) {
       let credential = resp.credential;
 
       if(credential) {
         this.jwtService.setGoogleJwtToken(credential);
-        this.http.get(`user/googlelogin`).then((response: any) => {
+        this.http.post(`oauth/googlelogin`, { "Token": credential }).then((response: any) => {
           
         });
       }
