@@ -11,7 +11,6 @@ import { AppHttpIntercepter } from 'src/auth/app.intercepter';
 import { ToastComponent } from './toast/toast.component';
 import { HomeModule } from './home/home.module';
 import { UserService } from 'src/providers/userService';
-import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -35,7 +34,6 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
       useClass: AppHttpIntercepter,
       multi: true
     },
-    { provide: LocationStrategy, useClass: PathLocationStrategy },
   ],
   bootstrap: [AppComponent]
 })
