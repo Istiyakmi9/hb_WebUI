@@ -43,8 +43,10 @@ export class NavbarComponent implements OnInit {
 
       if(credential) {
         this.jwtService.setGoogleJwtToken(credential);
-        this.http.post(`oauth/googlelogin`, { "Token": credential }).then((response: any) => {
-          
+        this.http.login(`oauth/googlelogin`, { "Token": credential }).then((response: any) => {
+          $("#loginModal").modal("hide");
+          Toast("Please wait loading dashboard ...", 15);
+          this.nav.navigate(Chatting, null);
         });
       }
     }
@@ -83,11 +85,12 @@ export class NavbarComponent implements OnInit {
       }
 
       loginValue.Password = password.value;
-      this.http.login('authenticate', loginValue).then((result: ResponseModel) => {
+      this.http.login('oauth/authenticate', loginValue).then((result: ResponseModel) => {
         if (result.ResponseBody) {
           $("#loginModal").modal("hide");
           Toast("Please wait loading dashboard ...", 15);
           this.nav.navigate(Chatting, null);
+          this.isLoading = false;
           // if(Data.UserTypeId == 1)
           // else
           //   this.nav.navigate("", null);
