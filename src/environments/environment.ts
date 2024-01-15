@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   env: "local",
-  baseUrl: "http://localhost:8090/hb/api/",
+  baseUrl: "http://localhost:8090/hb/api/core/",
   baseImgUrl: "http://localhost:8090/resources/",
 
   FolderDelimiter: "\\"
