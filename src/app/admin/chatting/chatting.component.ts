@@ -344,7 +344,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     if (!this.postJobForm.get("IsFoodAllowance").value)
       this.postJobForm.get("FoodAllowanceAmount").setValue(0);
 
-    if (this.postJobForm.valid) {
+    if (this.postJobForm.valid && !this.isFilesizeExceed) {
       let formData = new FormData();
       if (this.fileDetail.length > 0) {
         for (let i = 0; i < this.fileDetail.length; i++) {
