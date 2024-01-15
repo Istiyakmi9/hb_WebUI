@@ -73,5 +73,35 @@
 }
 
 .login-btn {
-  padding: 20px 40px !important;
+  padding: 15px 40px !important;
+  border-radius: 4px !important;
+}
+
+.hr-lines{
+  position: relative;
+  max-width: 500px;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.hr-lines:before{
+  content:" ";
+  height: 2px;
+  width: 45%;
+  background: red;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+}
+
+.hr-lines:after{
+  content:" ";
+  height: 2px;
+  width: 45%;
+  background: red;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
 }

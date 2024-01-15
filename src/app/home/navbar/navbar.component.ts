@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
       theme: 'filled_blue',
       size: 'large',
       shape: 'rectangle',
-      width: 350
+      width: 900
     });
   }
 
@@ -44,7 +44,7 @@ export class NavbarComponent implements OnInit {
       if(credential) {
         this.jwtService.setGoogleJwtToken(credential);
         this.http.get(`user/googlelogin`).then((response: any) => {
-          
+
         });
       }
     }
@@ -114,7 +114,7 @@ export class NavbarComponent implements OnInit {
     let client_id = "622966386962-pcep2a9p2l0j75p1nrl5m7clhlln3eil.apps.googleusercontent.com";
     const redirectUri = "http://localhost:4200"; // Adjust redirect URI if needed
 
-    
+
 
     // window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&redirect_uri=${redirectUri}&scope=https%3A//www.googleapis.com/auth/drive.metadata.readonly&response_type=code`;
   }
