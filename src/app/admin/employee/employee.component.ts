@@ -50,7 +50,7 @@ export class EmployeeComponent implements OnInit {
   loadData(){
     this.isLoading = true;
     this.isEmployeeFound = false;
-    this.http.get("employee/getAllEmployee").then((res:ResponseModel) => {
+    this.http.get("user/getAllUser").then((res:ResponseModel) => {
       if (res.ResponseBody) {
         this.employees = res.ResponseBody;
           this.employeeData.TotalRecords = this.employees.length;
