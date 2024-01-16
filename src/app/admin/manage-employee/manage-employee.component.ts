@@ -39,7 +39,7 @@ export class ManageEmployeeComponent implements OnInit {
   }
 
   loadData(){
-    this.http.get(`employee/getEmployeeByEmployeeId/${this.employeeId}`).then((res:ResponseModel)=>{
+    this.http.get(`user/getUserByUserId/${this.employeeId}`).then((res:ResponseModel)=>{
       if(res.ResponseBody){
         this.employeeDetail = res.ResponseBody;
         this.initForm();
@@ -51,7 +51,7 @@ export class ManageEmployeeComponent implements OnInit {
   addEmployee(){
     this.isLoading = true;
     let value = this.employeeForm.value;
-    this.http.post("employee/addEmployee", value).then((res:ResponseModel) => {
+    this.http.post("user/addUser", value).then((res:ResponseModel) => {
       if(res.ResponseBody){
         Toast("Employee Inserted successfully");
         $('#messageModalEmployee').modal('show');
@@ -66,7 +66,7 @@ export class ManageEmployeeComponent implements OnInit {
   updateEmployee(){
     this.isLoading = true;
     let value = this.employeeForm.value;
-    this.http.put(`employee/updateEmployee/${this.employeeDetail.EmployeeId}`,value).then((res:ResponseModel) => {
+    this.http.put(`user/updateUser/${this.employeeDetail.EmployeeId}`,value).then((res:ResponseModel) => {
       if(res.ResponseBody){
         Toast("Employee Updated successfully");
         $('#messageModalEmployee').modal('show');
