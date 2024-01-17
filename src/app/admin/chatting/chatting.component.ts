@@ -118,7 +118,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   selectedImage: any = null;
   uploadedFile: Array<any> = [];
   isFilesizeExceed: boolean = false;
-  isNewUser: boolean = true;
+  isNewUser: boolean = false;
   allJobType: Array<any> = [];
   selectedInterests: Array<number>= [];
   filterjobType: Array<any> = [];
