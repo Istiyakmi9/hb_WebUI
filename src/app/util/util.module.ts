@@ -8,6 +8,7 @@ import { AllownumberDirective } from './directives/allownumber.directive';
 import { DecimalnumberDirective } from './directives/decimalnumber.directive';
 import { PreLoadTableComponent } from './pre-load-table/pre-load-table.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { MultiDropdownComponent } from './multi-dropdown/multi-dropdown.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     AllownumberDirective,
     DecimalnumberDirective,
     PreLoadTableComponent,
-    PaginationComponent
+    PaginationComponent,
+    MultiDropdownComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     AllownumberDirective,
     DecimalnumberDirective,
     PreLoadTableComponent,
-    PaginationComponent
+    PaginationComponent,
+    MultiDropdownComponent
   ]
 })
 export class UtilModule { }

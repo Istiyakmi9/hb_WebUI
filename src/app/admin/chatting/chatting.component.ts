@@ -113,10 +113,13 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   imgBaseUrl: string = null;
   contries: Array<any> = [];
   currencies: Array<any> = [];
+  jobTypes: Array<any> = [];
   currentUser: any = null;
   selectedImage: any = null;
   uploadedFile: Array<any> = [];
   isFilesizeExceed: boolean = false;
+  isNewUser: boolean = false;
+  allJobType: Array<any> = [];
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -141,7 +144,11 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     }
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
-    this.loadData();
+    //this.isNewUser =  this.nav.getValue();
+    if (!this.isNewUser)
+      this.loadData();
+    else
+      this.getJobType();
   }
 
   loadData() {
@@ -173,6 +180,19 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
         }
       })
     }
+  }
+
+  getJobType() {
+    this.isLoading = true;
+    this.http.get("userposts/getAllJobType").then((res:ResponseModel) => {
+      if (res.ResponseBody) {
+        this.allJobType = res.ResponseBody;
+        $("#userInterestModal").modal('show');
+        this.isLoading = false;
+      }
+    }).catch(e => {
+      this.isLoading = false;
+    })
   }
 
   initForm() {
@@ -357,7 +377,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
         url = "userposts/uploadUserPosts"
       else
         url = "userposts/updateUserPosts"
-      
+
       this.http.post(url, formData).then(res => {
         if (res.ResponseBody) {
           this.bindData(res.ResponseBody);
@@ -403,7 +423,8 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
         }
 
         this.contries = res.ResponseBody.Countries;
-        this.currencies = res.ResponseBody.currencies;
+        this.currencies = res.ResponseBody.Currencies;
+        this.jobTypes = res.ResponseBody.JobTypes;
         this.initForm();
         $("#postJobModal").modal("show");
         this.isLoading = false;
@@ -481,6 +502,19 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
         this.isLoading = false;
       })
     }
+  }
+
+  selectInterest(e: any) {
+    let target = e.target.classList;
+    let id = Number(e.target.getAttribute('data-value'));
+    if (target.contains('active'))
+      target.remove('active');
+    else
+      target.add('active');
+  }
+
+  onSelectedValuesChanged(e: any) {
+
   }
 }
 

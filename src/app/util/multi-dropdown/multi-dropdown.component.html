@@ -1,0 +1,18 @@
+<!-- multiselect.component.html -->
+
+<div class="multiselect-container" [class.open]="isOpen" (clickOutside)="isOpen = false">
+  <div class="selected-items" *ngIf="selectedItems.length > 0">
+    {{ selectedLabel }}{{ selectedItems.join(', ') }}
+  </div>
+  <div class="placeholder" *ngIf="selectedItems.length === 0" (click)="toggleDropdown()">
+    {{ placeholder }}
+  </div>
+  <div class="options" *ngIf="isOpen">
+    <div *ngFor="let option of options">
+      <label>
+        <input type="checkbox" [checked]="isSelected(option)" (change)="toggleSelection(option)" />
+        {{ option.JobTypeName }}
+      </label>
+    </div>
+  </div>
+</div>
