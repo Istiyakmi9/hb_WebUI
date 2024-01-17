@@ -542,7 +542,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   addInterested() {
     if (this.selectedInterests.length > 0) {
       this.isLoading = true;
-      this.http.post("", this.selectedInterests).then(res => {
+      this.http.post("user/updateUserInterest", this.selectedInterests).then(res => {
         if (res.ResponseBody) {
           this.loadData();
           this.isLoading = false;
