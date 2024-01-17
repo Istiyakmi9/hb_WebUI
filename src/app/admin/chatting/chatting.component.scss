@@ -167,7 +167,8 @@
 
 .sticky-sidebar {
   top: 25px !important;
-  height: 80vh;
+  height: 90vh;
+  overflow: auto !important;
 }
 
 .truncate-text {
@@ -336,4 +337,8 @@ a {
 .active {
   background-color: var(--primary-dark)!important;
   color: #fff !important;
+}
+
+.interest-container {
+  max-height: 50vh !important;
 }

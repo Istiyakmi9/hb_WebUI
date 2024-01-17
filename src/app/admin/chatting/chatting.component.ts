@@ -6,7 +6,7 @@ import { iNavigation } from 'src/providers/iNavigation';
 import { Dashboard } from 'src/providers/constants';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ResponseModel } from 'src/auth/jwtService';
-import { ErrorToast, Toast } from 'src/providers/common.service';
+import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 declare var $: any;
@@ -118,8 +118,10 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   selectedImage: any = null;
   uploadedFile: Array<any> = [];
   isFilesizeExceed: boolean = false;
-  isNewUser: boolean = false;
+  isNewUser: boolean = true;
   allJobType: Array<any> = [];
+  selectedInterests: Array<number>= [];
+  filterjobType: Array<any> = [];
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -168,6 +170,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     this.posts = res;
     if (this.posts) {
       this.posts.forEach(x => {
+        x.PostedOn = ToLocateDate(x.PostedOn);
         if (x.Files && x.Files.length > 0) {
           x.Files.forEach(y => {
             if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
@@ -187,6 +190,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     this.http.get("userposts/getAllJobType").then((res:ResponseModel) => {
       if (res.ResponseBody) {
         this.allJobType = res.ResponseBody;
+        this.filterjobType = res.ResponseBody;
         $("#userInterestModal").modal('show');
         this.isLoading = false;
       }
@@ -507,14 +511,47 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   selectInterest(e: any) {
     let target = e.target.classList;
     let id = Number(e.target.getAttribute('data-value'));
-    if (target.contains('active'))
+    if (target.contains('active')) {
       target.remove('active');
-    else
+      let index = this.selectedInterests.indexOf(id);
+      this.selectedInterests.splice(index, 1);
+    }else {
       target.add('active');
+      this.selectedInterests.push(id);
+    }
   }
 
   onSelectedValuesChanged(e: any) {
 
+  }
+
+  filterInterest(e: any) {
+    let value = e.target.value;
+    if (value && value != "") {
+      this.filterjobType = this.allJobType.filter(x => x.JobTypeName.toLowerCase().includes(value.toLowerCase()));
+    } else {
+      e.target.value = "";
+      this.filterjobType = this.allJobType;
+    }
+  }
+
+  resetFilter(e: any) {
+    e.target.value = "";
+  }
+
+  addInterested() {
+    if (this.selectedInterests.length > 0) {
+      this.isLoading = true;
+      this.http.post("", this.selectedInterests).then(res => {
+        if (res.ResponseBody) {
+          this.loadData();
+          this.isLoading = false;
+        }
+      }).catch(e => {
+        this.isLoading = false;
+      })
+      console.log(this.selectedInterests);
+    }
   }
 }
 
