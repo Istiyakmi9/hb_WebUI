@@ -118,7 +118,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   selectedImage: any = null;
   uploadedFile: Array<any> = [];
   isFilesizeExceed: boolean = false;
-  isNewUser: boolean = true;
+  isNewUser: boolean = false;
   allJobType: Array<any> = [];
 
   constructor(private user: UserService,
@@ -511,6 +511,10 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
       target.remove('active');
     else
       target.add('active');
+  }
+
+  onSelectedValuesChanged(e: any) {
+
   }
 }
 
