@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
@@ -14,14 +15,15 @@ declare var google: any;
 })
 export class NavbarComponent implements OnInit {
   isLoading: boolean = false;
-  isShowPassword: boolean = false;
   clientId : "622966386962-pcep2a9p2l0j75p1nrl5m7clhlln3eil.apps.googleusercontent.com";
+  active:number = 1;
+  signUpForm: FormGroup;
+  isSubmitted: boolean = false;
 
   constructor (private http: AjaxService,
               private jwtService: JwtService,
-              private nav:iNavigation) {
-
-  }
+              private nav:iNavigation,
+              private fb: FormBuilder) {}
 
   ngOnInit(): void {
     google.accounts.id.initialize({
@@ -35,6 +37,7 @@ export class NavbarComponent implements OnInit {
       shape: 'rectangle',
       width: 900
     });
+    this.initSignUpForm();
   }
 
   loginWithGoogle(resp: any) {
@@ -46,7 +49,7 @@ export class NavbarComponent implements OnInit {
         this.http.login(`googlelogin`, { "Token": credential }, AUTHSERVICE).then((response: ResponseModel) => {
           $("#loginModal").modal("hide");
           Toast("Please wait loading dashboard ...", 15);
-          this.nav.navigate(Chatting, response.ResponseBody.IsNewUser);
+          this.nav.navigate(Chatting, null);
         });
       }
     }
@@ -89,7 +92,7 @@ export class NavbarComponent implements OnInit {
         if (result.ResponseBody) {
           $("#loginModal").modal("hide");
           Toast("Please wait loading dashboard ...", 15);
-          this.nav.navigate(Chatting, result.ResponseBody.IsNewUser);
+          this.nav.navigate(Chatting, null);
           this.isLoading = false;
           // if(Data.UserTypeId == 1)
           // else
@@ -103,14 +106,18 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  showPassword() {
-    document.getElementById('Password').setAttribute('type', 'text');
-    this.isShowPassword = true;
+  showPassword(e: any) {
+   e.currentTarget.previousElementSibling.previousElementSibling.removeAttribute("type");
+   e.currentTarget.previousElementSibling.previousElementSibling.setAttribute("type", "text");
+    e.currentTarget.previousElementSibling.classList.remove("d-none");
+    e.target.parentElement.classList.add("d-none");
   }
 
-  hidePassword() {
-    document.getElementById('Password').setAttribute('type', 'password');
-    this.isShowPassword = false;
+  hidePassword(e: any) {
+    e.currentTarget.previousElementSibling.removeAttribute("type");
+    e.currentTarget.previousElementSibling.setAttribute("type", "password");
+    e.currentTarget.nextElementSibling.classList.remove("d-none")
+    e.target.parentElement.classList.add("d-none");
   }
 
   googleLogin() {
@@ -120,5 +127,44 @@ export class NavbarComponent implements OnInit {
 
 
     // window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&redirect_uri=${redirectUri}&scope=https%3A//www.googleapis.com/auth/drive.metadata.readonly&response_type=code`;
+  }
+
+  initSignUpForm() {
+    this.signUpForm = this.fb.group({
+      FullName: new FormControl("", [Validators.required]),
+      Mobile: new FormControl("", [Validators.required]),
+      Email: new FormControl("", [Validators.required]),
+      Password: new FormControl("", [Validators.required]),
+      ConfirmPassword: new FormControl("", [Validators.required])
+    })
+  }
+
+  signUp() {
+    this.isLoading = true;
+    this.isSubmitted = true;
+    if (this.signUpForm.valid) {
+      let value = this.signUpForm.value;
+      this.http.post("", value).then((res:ResponseModel) => {
+        if (res.ResponseBody) {
+          Toast("Sign Up successfully");
+          this.isLoading = false;
+          this.isSubmitted = false;
+        }
+      }).catch(e => {
+        this.isLoading = false;
+        this.isSubmitted = false;
+      })
+    } else {
+      this.isLoading = false;
+      ErrorToast("Please fill all the mandatory filled");
+    }
+  }
+
+  get f() {
+    return this.signUpForm.controls;
+  }
+
+  changeTab() {
+    this.isSubmitted = false;
   }
 }

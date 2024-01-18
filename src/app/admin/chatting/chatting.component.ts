@@ -3,7 +3,7 @@ import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { UserService } from 'src/providers/userService';
 import 'bootstrap';
 import { iNavigation } from 'src/providers/iNavigation';
-import { Dashboard } from 'src/providers/constants';
+import { Dashboard, Master } from 'src/providers/constants';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ResponseModel } from 'src/auth/jwtService';
 import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
@@ -146,11 +146,19 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     }
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
-    //this.isNewUser =  this.nav.getValue();
+    this.checkNewUser();
     if (!this.isNewUser)
       this.loadData();
     else
       this.getJobType();
+  }
+
+  checkNewUser() {
+    let localUserData = localStorage.getItem(Master);
+    if (localUserData !== null && localUserData !== "") {
+      localUserData = JSON.parse(localUserData);
+      this.isNewUser = localUserData["IsNewUser"];
+    }
   }
 
   loadData() {
@@ -521,10 +529,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  onSelectedValuesChanged(e: any) {
-
-  }
-
   filterInterest(e: any) {
     let value = e.target.value;
     if (value && value != "") {
@@ -544,13 +548,14 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
       this.isLoading = true;
       this.http.post("user/updateUserInterest", this.selectedInterests).then(res => {
         if (res.ResponseBody) {
-          this.loadData();
+          $("#userInterestModal").modal('hide');
+          this.bindData(res.ResponseBody);
+          this.isPageReady = true;
           this.isLoading = false;
         }
       }).catch(e => {
         this.isLoading = false;
       })
-      console.log(this.selectedInterests);
     }
   }
 }
