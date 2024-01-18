@@ -105,3 +105,18 @@
   top: 50%;
   right: 0;
 }
+
+.nav-tabs > li {
+  width: 50% !important;
+  background-color: #dedede !important;
+}
+
+.nav-tabs > li > button {
+  border-radius: 0 !important;
+  width: 100% !important;
+}
+
+.nav-tabs > .active {
+  font-weight: 800 !important;
+  background-color: #fff !important;
+}

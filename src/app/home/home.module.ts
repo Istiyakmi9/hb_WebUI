@@ -11,7 +11,7 @@ import { ElementsComponent } from './elements/elements.component';
 import { JobdetailComponent } from './jobdetail/jobdetail.component';
 import { JoblistingComponent } from './joblisting/joblisting.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LandingpageComponent } from './landingpage/landingpage.component';
 
@@ -32,6 +32,7 @@ import { LandingpageComponent } from './landingpage/landingpage.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HomeRoutingModule,
     NgbModule
   ]
