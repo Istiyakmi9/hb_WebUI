@@ -167,7 +167,7 @@
 
 .sticky-sidebar {
   top: 25px !important;
-  height: 82vh;
+  height: 83vh;
   overflow: auto !important;
 }
 
@@ -334,11 +334,4 @@ a {
   color: var(--primary-dark)!important;
 }
 
-.active {
-  background-color: var(--primary-dark)!important;
-  color: #fff !important;
-}
 
-.interest-container {
-  max-height: 50vh !important;
-}

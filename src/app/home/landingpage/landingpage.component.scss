@@ -1,5 +1,5 @@
 .hero-bg {
-  background-image: url('../../../assets/img/hero/h1_hero.jpg');
+  background-image: url('../../../assets/img/hero/small-hero-bg.png');
   background-repeat: no-repeat;
 }
 
@@ -176,4 +176,41 @@
 .btn:focus {
   outline: 0;
   box-shadow: none
+}
+
+
+@media only screen
+and (min-width : 554px)
+{
+  .our-services .single-services .services-ion span {
+      font-size: 6rem;
+  }
+
+  .our-services .single-services {
+    padding: 0 0;
+  }
+  .single-slider {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media only screen
+and (min-width : 1204px)
+{
+  .hero-bg {
+    background-image: url('../../../assets/img/hero/h1_hero.jpg');
+  }
+}
+
+
+@media (max-width: 767px) {
+  form.search-box .input-form input {
+    height: 50px;
+  }
+
+  .select-itms{
+    height: 50px;
+    padding: 0px 19px 11px 10px;
+  }
 }

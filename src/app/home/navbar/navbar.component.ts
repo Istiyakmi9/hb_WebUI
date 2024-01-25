@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
               private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.initSignUpForm();
     google.accounts.id.initialize({
       client_id : "622966386962-pcep2a9p2l0j75p1nrl5m7clhlln3eil.apps.googleusercontent.com",
       callback: (resp: any) => this.loginWithGoogle(resp)
@@ -37,7 +38,6 @@ export class NavbarComponent implements OnInit {
       shape: 'rectangle',
       width: 900
     });
-    this.initSignUpForm();
   }
 
   loginWithGoogle(resp: any) {

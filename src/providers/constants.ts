@@ -21,3 +21,4 @@ export const Dashboard = "admin/dashboard";
 export const Employee = "admin/employee";
 export const ManageEmployee = "admin/manageemployee";
 export const Chatting = "admin/chatting";
+export const Profile = "admin/profile";

@@ -73,7 +73,7 @@
 }
 
 .login-btn {
-  padding: 15px 40px !important;
+  padding: 15px 32px !important;
   border-radius: 4px !important;
 }
 
@@ -119,4 +119,21 @@
 .nav-tabs > .active {
   font-weight: 800 !important;
   background-color: #fff !important;
+}
+
+@media only screen
+and (min-width : 991px)
+{
+  .collape-container {
+    display: flex;
+  }
+}
+
+@media only screen
+and (max-width : 991px)
+{
+  .container-fluid {
+    align-items: start;
+  }
+
 }

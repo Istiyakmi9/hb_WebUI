@@ -1,5 +1,5 @@
 <div class="main-container container z-3">
-  <div class="col-md-12" *ngIf="!isNewUser">
+  <div class="col-md-12">
     <div class="row justify-content-evenly">
       <div class="col-lg-3 col-sm-4 col-md-3 position-sticky sticky-sidebar">
         <div class="card pb-3">
@@ -12,7 +12,7 @@
                 <img [src]="profileURL" alt="profile" *ngIf="profileURL != null" class="rounded profile-picture rounded-circle">
                 <img src="assets/camera.svg" alt="profile" *ngIf="profileURL == null" class="rounded p-3 bg-light profile-picture-icon rounded-circle">
               </div>
-              <h6 class="mt-3 text-dark fw-bold">Welcome, {{userName | uppercase}}!</h6>
+              <h6 class="mt-3 text-dark fw-bold" (click)="viewProfile()">Welcome, {{userName | uppercase}}!</h6>
             </a>
           </div>
           <input type="file" id="uploadProfile" multiple class="d-none" accept=".jpg, .jpeg, .png" (change)="uploadProfileImg($event)"/>
@@ -30,7 +30,7 @@
       <div class="col-md-5 col-lg-6 col-sm-4">
         <ng-container *ngIf="isPageReady">
           <!-- Post Section -->
-          <div class="col-md-12 card shadow mb-3">
+          <div class="col-md-12 card shadow mb-3 pt-3">
             <div class="col-md-12 d-flex align-items-center p-2">
               <div class="col-auto">
                 <img src="assets/face.jpg" alt="" class="rounded rounded-circle profile-image">
@@ -438,37 +438,6 @@
       <div class="modal-footer border-top-0">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button class="btn btn-primary-c ms-3" [disabled]="isLoading" (click)="deletePostImage()">
-          <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
-          {{ isLoading ? 'Processing' : 'Confirm' }}
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--User Interest Modal -->
-<div class="modal fade" id="userInterestModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="userInterestModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content p-4">
-      <div class="modal-header border-bottom-0">
-        <h1 class="modal-title fs-5" id="userInterestModalLabel">Select Your Interest</h1>
-        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-      </div>
-      <div class="modal-body">
-        <div class="d-flex form-control align-items-center">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" class="form-control border-0" (keyup)="filterInterest($event)" (keyup.esc)="resetFilter($event)" placeholder="Search ....">
-        </div>
-        <p class="text-start my-2 text-dark fw-bold">Selec at least one</p>
-        <div class="d-flex flex-wrap align-items-center interest-container overflow-auto">
-          <a href="javascript:void(0)" (click)="selectInterest($event)" class="m-2 my-2 text-decoration-none" *ngFor="let item of filterjobType">
-            <div class="col-auto rounded rounded-pill border py-2 px-4" [attr.data-value]="item.JobTypeId">{{item.JobTypeName}}</div>
-          </a>
-        </div>
-      </div>
-      <div class="modal-footer border-top-0">
-        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-        <button class="btn btn-primary-c ms-3" [disabled]="isLoading || selectedInterests.length == 0" (click)="addInterested()">
           <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
           {{ isLoading ? 'Processing' : 'Confirm' }}
         </button>

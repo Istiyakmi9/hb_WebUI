@@ -1,0 +1,14 @@
+.active {
+  background-color: var(--primary-dark)!important;
+  color: #fff !important;
+}
+
+.interest-panel {
+  max-height: 50vh !important;
+  overflow: hidden;
+}
+
+.interest-container {
+  height: 20vh !important;
+  overflow: auto !important;
+}
