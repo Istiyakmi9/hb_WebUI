@@ -1,0 +1,57 @@
+<div class="col-12 full-v main-container">
+  <div class="col-12 row p-0 m-0" *ngIf="isPageReady">
+    <div class="right-panel container col-md-12 p-0">
+      <div class="x_panel mt-2">
+        <div class="x_header">
+          <div class="d-flex justify-content-between">
+            <div class="col-8">
+              <div class="px-1">
+                <app-breadcrums [title]="'Profile'" [subtitle]="'User Detail'"></app-breadcrums>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="x_content">
+          <div class="x_panel">
+            <div class="x_header">
+              <div class="x_header_title">
+                <h2>User Details<small> User basic details.</small></h2>
+              </div>
+            </div>
+            <div>
+              Email: {{currentUser.Email}}
+            </div>
+          </div>
+        </div>
+        <div class="x_content">
+          <div class="x_panel interest-panel">
+            <div class="x_header">
+              <div class="x_header_title">
+                <h2>User Interest<small> User interest like accounts etc.</small></h2>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="d-flex form-control align-items-center">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" class="form-control border-0" (keyup)="filterInterest($event)" (keyup.esc)="resetFilter($event)" placeholder="Search ....">
+              </div>
+              <p class="text-start my-2 text-dark fw-bold">Selec at least one</p>
+              <div class="d-flex flex-wrap align-items-center interest-container overflow-auto">
+                <a href="javascript:void(0)" (click)="selectInterest($event)" class="m-2 my-2 text-decoration-none" *ngFor="let item of filterjobType">
+                  <div class="col-auto rounded rounded-pill border py-2 px-4" [attr.data-value]="item.JobTypeId">{{item.JobTypeName}}</div>
+                </a>
+              </div>
+              <div class="mt-4 text-end">
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                <button class="btn btn-primary-c ms-3" [disabled]="isLoading || selectedInterests.length == 0" (click)="addInterested()">
+                  <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
+                  {{ isLoading ? 'Processing' : 'Confirm' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
