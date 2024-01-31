@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Chatting, Client, Dashboard, Employee } from 'src/providers/constants';
+import { Chatting, Client, Dashboard, Employee, Index } from 'src/providers/constants';
 
 @Component({
   selector: 'app-sidemenu',
@@ -19,7 +19,7 @@ export class SidemenuComponent implements OnInit {
         Icon: "fa-brands fa-fort-awesome"
       },
       Value: [{
-        Link: Chatting,
+        Link: Index,
         Catagory: "Home",
         Icon: "fa-solid fa-home"
       },{

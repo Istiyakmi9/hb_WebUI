@@ -1,6 +1,6 @@
 import { Component, DoCheck } from '@angular/core';
 import { Router } from '@angular/router';
-import { Chatting } from 'src/providers/constants';
+import { Chatting, Index } from 'src/providers/constants';
 
 @Component({
   selector: 'app-layout',
@@ -9,15 +9,15 @@ import { Chatting } from 'src/providers/constants';
 })
 export class LayoutComponent implements DoCheck {
 
-  isChattingPage: boolean = false;
+  isIndexPage: boolean = false;
 
   constructor(private router: Router) {}
 
   ngDoCheck(): void {
     let route = this.router.url;
-    if (route.includes(Chatting))
-      this.isChattingPage = true;
+    if (route.includes(Index))
+      this.isIndexPage = true;
     else
-      this.isChattingPage = false;
+      this.isIndexPage = false;
   }
 }

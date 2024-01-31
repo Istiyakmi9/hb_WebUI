@@ -1,10 +1,10 @@
 <div class="vh-100 overflow-hidden">
   <app-navbar></app-navbar>
   <div class="d-flex container-scroller h-100 w-100">
-    <div class="l-panel" [ngClass]="{'d-none': isChattingPage}">
+    <div class="l-panel" [ngClass]="{'d-none': isIndexPage}">
       <app-sidemenu></app-sidemenu>
     </div>
-    <div class="r-panel" [ngClass]="{'col-md-12': isChattingPage, 'r-panel': !isChattingPage}">
+    <div class="r-panel" [ngClass]="{'col-md-12': isIndexPage, 'r-panel': !isIndexPage}">
       <div class="content-wrapper">
         <app-loader></app-loader>
         <router-outlet></router-outlet>

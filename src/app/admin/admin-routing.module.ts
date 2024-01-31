@@ -10,8 +10,6 @@ import { ChattingComponent } from './chatting/chatting.component';
 import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
-  {path: '', component: ChattingComponent},
-  {path: Chatting, component: ChattingComponent},
   {path: Dashboard, component: DashboardComponent},
   {path: Client, component: ClientComponent},
   {path: ManageClient, component: ManageClientComponent},

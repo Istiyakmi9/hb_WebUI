@@ -14,6 +14,7 @@ export const Home = "home";
 export const CORESERVICE = "core";
 export const AUTHSERVICE = "oauth";
 
+export const Index = "home/index";
 
 export const Client = "admin/client";
 export const ManageClient = "admin/manageclient";
