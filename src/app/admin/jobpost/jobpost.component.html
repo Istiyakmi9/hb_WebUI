@@ -1,0 +1,205 @@
+<div class="col-12 full-v main-container">
+    <div class="col-12 row p-0 m-0">
+      <div class="right-panel container col-md-12 p-0">
+        <div class="x_panel mt-2">
+          <div class="x_header">
+            <div class="d-flex justify-content-between">
+              <div class="col-8">
+                <div class="px-1">
+                  <app-breadcrums [title]="'Employee'" [subtitle]="'Details'"></app-breadcrums>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-container *ngIf="isReady">
+            <div class="x_content">
+                <form [formGroup]="postJobForm" *ngIf="postJobForm">
+                 <div class="col-md-12">
+                    <label class="form-label">Short Description</label>
+              <textarea class="form-control" formControlName="ShortDescription" placeholder="Short Description" maxlength="250" rows="2"></textarea>
+            </div>
+            <div class="col-md-12 mt-3">
+              <label class="form-label">Complete Description</label>
+              <textarea class="form-control" formControlName="CompleteDescription" placeholder="Complete Description" rows="4"></textarea>
+            </div>
+            <div class="mt-3 row">
+              <div class="col-md-3">
+                <label class="form-label">Catagory Type</label>
+                <select class="form-select" formControlName="CatagoryTypeId">
+                  <option value="0" disabled >Select Catagory Type</option>
+                  <option [value]="item.JobTypeId" *ngFor="let item of jobTypes">{{item.JobTypeName}}</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Country</label>
+                <select class="form-select" formControlName="CountryId">
+                  <option value="0" disabled >Select Country</option>
+                  <option [value]="item.Id" *ngFor="let item of contries">{{item.Name}}</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Bonus</label>
+                <input type="text" class="form-control" formControlName="Bonus" placeholder="Bonus" [OnlyNumber]="5">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Salary Currency</label>
+                <select class="form-select" formControlName="SalaryCurrency">
+                  <option value=null disabled>Select Salary Currency</option>
+                  <option [value]="item.Name" *ngFor="let item of currencies">{{item.Name}}</option>
+                </select>
+              </div>
+            </div>
+            <section class="accordion mt-4">
+              <div class="tab">
+                <input type="checkbox" class="input-tab" name="accordion-1" id="cb1">
+                <label for="cb1" class="tab__label">Allowance</label>
+                <div class="tab__content mx-1">
+                  <div class="mt-3 row align-items-center justify-content-between">
+                    <div class="col-md-4 mb-3 ms-1 row align-items-center">
+                      <div class="form-check col-auto">
+                        <input class="form-check-input" type="checkbox" formControlName="IsHRAAllowance" id="IsHRAAllowance">
+                        <label class="form-check-label text-dark" for="IsHRAAllowance">
+                          HRA
+                        </label>
+                      </div>
+                      <div class="col">
+                        <input type="text" [readOnly]="f['IsHRAAllowance'].value == false" class="form-control" formControlName="HRAAllowanceAmount" placeholder="HRA Amount" [OnlyNumber]="10">
+                      </div>
+                    </div>
+                    <div class="col-md-4 mb-3 row align-items-center">
+                      <div class="form-check col-auto">
+                        <input class="form-check-input" type="checkbox" formControlName="IsTravelAllowance" id="IsTravelAllowance">
+                        <label class="form-check-label text-dark" for="IsTravelAllowance">
+                          Travel
+                        </label>
+                      </div>
+                      <div class="col">
+                        <input type="text" class="form-control" [readOnly]="f['IsTravelAllowance'].value == false"  formControlName="TravelAllowanceAmount" placeholder="Travel Amount" [OnlyNumber]="10">
+                      </div>
+                    </div>
+                    <div class="col-md-4 mb-3 row align-items-center">
+                      <div class="form-check col-auto">
+                        <input class="form-check-input" type="checkbox" formControlName="IsFoodAllowance" id="IsFoodAllowance">
+                        <label class="form-check-label text-dark" for="IsFoodAllowance">
+                          Food
+                        </label>
+                      </div>
+                      <div class="col">
+                        <input type="text" class="form-control" [readOnly]="f['IsFoodAllowance'].value == false" formControlName="FoodAllowanceAmount" placeholder="Food Amount" [OnlyNumber]="10">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <fieldset>
+                  <legend>Age Limit:</legend>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="form-label">Min</label>
+                      <input type="text" class="form-control" formControlName="MinAgeLimit" placeholder="Min Age Limit" [OnlyNumber]="2">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Max</label>
+                      <input type="text" class="form-control" formControlName="MaxAgeLimit" placeholder="Max Age Limit" [OnlyNumber]="2">
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-md-4">
+                <fieldset>
+                  <legend>CTC:</legend>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="form-label">Min</label>
+                      <input type="text" class="form-control" formControlName="MinimunCTC" placeholder="Minimun CTC" [OnlyNumber]="10">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Max</label>
+                      <input type="text" class="form-control" formControlName="MaximunCTC" placeholder="Maximum CTC" [OnlyNumber]="10">
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-md-4">
+                <div class="col-md-12">
+                  <label class="form-label">No of Posts</label>
+                  <input type="text" class="form-control" formControlName="NoOfPosts" placeholder="NoOfPosts" [OnlyNumber]="5">
+                </div>
+                <div class="col-md-12">
+                  <label class="form-label">Contract Period In Months</label>
+                  <input type="text" class="form-control" formControlName="ContractPeriodInMonths" placeholder="Contract Period In Months" [OnlyNumber]="5">
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-md-4">
+                <fieldset>
+                  <legend>Foreign Return:</legend>
+                  <div class="row align-items-center">
+                    <div class="form-check col-auto ms-2">
+                      <input class="form-check-input" type="checkbox" formControlName="IsForeignReturnCompulsory" id="IsForeignReturnCompulsory">
+                      <label class="form-check-label" for="IsForeignReturnCompulsory">
+                        Compulsory
+                      </label>
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" [readOnly]="f['IsForeignReturnCompulsory'].value == false" formControlName="MinimunDaysRequired" placeholder="Minimun Days Required" [OnlyNumber]="10">
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-md-4">
+                <fieldset>
+                  <legend>Over Time:</legend>
+                  <div class="row align-items-center">
+                    <div class="form-check col-auto ms-2">
+                      <input class="form-check-input" type="checkbox" formControlName="IsOTIncluded" id="IsOTIncluded">
+                      <label class="form-check-label" for="IsOTIncluded">
+                        Include
+                      </label>
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" [readOnly]="f['IsOTIncluded'].value == false" formControlName="MaxOTHours" placeholder="Maximum OT Hours" [OnlyNumber]="1">
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="row col-md-4">
+                <span class="ps-3 fw-bold text-dark" *ngIf="isFilesizeExceed">File size is exceed from 6MB</span>
+                <span class="ps-3 fw-bold text-dark">{{fileDetail.length > 0 ? fileDetail.length : 0}} file selected</span>
+                <div class="col-md-12">
+                  <input type="file" id="uploadPost" multiple class="d-none" accept=".jpg, .jpeg, .png, video/mp4, video/x-m4v,video/*" (change)="uploadMessageImg($event)"/>
+                  <button class="btn btn-secondary" (click)="fireBrowserFile()">Browse File</button>
+                  <button class="btn btn-outline-danger ms-2" (click)="cleanFile()">
+                    <i class="fa-solid fa-eraser pe-1"></i>
+                    Clean file
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3" *ngIf="uploadedFile.length > 0">
+              <div class="col-md-2 mt-2 img-view-container" *ngFor="let item of uploadedFile" ngClass="position-relative">
+                <img [src]="item.FilePath" alt="" srcset="" class="" width="100%">
+                <i class="fa-solid fa-xmark remove-img-icon d-none position-absolute" (click)="deleteImgConformPopup(item)"></i>
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+            <div class="modal-footer border-top-0">
+                <button class="btn btn-danger" data-bs-dismiss="modal" (click)="reset()">
+                    <i class="fa-solid fa-ban"></i>
+                    Reset</button>
+                <button class="btn btn-primary-c ms-3" [disabled]="isLoading || isFilesizeExceed" (click)="saveJobPost()">
+                    <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
+                    {{ isLoading ? 'Processing' : 'Save' }}
+                </button>
+            </div>
+    </div>
+  </div>
+</div>
+</div>
+
