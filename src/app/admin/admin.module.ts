@@ -12,6 +12,7 @@ import { ManageEmployeeComponent } from './manage-employee/manage-employee.compo
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChattingComponent } from './chatting/chatting.component';
 import { ProfileComponent } from './profile/profile.component';
+import { JobpostComponent } from './jobpost/jobpost.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProfileComponent } from './profile/profile.component';
     EmployeeComponent,
     ManageEmployeeComponent,
     ChattingComponent,
-    ProfileComponent
+    ProfileComponent,
+    JobpostComponent
   ],
   imports: [
     CommonModule,
