@@ -1,6 +1,6 @@
 import { Component, DoCheck } from '@angular/core';
 import { Router } from '@angular/router';
-import { Chatting, Index } from 'src/providers/constants';
+import { Index, JobPost } from 'src/providers/constants';
 
 @Component({
   selector: 'app-layout',
@@ -15,7 +15,7 @@ export class LayoutComponent implements DoCheck {
 
   ngDoCheck(): void {
     let route = this.router.url;
-    if (route.includes(Index))
+    if (route.includes(Index) || route.includes(JobPost))
       this.isIndexPage = true;
     else
       this.isIndexPage = false;

@@ -1,20 +1,19 @@
-import { trigger, transition, style, animate } from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
-import { UserService } from 'src/providers/userService';
-import 'bootstrap';
-import { iNavigation } from 'src/providers/iNavigation';
-import { Dashboard, Master, Profile } from 'src/providers/constants';
-import { AjaxService } from 'src/providers/ajax.service';
-import { ResponseModel } from 'src/auth/jwtService';
-import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ResponseModel } from 'src/auth/jwtService';
 import { environment } from 'src/environments/environment';
+import { AjaxService } from 'src/providers/ajax.service';
+import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
+import { Dashboard, Index, Profile } from 'src/providers/constants';
+import { iNavigation } from 'src/providers/iNavigation';
+import { UserService } from 'src/providers/userService';
 declare var $: any;
 
 @Component({
-  selector: 'app-chatting',
-  templateUrl: './chatting.component.html',
-  styleUrls: ['./chatting.component.scss'],
+  selector: 'app-jobpost',
+  templateUrl: './jobpost.component.html',
+  styleUrls: ['./jobpost.component.scss'],
   animations: [
     trigger('animation', [
       transition('void => visible', [
@@ -34,14 +33,9 @@ declare var $: any;
     ])
   ]
 })
-export class ChattingComponent implements OnInit, AfterViewChecked {
+export class JobpostComponent implements OnInit, AfterViewChecked {
 
   rightMenu: Array<any> =[{
-    Icon: "fa-solid fa-earth-americas",
-    Title: "Post reach",
-    Detail: "",
-    Total: 0
-  }, {
     Icon: "fa-solid fa-users",
     Title: "Post engagement",
     Detail: "",
@@ -56,40 +50,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     Title: "Create promotion",
     Detail: "",
     Total: 0
-  }];
-  leftMenu: Array<any> =[{
-    Icon: "fa-solid fa-chart-column",
-    Title: "Ads Manager",
-  }, {
-    Icon: "fa-solid fa-bullhorn",
-    Title: "Ad Center",
-  }, {
-    Icon: "fa-solid fa-chart-pie",
-    Title: "Meta Business Suite",
-  }, {
-    Icon: "fa-solid fa-gauge",
-    Title: "Professional Dashboard",
-  }, {
-    Icon: "fa-solid fa-address-card",
-    Title: "Feeds",
-  }, {
-    Icon: "fa-solid fa-users-viewfinder",
-    Title: "Groups",
-  }, {
-    Icon: "fa-solid fa-file-video",
-    Title: "Video",
-  }, {
-    Icon: "fa-solid fa-clock-rotate-left",
-    Title: "Memories",
-  }, {
-    Icon: "fa-regular fa-bookmark",
-    Title: "Saved",
-  }, {
-    Icon: "fa-solid fa-flag",
-    Title: "Pages",
-  }, {
-    Icon: "fa-solid fa-calendar-check",
-    Title: "Events",
   }];
   posts: Array<any> = [];
   userName: string = null;
@@ -147,11 +107,10 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
 
   loadData() {
     this.isPageReady = false;
-    this.http.get("userposts/getAllUserPosts").then((res:ResponseModel) => {
+    this.http.get(`userposts/getPostByUserId/${this.currentUser.UserId}`).then((res: ResponseModel) => {
       if (res.ResponseBody) {
         this.bindData(res.ResponseBody);
         this.isPageReady = true;
-        Toast("Page loaded");
       }
     }).catch(e => {
       this.isPageReady = true;
@@ -159,13 +118,14 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   }
 
   bindData(res: any) {
+    this.posts = [];
     this.posts = res;
     if (this.posts) {
       this.posts.forEach(x => {
         x.PostedOn = ToLocateDate(x.PostedOn);
         if (x.Files && x.Files.length > 0) {
           x.Files.forEach(y => {
-            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
+            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg") || y.FilePath.includes(".gif"))
               y.Format = "image"
             else
               y.Format = "video"
@@ -176,8 +136,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
       })
     }
   }
-
-
 
   initForm() {
     this.postJobForm = this.fb.group({
@@ -394,7 +352,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
           if (this.postJobDeatil.FileDetail != null && this.postJobDeatil.FileDetail != "[]") {
             this.uploadedFile = JSON.parse(this.postJobDeatil.FileDetail);
             this.uploadedFile.forEach(y => {
-              if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
+              if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg") || y.FilePath.includes(".gif"))
                 y.Format = "image"
               else
                 y.Format = "video"
@@ -420,7 +378,16 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
 
   deletePost(item: any) {
     if (item) {
-      this.posts = this.posts.filter(x => x.PostId != item.PostId);
+      this.isLoading = true;
+      this.http.delete(`userposts/deleteUserPostByUserPostId/${item.UserPostId}`).then((res: ResponseModel) => {
+        if (res.ResponseBody) {
+          this.bindData(res.ResponseBody);
+          Toast("Post deleted successfully");
+          this.isLoading = false;
+        }
+      }).catch(e => {
+        this.isLoading = false;
+      })
     }
   }
 
@@ -471,7 +438,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
           this.uploadedFile = [];
           this.uploadedFile = res.ResponseBody;
           this.uploadedFile.forEach(y => {
-            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
+            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg") || y.FilePath.includes(".gif"))
               y.Format = "image"
             else
               y.Format = "video"
@@ -490,6 +457,10 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
 
   viewProfile() {
     this.nav.navigate(Profile, null);
+  }
+
+  goToHome() {
+    this.nav.navigate(Index, null);
   }
 }
 

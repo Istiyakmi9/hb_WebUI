@@ -1,13 +1,14 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { AfterViewChecked, Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { UserService } from 'src/providers/userService';
 import 'bootstrap';
 import { iNavigation } from 'src/providers/iNavigation';
-import { Dashboard, Profile } from 'src/providers/constants';
+import { Dashboard, JobPost, Profile } from 'src/providers/constants';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ResponseModel } from 'src/auth/jwtService';
-import { ToLocateDate, Toast } from 'src/providers/common.service';
+import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
 import { environment } from 'src/environments/environment';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 declare var $: any;
 
 @Component({
@@ -36,11 +37,6 @@ declare var $: any;
 export class IndexComponent implements OnInit, AfterViewChecked {
 
   rightMenu: Array<any> =[{
-    Icon: "fa-solid fa-earth-americas",
-    Title: "Post reach",
-    Detail: "",
-    Total: 0
-  }, {
     Icon: "fa-solid fa-users",
     Title: "Post engagement",
     Detail: "",
@@ -92,6 +88,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }];
   posts: Array<any> = [];
   userName: string = null;
+  postMessage: string = null;
   showCount:boolean = false;
   previewImage = false;
   showMask = false;
@@ -104,14 +101,22 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   isPageReady: boolean = false;
   isLoading: boolean = false;
   fileDetail: Array<any> = [];
+  postJobForm: FormGroup;
+  postJobDeatil: PostJobModal = new PostJobModal();
+  postForm: any = null;
   profileURL: string = null;
   imgBaseUrl: string = null;
+  contries: Array<any> = [];
+  currencies: Array<any> = [];
+  jobTypes: Array<any> = [];
   currentUser: any = null;
+  uploadedFile: Array<any> = [];
   isFilesizeExceed: boolean = false;
 
   constructor(private user: UserService,
               private nav: iNavigation,
-              private http: AjaxService) {}
+              private http: AjaxService,
+              private fb: FormBuilder) {}
 
   ngAfterViewChecked(): void {
     $('[data-bs-toggle="tooltip"]').tooltip({
@@ -148,13 +153,14 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }
 
   bindData(res: any) {
+    this.posts = [];
     this.posts = res;
     if (this.posts) {
       this.posts.forEach(x => {
         x.PostedOn = ToLocateDate(x.PostedOn);
         if (x.Files && x.Files.length > 0) {
           x.Files.forEach(y => {
-            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
+            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg") || y.FilePath.includes(".gif"))
               y.Format = "image"
             else
               y.Format = "video"
@@ -164,6 +170,35 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         }
       })
     }
+  }
+
+  initForm() {
+    this.postJobForm = this.fb.group({
+      UserPostId: new FormControl(this.postJobDeatil.UserPostId),
+      ShortDescription: new FormControl(this.postJobDeatil.ShortDescription),
+      CompleteDescription: new FormControl(this.postJobDeatil.CompleteDescription),
+      CatagoryTypeId: new FormControl(this.postJobDeatil.CatagoryTypeId),
+      CountryId: new FormControl(this.postJobDeatil.CountryId),
+      IsHRAAllowance: new FormControl(this.postJobDeatil.IsHRAAllowance),
+      HRAAllowanceAmount: new FormControl(this.postJobDeatil.HRAAllowanceAmount),
+      IsTravelAllowance: new FormControl(this.postJobDeatil.IsTravelAllowance),
+      TravelAllowanceAmount: new FormControl(this.postJobDeatil.TravelAllowanceAmount),
+      IsFoodAllowance: new FormControl(this.postJobDeatil.IsFoodAllowance),
+      FoodAllowanceAmount: new FormControl(this.postJobDeatil.FoodAllowanceAmount),
+      IsForeignReturnCompulsory: new FormControl(this.postJobDeatil.IsForeignReturnCompulsory),
+      MinimunDaysRequired: new FormControl(this.postJobDeatil.MinimunDaysRequired),
+      MinimunCTC: new FormControl(this.postJobDeatil.MinimunCTC),
+      MaximunCTC: new FormControl(this.postJobDeatil.MaximunCTC),
+      IsOTIncluded: new FormControl(this.postJobDeatil.IsOTIncluded),
+      MaxOTHours: new FormControl(this.postJobDeatil.MaxOTHours),
+      Bonus: new FormControl(this.postJobDeatil.Bonus),
+      SalaryCurrency: new FormControl(this.postJobDeatil.SalaryCurrency),
+      MinAgeLimit: new FormControl(this.postJobDeatil.MinAgeLimit),
+      MaxAgeLimit: new FormControl(this.postJobDeatil.MaxAgeLimit),
+      NoOfPosts: new FormControl(this.postJobDeatil.NoOfPosts),
+      ContractPeriodInMonths: new FormControl(this.postJobDeatil.ContractPeriodInMonths),
+      JobRequirementId: new FormControl(this.postJobDeatil.JobRequirementId)
+    })
   }
 
   onPreviewImage(index: number, img: any): void {
@@ -262,8 +297,128 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  savePost() {
+    if ((this.postMessage && this.postMessage != "") || this.previews.length > 0) {
+      let postimg = [];
+      if (this.previews.length > 0) {
+        for (let i = 0; i < this.previews.length; i++) {
+          postimg.push({
+            ImageSrc: this.previews[i].Url,
+            Format: this.previews[i].Format,
+            ImageAlt: i+1
+          })
+        }
+      }
+
+      this.posts.unshift({
+        PostId: this.posts.length + 1,
+        UserImage: "assets/face.jpg",
+        UserName: this.userName,
+        PostedOn: new Date(),
+        PostDetail: this.postMessage,
+        PostImages: postimg
+      });
+      $("#postModal").modal("hide");
+      this.postMessage = null;
+      this.previews = [];
+    }
+  }
+
+  saveJobPost() {
+    this.isLoading = true;
+    if (!this.postJobForm.get("IsForeignReturnCompulsory").value)
+      this.postJobForm.get("MinimunDaysRequired").setValue(0);
+
+    if (!this.postJobForm.get("IsOTIncluded").value)
+      this.postJobForm.get("MaxOTHours").setValue(0);
+
+    if (!this.postJobForm.get("IsHRAAllowance").value)
+      this.postJobForm.get("HRAAllowanceAmount").setValue(0);
+
+    if (!this.postJobForm.get("IsTravelAllowance").value)
+      this.postJobForm.get("TravelAllowanceAmount").setValue(0);
+
+    if (!this.postJobForm.get("IsFoodAllowance").value)
+      this.postJobForm.get("FoodAllowanceAmount").setValue(0);
+
+    if (this.postJobForm.valid && !this.isFilesizeExceed) {
+      let formData = new FormData();
+      if (this.fileDetail.length > 0) {
+        for (let i = 0; i < this.fileDetail.length; i++) {
+          formData.append("postImages", this.fileDetail[i].file)
+        }
+      }
+      formData.append("userPost", JSON.stringify(this.postJobForm.value));
+      let url = "";
+      if (this.postJobForm.get("UserPostId").value == 0)
+        url = "userposts/uploadUserPosts"
+      else
+        url = "userposts/updateUserPosts"
+
+      this.http.post(url, formData).then(res => {
+        if (res.ResponseBody) {
+          this.bindData(res.ResponseBody);
+          $("#postJobModal").modal("hide");
+          Toast("Message posted successfully");
+          this.isLoading = false;
+        }
+      }).catch(e => {
+        this.isLoading = false;
+      })
+    } else {
+      ErrorToast("Please fill the mandatory filled");
+    }
+  }
+
+  getPostDetail(posiId: number) {
+    this.isLoading = true;
+    this.fileDetail = [];
+    this.uploadedFile = [];
+    this.http.get(`userposts/getUserPostByUserPostId/${posiId}`).then((res:ResponseModel) => {
+      if (res.ResponseBody) {
+        if (res.ResponseBody.UserPost && res.ResponseBody.UserPost.length > 0) {
+          this.postJobDeatil = res.ResponseBody.UserPost[0];
+          if (this.postJobDeatil.FileDetail != null && this.postJobDeatil.FileDetail != "[]") {
+            this.uploadedFile = JSON.parse(this.postJobDeatil.FileDetail);
+            this.uploadedFile.forEach(y => {
+              if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg") || y.FilePath.includes(".gif"))
+                y.Format = "image"
+              else
+                y.Format = "video"
+
+              y.FilePath = this.imgBaseUrl + y.FilePath;
+            });
+          }
+        } else {
+          this.postJobDeatil = new PostJobModal();
+        }
+
+        this.contries = res.ResponseBody.Countries;
+        this.currencies = res.ResponseBody.Currencies;
+        this.jobTypes = res.ResponseBody.JobTypes;
+        this.initForm();
+        $("#postJobModal").modal("show");
+        this.isLoading = false;
+      }
+    }).catch(e => {
+      this.isLoading = false;
+    })
+  }
+
   gotoMainMenu() {
     this.nav.navigate(Dashboard, null);
+  }
+
+  postJobPopup() {
+    this.getPostDetail(0);
+  }
+
+  postPopup() {
+    $("#postModal").modal("show");
+  }
+
+  get f() {
+    return this.postJobForm.controls;
   }
 
   fullTextView(e: any) {
@@ -271,12 +426,75 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     e.target.classList.add('d-none');
   }
 
+  reset() {
+    this.postJobDeatil = new PostJobModal();
+    this.initForm();
+    this.isFilesizeExceed = false;
+  }
+
+  cleanFile() {
+    this.fileDetail = [];
+    this.isFilesizeExceed = false;
+  }
+
   viewProfile() {
     this.nav.navigate(Profile, null);
+  }
+
+  addComment(e: any) {
+    let elem = e.target.parentElement.parentElement.nextElementSibling.classList;
+    if (elem.contains("d-none"))
+      elem.remove("d-none");
+  }
+
+  enterComment(e: any) {
+    let value = e.target.value;
+    console.log(value);
+    let elem = e.target.parentElement.parentElement.nextElementSibling.classList;
+    if (value && value!= "") {
+      if (elem.contains("d-none"))
+        elem.remove("d-none");
+    } else {
+      if (!elem.contains("d-none"))
+        elem.remove("d-none");
+    }
+  }
+
+  getMyPost() {
+    this.nav.navigate(JobPost, null);
   }
 }
 
 interface Item {
   ImageSrc: string;
   ImageAlt: string;
+}
+
+class PostJobModal {
+  UserPostId: number = 0;
+  JobRequirementId: number = 0;
+  ShortDescription: string = null;
+  CompleteDescription: string = null;
+  CatagoryTypeId: number = 0;
+  CountryId: number = 0;
+  IsHRAAllowance: boolean = false;
+  HRAAllowanceAmount: number = null;
+  IsTravelAllowance: boolean = false;
+  TravelAllowanceAmount: number = null;
+  IsFoodAllowance: boolean = false;
+  FoodAllowanceAmount: number = null;
+  IsForeignReturnCompulsory: boolean = false;
+  MinimunDaysRequired: number = null;
+  MinimunCTC: number = 0;
+  MaximunCTC: number = 0;
+  IsOTIncluded: boolean = false;
+  MaxOTHours: number = null;
+  Bonus: number = 0;
+  SalaryCurrency: string = null;
+  MinAgeLimit: number = 0;
+  MaxAgeLimit: number = 0;
+  NoOfPosts: number = 0;
+  ContractPeriodInMonths: number = 0;
+  Files: Array<any> = [];
+  FileDetail: string = null;
 }

@@ -3,6 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    matcher: (url) => {
+      if(url[0].path.split(/\/(.*)/s)[0] == "home") {
+        return {
+          consumed: url
+        };
+      }
+      return null;
+    },
     path: '',
     loadChildren: () => import('../landing/landing.module')
     .then(m => m.LandingModule)

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Chatting, Client, Dashboard, Employee, Index } from 'src/providers/constants';
+import { Client, Dashboard, Employee, Index } from 'src/providers/constants';
 
 @Component({
   selector: 'app-sidemenu',
