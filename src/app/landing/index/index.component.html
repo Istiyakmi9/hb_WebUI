@@ -136,6 +136,50 @@
                   </div>
                 </div>
               </div>
+              <div class="d-flex align-items-center justify-content-between mt-3 px-3 pt-3 border-top">
+                <div class="col-auto">
+                  <a href="javascript:void(0)" class="text-decoration-none">
+                    <i class="fa-regular fa-thumbs-up pe-2"></i>
+                    Like
+                  </a>
+                </div>
+                <div class="col-auto">
+                  <a href="javascript:void(0)" class="text-decoration-none" (click)="addComment($event)">
+                    <i class="fa-regular fa-comment-dots pe-2"></i>
+                    Comment
+                  </a>
+                </div>
+                <div class="col-auto">
+                  <a href="javascript:void(0)" class="text-decoration-none">
+                    <i class="fa-solid fa-retweet pe-2"></i>
+                    Repost
+                  </a>
+                </div>
+                <div class="col-auto">
+                  <a href="javascript:void(0)" class="text-decoration-none">
+                    <i class="fa-regular fa-paper-plane pe-2"></i>
+                    Send
+                  </a>
+                </div>
+              </div>
+              <div class="d-none" data-name="comment-box">
+                <div class="d-flex align-items-center mt-3">
+                  <i class="fa-regular fa-circle-user pe-2 fa-2x"></i>
+                  <div class="col d-flex align-items-center rounded rounded-pill border">
+                    <input type="text" class="form-control rounded rounded-pill border-0" placeholder="Add a comment......" (keydown)="enterComment($event)">
+                    <a href="javascript:void(0)" class="text-decoration-none px-2"  data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Open emoji keyboard">
+                      <i class="fa-regular fa-face-smile"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="text-decoration-none pe-3 ps-2">
+                      <i class="fa-regular fa-image"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="text-start mt-2 d-none">
+                  <button class="btn btn-primary-c btn-sm rounded rounded-pill px-3">post</button>
+                </div>
+              </div>
             </div>
           </ng-container>
           <ng-container *ngIf="posts == null || posts.length == 0">
@@ -163,6 +207,20 @@
             </div>
             <span class="ps-3 fw-bold">{{userName | titlecase}}</span>
           </div>
+          <div class="text-start mt-3">
+            <a href="javascript:void(0)" class="text-decoration-none text-muted" (click)="loadData()">
+              <i class="fa-solid fa-house"></i>
+              <span class="px-2 mb-0 fw-normal text-truncate">Home</span>
+              <i class="fa-solid fa-circle-exclamation"></i>
+            </a>
+          </div>
+          <div class="text-start mt-3">
+            <a href="javascript:void(0)" class="text-decoration-none text-muted" (click)="getMyPost()">
+              <i class="fa-solid fa-earth-americas"></i>
+              <span class="px-2 mb-0 fw-normal text-truncate">My Post</span>
+              <i class="fa-solid fa-circle-exclamation"></i>
+            </a>
+          </div>
           <div *ngFor="let item of rightMenu" class="row align-items-center justify-content-between text-muted mt-3">
             <div class="col-auto">
               <a href="javascript:void(0)" class="text-decoration-none d-flex align-items-center text-muted">
@@ -178,7 +236,7 @@
             </div>
           </div>
           <hr>
-          <div class="text-muted mt-3">
+          <div class="text-muted mt-1">
             <a href="javascript:void(0)" class="text-decoration-none d-flex align-items-center text-muted" (click)="gotoMainMenu()">
               <i class="fa-brands fa-mendeley"></i>
               <h6 class="px-2 mb-0 fw-normal">Main menu</h6>
@@ -389,7 +447,7 @@
               <span class="ps-3 fw-bold text-dark" *ngIf="isFilesizeExceed">File size is exceed from 6MB</span>
               <span class="ps-3 fw-bold text-dark">{{fileDetail.length > 0 ? fileDetail.length : 0}} file selected</span>
               <div class="col-md-12">
-                <input type="file" id="uploadPost" multiple class="d-none" accept=".jpg, .jpeg, .png, video/mp4, video/x-m4v,video/*" (change)="uploadMessageImg($event)"/>
+                <input type="file" id="uploadPost" multiple class="d-none" accept=".jpg, .jpeg, .png, image/gif, video/mp4, video/x-m4v,video/*" (change)="uploadMessageImg($event)"/>
                 <button class="btn btn-secondary" (click)="fireBrowserFile()">Browse File</button>
                 <button class="btn btn-outline-danger ms-2" (click)="cleanFile()">
                   <i class="fa-solid fa-eraser pe-1"></i>
@@ -400,7 +458,12 @@
           </div>
           <div class="row mt-3" *ngIf="uploadedFile.length > 0">
             <div class="col-md-2 mt-2 img-view-container" *ngFor="let item of uploadedFile" ngClass="position-relative">
-              <img [src]="item.FilePath" alt="" srcset="" class="" width="100%">
+              <ng-container *ngIf="item.Format == 'image'">
+                <img [src]="item.FilePath" alt="" srcset="" class="" width="100%">
+              </ng-container>
+              <ng-container *ngIf="item.Format == 'video'">
+                <video [src]="item.FilePath" style="width: 98%; height: 12vh;" controls></video>
+              </ng-container>
               <i class="fa-solid fa-xmark remove-img-icon d-none position-absolute" (click)="deleteImgConformPopup(item)"></i>
             </div>
           </div>
@@ -413,33 +476,6 @@
         <button class="btn btn-primary-c ms-3" [disabled]="isLoading || isFilesizeExceed" (click)="saveJobPost()">
           <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
           {{ isLoading ? 'Processing' : 'Save' }}
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--Delete Image Confirmation Modal -->
-<div class="modal fade" id="delteImageConfirmModal" tabindex="-1" aria-labelledby="delteImageConfirmModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content" *ngIf="selectedImage != null">
-      <div class="modal-header border-bottom-0">
-        <h1 class="modal-title fs-5" id="delteImageConfirmModalLabel">Confirmation Detail</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col-md-12" >
-          <img [src]="selectedImage.FilePath" alt="" width="100%">
-        </div>
-        <p class="mb-0 my-2 text-start">
-          <span class="fw-bold text-dark mt-3">Are you want to delete this image</span>
-        </p>
-      </div>
-      <div class="modal-footer border-top-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button class="btn btn-primary-c ms-3" [disabled]="isLoading" (click)="deletePostImage()">
-          <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
-          {{ isLoading ? 'Processing' : 'Confirm' }}
         </button>
       </div>
     </div>

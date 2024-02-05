@@ -121,7 +121,8 @@
       }
 
       .lightbox-img img {
-          width: 100%;
+          max-height: 85vh;
+          max-width: 100%;
           border-radius: .35rem;
       }
 
@@ -333,5 +334,3 @@ fieldset {
 a {
   color: var(--primary-dark)!important;
 }
-
-

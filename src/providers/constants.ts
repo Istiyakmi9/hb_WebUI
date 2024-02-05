@@ -14,11 +14,12 @@ export const Home = "home";
 export const CORESERVICE = "core";
 export const AUTHSERVICE = "oauth";
 
+export const Index = "home/index";
+export const JobPost = "home/myjobpost";
 
 export const Client = "admin/client";
 export const ManageClient = "admin/manageclient";
 export const Dashboard = "admin/dashboard";
 export const Employee = "admin/employee";
 export const ManageEmployee = "admin/manageemployee";
-export const Chatting = "admin/chatting";
 export const Profile = "admin/profile";

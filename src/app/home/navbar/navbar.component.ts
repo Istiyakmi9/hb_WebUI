@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
-import { AUTHSERVICE, Chatting } from 'src/providers/constants';
+import { AUTHSERVICE, Index } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 declare var $: any;
 declare var google: any;
@@ -49,7 +49,7 @@ export class NavbarComponent implements OnInit {
         this.http.login(`googlelogin`, { "Token": credential }, AUTHSERVICE).then((response: ResponseModel) => {
           $("#loginModal").modal("hide");
           Toast("Please wait loading dashboard ...", 15);
-          this.nav.navigate(Chatting, null);
+          this.nav.navigate(Index, null);
         });
       }
     }
@@ -92,7 +92,7 @@ export class NavbarComponent implements OnInit {
         if (result.ResponseBody) {
           $("#loginModal").modal("hide");
           Toast("Please wait loading dashboard ...", 15);
-          this.nav.navigate(Chatting, null);
+          this.nav.navigate(Index, null);
           this.isLoading = false;
           // if(Data.UserTypeId == 1)
           // else

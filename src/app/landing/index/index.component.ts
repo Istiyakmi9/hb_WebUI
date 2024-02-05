@@ -1,20 +1,20 @@
-import { trigger, transition, style, animate } from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { UserService } from 'src/providers/userService';
 import 'bootstrap';
 import { iNavigation } from 'src/providers/iNavigation';
-import { Dashboard, Master, Profile } from 'src/providers/constants';
+import { Dashboard, JobPost, Profile } from 'src/providers/constants';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ResponseModel } from 'src/auth/jwtService';
 import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 declare var $: any;
 
 @Component({
-  selector: 'app-chatting',
-  templateUrl: './chatting.component.html',
-  styleUrls: ['./chatting.component.scss'],
+  selector: 'app-index',
+  templateUrl: './index.component.html',
+  styleUrls: ['./index.component.scss'],
   animations: [
     trigger('animation', [
       transition('void => visible', [
@@ -34,14 +34,9 @@ declare var $: any;
     ])
   ]
 })
-export class ChattingComponent implements OnInit, AfterViewChecked {
+export class IndexComponent implements OnInit, AfterViewChecked {
 
   rightMenu: Array<any> =[{
-    Icon: "fa-solid fa-earth-americas",
-    Title: "Post reach",
-    Detail: "",
-    Total: 0
-  }, {
     Icon: "fa-solid fa-users",
     Title: "Post engagement",
     Detail: "",
@@ -115,7 +110,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   currencies: Array<any> = [];
   jobTypes: Array<any> = [];
   currentUser: any = null;
-  selectedImage: any = null;
   uploadedFile: Array<any> = [];
   isFilesizeExceed: boolean = false;
 
@@ -159,13 +153,14 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
   }
 
   bindData(res: any) {
+    this.posts = [];
     this.posts = res;
     if (this.posts) {
       this.posts.forEach(x => {
         x.PostedOn = ToLocateDate(x.PostedOn);
         if (x.Files && x.Files.length > 0) {
           x.Files.forEach(y => {
-            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
+            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg") || y.FilePath.includes(".gif"))
               y.Format = "image"
             else
               y.Format = "video"
@@ -176,8 +171,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
       })
     }
   }
-
-
 
   initForm() {
     this.postJobForm = this.fb.group({
@@ -377,12 +370,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  eidtPost(item: any) {
-    if (item && item.UserPostId > 0) {
-      this.getPostDetail(item.UserPostId);
-    }
-  }
-
   getPostDetail(posiId: number) {
     this.isLoading = true;
     this.fileDetail = [];
@@ -394,7 +381,7 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
           if (this.postJobDeatil.FileDetail != null && this.postJobDeatil.FileDetail != "[]") {
             this.uploadedFile = JSON.parse(this.postJobDeatil.FileDetail);
             this.uploadedFile.forEach(y => {
-              if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
+              if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg") || y.FilePath.includes(".gif"))
                 y.Format = "image"
               else
                 y.Format = "video"
@@ -416,12 +403,6 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     }).catch(e => {
       this.isLoading = false;
     })
-  }
-
-  deletePost(item: any) {
-    if (item) {
-      this.posts = this.posts.filter(x => x.PostId != item.PostId);
-    }
   }
 
   gotoMainMenu() {
@@ -456,40 +437,31 @@ export class ChattingComponent implements OnInit, AfterViewChecked {
     this.isFilesizeExceed = false;
   }
 
-  deleteImgConformPopup(item: any) {
-    if (item) {
-      this.selectedImage = item;
-      $("#delteImageConfirmModal").modal("show");
-    }
-  }
-
-  deletePostImage() {
-    if (this.selectedImage && this.selectedImage.FileDetailId && this.postJobDeatil.UserPostId > 0) {
-      this.isLoading = true;
-      this.http.delete(`userposts/deleteImages/${this.postJobDeatil.UserPostId}/${this.selectedImage.FileDetailId}`).then(res => {
-        if (res.ResponseBody) {
-          this.uploadedFile = [];
-          this.uploadedFile = res.ResponseBody;
-          this.uploadedFile.forEach(y => {
-            if (y.FilePath.includes(".jpg") || y.FilePath.includes(".png") || y.FilePath.includes(".jpeg"))
-              y.Format = "image"
-            else
-              y.Format = "video"
-
-            y.FilePath = this.imgBaseUrl + y.FilePath;
-          });
-          Toast("Image deleted successfully");
-          $("#delteImageConfirmModal").modal("hide");
-          this.isLoading = false;
-        }
-      }).catch(e => {
-        this.isLoading = false;
-      })
-    }
-  }
-
   viewProfile() {
     this.nav.navigate(Profile, null);
+  }
+
+  addComment(e: any) {
+    let elem = e.target.parentElement.parentElement.nextElementSibling.classList;
+    if (elem.contains("d-none"))
+      elem.remove("d-none");
+  }
+
+  enterComment(e: any) {
+    let value = e.target.value;
+    console.log(value);
+    let elem = e.target.parentElement.parentElement.nextElementSibling.classList;
+    if (value && value!= "") {
+      if (elem.contains("d-none"))
+        elem.remove("d-none");
+    } else {
+      if (!elem.contains("d-none"))
+        elem.remove("d-none");
+    }
+  }
+
+  getMyPost() {
+    this.nav.navigate(JobPost, null);
   }
 }
 

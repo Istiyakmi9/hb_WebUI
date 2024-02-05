@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     matcher: (url) => {
-      if(url[0].path.split(/\/(.*)/s)[0] == "admin") {
+      if(url[0].path.split(/\/(.*)/s)[0] == "admin" || url[0].path.split(/\/(.*)/s)[0] == "home") {
         return {
           consumed: url
         };
