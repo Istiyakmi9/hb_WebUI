@@ -417,6 +417,21 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     $("#postModal").modal("show");
   }
 
+  addLike(item){
+    this.isLoading = true;
+    // let value = this.postJobForm.value;
+    this.http.post("userposts/addLikedPost",item).then((res:ResponseModel) => {
+      if(res.ResponseBody){
+        Toast("liked details added");
+        this.isLoading = false;
+      }
+    }).catch( e => {
+      alert(e.message)
+      this.isLoading = false;
+    })
+
+  }
+
   get f() {
     return this.postJobForm.controls;
   }
