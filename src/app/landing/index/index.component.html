@@ -189,7 +189,15 @@
           </ng-container>
           <ng-container *ngIf="posts == null || posts.length == 0">
             <div class="card shadow mt-3 p-3">
-              <h3 class="my-5 py-5 text-dark fw-bold text-center">Record Not Found</h3>
+              <h3 class="my-5 py-5 text-dark fw-bold text-center">Post not found. Please follow or add friends</h3>
+              <div class="d-flex align-items-center justify-content-evenly mb-3">
+                <a href="javascript:void(0)" class="text-decoration-none" (click)="showInterestPopUp()">
+                  <i class="fa-brands fa-gratipay pe-2"></i>Follow
+                </a>
+                <a href="javascript:void(0)" class="text-decoration-none">
+                  <i class="fa-solid fa-user-plus pe-2"></i>Add Friends
+                </a>
+              </div>
             </div>
           </ng-container>
         </ng-container>
@@ -482,6 +490,37 @@
           <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
           {{ isLoading ? 'Processing' : 'Save' }}
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Interest Modal -->
+<div class="modal fade" id="interestModal" tabindex="-1" aria-labelledby="interestModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content px-4">
+      <div class="modal-header border-bottom-0">
+        <h1 class="modal-title fs-5" id="interestModalLabel">Follow</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" *ngIf="filterjobType.length > 0">
+        <div class="d-flex form-control align-items-center">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" class="form-control border-0" (keyup)="filterInterest($event)" (keyup.esc)="resetFilter($event)" placeholder="Search ....">
+        </div>
+        <p class="text-start my-2 text-dark fw-bold">Selec at least one</p>
+        <div class="d-flex flex-wrap align-items-center interest-container overflow-auto">
+          <a href="javascript:void(0)" (click)="selectInterest($event)" class="m-2 my-2 text-decoration-none" *ngFor="let item of filterjobType">
+            <div class="col-auto rounded rounded-pill border py-2 px-4" [attr.data-value]="item.JobTypeId">{{item.JobTypeName}}</div>
+          </a>
+        </div>
+        <div class="mt-4 text-end">
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+          <button class="btn btn-primary-c ms-3" [disabled]="isLoading || selectedInterests.length == 0" (click)="addInterested()">
+            <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
+            {{ isLoading ? 'Processing' : 'Confirm' }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
