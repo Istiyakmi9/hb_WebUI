@@ -96,9 +96,8 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.currentUser = this.user.getInstance();
-    if (this.currentUser && this.currentUser.Email) {
-      let name = this.currentUser.Email.split("@");
-      this.userName = name[0];
+    if (this.currentUser && this.currentUser.FirstName) {
+      this.userName = this.currentUser.FirstName + " " + this.currentUser.LastName;
     }
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;

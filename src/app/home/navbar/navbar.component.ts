@@ -146,9 +146,10 @@ export class NavbarComponent implements OnInit {
       let value = this.signUpForm.value;
       this.http.post("signup", value, AUTHSERVICE).then((res:ResponseModel) => {
         if (res.ResponseBody) {
-          Toast("Sign Up successfully");
+          this.active = 1;
           this.isLoading = false;
           this.isSubmitted = false;
+          Toast("Sign Up successfully");
         }
       }).catch(e => {
         this.isLoading = false;

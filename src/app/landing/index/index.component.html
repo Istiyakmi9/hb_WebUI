@@ -132,7 +132,12 @@
                       [@animation]="{value: 'visible'}"
                       (@animation.done)="onAnimationEnd($event)"
                       class="lightbox-img col-md-8">
-                      <img [src]="currentLightboxImage.FilePath" [alt]="currentLightboxImage.ImageAlt">
+                      <ng-container *ngIf="currentLightboxImage.Format == 'image'">
+                        <img [src]="currentLightboxImage.FilePath" [alt]="currentLightboxImage.ImageAlt">
+                      </ng-container>
+                      <ng-container *ngIf="currentLightboxImage.Format == 'video'">
+                        <video [src]="currentLightboxImage.FilePath" style="max-width: 100%; height: 88vh;" controls></video>
+                      </ng-container>
                   </div>
                 </div>
               </div>
