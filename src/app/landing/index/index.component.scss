@@ -334,3 +334,8 @@ fieldset {
 a {
   color: var(--primary-dark)!important;
 }
+
+.active {
+  background-color: var(--primary-dark)!important;
+  color: #fff !important;
+}

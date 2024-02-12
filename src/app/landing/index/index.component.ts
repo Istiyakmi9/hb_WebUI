@@ -112,6 +112,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   currentUser: any = null;
   uploadedFile: Array<any> = [];
   isFilesizeExceed: boolean = false;
+  allJobType: Array<any> = [];
+  selectedInterests: Array<number>= [];
+  filterjobType: Array<any> = [];
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -477,6 +480,65 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   getMyPost() {
     this.nav.navigate(JobPost, null);
   }
+
+  showInterestPopUp() {
+    this.getJobType();
+  }
+
+  getJobType() {
+    this.isLoading = true;
+    this.http.get("userposts/getAllJobType").then((res:ResponseModel) => {
+      if (res.ResponseBody) {
+        this.allJobType = res.ResponseBody;
+        this.filterjobType = res.ResponseBody;
+        $("#interestModal").modal('show');
+        this.isLoading = false;
+      }
+    }).catch(e => {
+      this.isLoading = false;
+    })
+  }
+
+  addInterested() {
+    if (this.selectedInterests.length > 0) {
+      this.isLoading = true;
+      this.http.post("user/updateUserInterest", this.selectedInterests).then(res => {
+        if (res.ResponseBody) {
+          this.isLoading = false;
+        }
+      }).catch(e => {
+        this.isLoading = false;
+      })
+    }
+  }
+
+  selectInterest(e: any) {
+    let target = e.target.classList;
+    let id = Number(e.target.getAttribute('data-value'));
+    if (target.contains('active')) {
+      target.remove('active');
+      let index = this.selectedInterests.indexOf(id);
+      this.selectedInterests.splice(index, 1);
+    }else {
+      target.add('active');
+      this.selectedInterests.push(id);
+    }
+  }
+
+  filterInterest(e: any) {
+    let value = e.target.value;
+    if (value && value != "") {
+      this.filterjobType = this.allJobType.filter(x => x.JobTypeName.toLowerCase().includes(value.toLowerCase()));
+    } else {
+      e.target.value = "";
+      this.filterjobType = this.allJobType;
+    }
+  }
+
+  resetFilter(e: any) {
+    e.target.value = "";
+  }
+
 }
 
 interface Item {
