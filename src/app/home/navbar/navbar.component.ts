@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
-import { AUTHSERVICE, Index } from 'src/providers/constants';
+import { AUTHSERVICE, AccountSetup, Index } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 declare var $: any;
 declare var google: any;
@@ -146,10 +146,13 @@ export class NavbarComponent implements OnInit {
       let value = this.signUpForm.value;
       this.http.post("signup", value, AUTHSERVICE).then((res:ResponseModel) => {
         if (res.ResponseBody) {
-          this.active = 1;
+          this.jwtService.setLoginDetail(res.ResponseBody);
+          let userId = res.ResponseBody.UserDetail.UserId;
           this.isLoading = false;
           this.isSubmitted = false;
           Toast("Sign Up successfully");
+          this.nav.navigate(AccountSetup, userId);
+          // [routerLink]="['/AccountSetup']"
         }
       }).catch(e => {
         this.isLoading = false;

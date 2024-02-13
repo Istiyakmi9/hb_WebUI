@@ -46,7 +46,7 @@ export class AjaxService {
               }
             } catch (e) {
               reject(e);
-            } 0
+            }
           },
           error: (e: HttpErrorResponse) => {
             this.tokenHelper.HandleResponseStatus(e);
