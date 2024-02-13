@@ -114,7 +114,23 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   isFilesizeExceed: boolean = false;
   allJobType: Array<any> = [];
   selectedInterests: Array<number>= [];
-  filterjobType: Array<any> = [];
+  filterJobTypes: Array<any> = [];
+  jobCategory: Array<any> = [{
+    CategoryId: 1,
+    CategoryName: "Blue Collar Job",
+    JobType: "Electrician, Plumber, Fitter, Carpenter, Welder, Constrction Worker, Machine operator, Driver",
+    ImgUrl: "assets/blue_collar.png"
+  }, {
+    CategoryId: 2,
+    CategoryName: "Grey Collar Job",
+    JobType: "Teachers, Chef, Firefighter, Engineers, School administrator, Police officers, Lab technicians",
+    ImgUrl: "assets/grey_collar.png"
+  }, {
+    CategoryId: 3,
+    CategoryName: "White Collar Job",
+    JobType: "Accountant, Actuary, Architect, Doctor, Human Resources Manager, Information Security Analyst, Professor",
+    ImgUrl: "assets/white_collar.png"
+  }];
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -199,7 +215,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       MaxAgeLimit: new FormControl(this.postJobDeatil.MaxAgeLimit),
       NoOfPosts: new FormControl(this.postJobDeatil.NoOfPosts),
       ContractPeriodInMonths: new FormControl(this.postJobDeatil.ContractPeriodInMonths),
-      JobRequirementId: new FormControl(this.postJobDeatil.JobRequirementId)
+      JobRequirementId: new FormControl(this.postJobDeatil.JobRequirementId),
+      JobCategoryId: new FormControl(this.postJobDeatil.JobCategoryId)
     })
   }
 
@@ -398,6 +415,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         this.contries = res.ResponseBody.Countries;
         this.currencies = res.ResponseBody.Currencies;
         this.jobTypes = res.ResponseBody.JobTypes;
+        if (this.postJobDeatil.JobCategoryId > 0) {
+          this.filterJobTypes = this.jobTypes.filter(x => x.CategoryId == this.postJobDeatil.JobCategoryId);
+        }
         this.initForm();
         $("#postJobModal").modal("show");
         this.isLoading = false;
@@ -481,64 +501,11 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     this.nav.navigate(JobPost, null);
   }
 
-  showInterestPopUp() {
-    this.getJobType();
-  }
-
-  getJobType() {
+  selectJobCategory(item: any) {
     this.isLoading = true;
-    this.http.get("userposts/getAllJobType").then((res:ResponseModel) => {
-      if (res.ResponseBody) {
-        this.allJobType = res.ResponseBody;
-        this.filterjobType = res.ResponseBody;
-        $("#interestModal").modal('show');
-        this.isLoading = false;
-      }
-    }).catch(e => {
-      this.isLoading = false;
-    })
+    this.postJobForm.get("JobCategoryId").setValue(item.CategoryId);
+    this.filterJobTypes = this.jobTypes.filter(x => x.CategoryId == item.CategoryId);
   }
-
-  addInterested() {
-    if (this.selectedInterests.length > 0) {
-      this.isLoading = true;
-      this.http.post("user/updateUserInterest", this.selectedInterests).then(res => {
-        if (res.ResponseBody) {
-          this.isLoading = false;
-        }
-      }).catch(e => {
-        this.isLoading = false;
-      })
-    }
-  }
-
-  selectInterest(e: any) {
-    let target = e.target.classList;
-    let id = Number(e.target.getAttribute('data-value'));
-    if (target.contains('active')) {
-      target.remove('active');
-      let index = this.selectedInterests.indexOf(id);
-      this.selectedInterests.splice(index, 1);
-    }else {
-      target.add('active');
-      this.selectedInterests.push(id);
-    }
-  }
-
-  filterInterest(e: any) {
-    let value = e.target.value;
-    if (value && value != "") {
-      this.filterjobType = this.allJobType.filter(x => x.JobTypeName.toLowerCase().includes(value.toLowerCase()));
-    } else {
-      e.target.value = "";
-      this.filterjobType = this.allJobType;
-    }
-  }
-
-  resetFilter(e: any) {
-    e.target.value = "";
-  }
-
 }
 
 interface Item {
@@ -574,4 +541,5 @@ class PostJobModal {
   ContractPeriodInMonths: number = 0;
   Files: Array<any> = [];
   FileDetail: string = null;
+  JobCategoryId: number = 1;
 }

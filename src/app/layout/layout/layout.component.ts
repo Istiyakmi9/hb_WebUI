@@ -1,6 +1,6 @@
 import { Component, DoCheck } from '@angular/core';
 import { Router } from '@angular/router';
-import { Index, JobPost } from 'src/providers/constants';
+import { AccountSetup, Index, JobPost } from 'src/providers/constants';
 
 @Component({
   selector: 'app-layout',
@@ -10,6 +10,7 @@ import { Index, JobPost } from 'src/providers/constants';
 export class LayoutComponent implements DoCheck {
 
   isIndexPage: boolean = false;
+  isAccountSetup: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -19,5 +20,10 @@ export class LayoutComponent implements DoCheck {
       this.isIndexPage = true;
     else
       this.isIndexPage = false;
+
+    if (route.includes(AccountSetup))
+      this.isAccountSetup = true;
+    else
+      this.isAccountSetup = false;
   }
 }

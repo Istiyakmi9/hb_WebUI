@@ -220,6 +220,23 @@
       </div>
       <div class="modal-body text-start">
         <form [formGroup]="postJobForm" *ngIf="postJobForm">
+          <fieldset>
+            <legend>{{f['JobCategoryId'].value == 1 ? "Blue Collar Job Form" : f['JobCategoryId'].value == 2 ? "Grey Collar Job Form" : "White Collar Job Form"}}</legend>
+            <div class="row align-items-center col-md-12">
+              <a href="javascript:void(0)" (click)="selectJobCategory(item)" data-name="" class="text-decoration-none my-2 col-md-4" *ngFor="let item of jobCategory; let i=index;">
+                <div class="card px-4 py-3" [ngClass]="{'active-category': f['JobCategoryId'].value == i+1}">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <img [src]="item.ImgUrl" class="category-img" alt="blue-color-jox">
+                    </div>
+                    <div class="col">
+                      <h5 class="text-dark fw-bold">{{item.CategoryName}}</h5>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </fieldset>
           <div class="col-md-12">
             <label class="form-label">Short Description</label>
             <textarea class="form-control" formControlName="ShortDescription" placeholder="Short Description" maxlength="250" rows="2"></textarea>
@@ -233,7 +250,7 @@
               <label class="form-label">Catagory Type</label>
               <select class="form-select" formControlName="CatagoryTypeId">
                 <option value="0" disabled >Select Catagory Type</option>
-                <option [value]="item.JobTypeId" *ngFor="let item of jobTypes">{{item.JobTypeName}}</option>
+                <option [value]="item.JobTypeId" *ngFor="let item of filterJobTypes">{{item.JobTypeName}}</option>
               </select>
             </div>
             <div class="col-md-3">

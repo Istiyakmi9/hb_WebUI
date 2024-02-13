@@ -74,10 +74,27 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
   contries: Array<any> = [];
   currencies: Array<any> = [];
   jobTypes: Array<any> = [];
+  filterJobTypes: Array<any> = [];
   currentUser: any = null;
   selectedImage: any = null;
   uploadedFile: Array<any> = [];
   isFilesizeExceed: boolean = false;
+  jobCategory: Array<any> = [{
+    CategoryId: 1,
+    CategoryName: "Blue Collar Job",
+    JobType: "Electrician, Plumber, Fitter, Carpenter, Welder, Constrction Worker, Machine operator, Driver",
+    ImgUrl: "assets/blue_collar.png"
+  }, {
+    CategoryId: 2,
+    CategoryName: "Grey Collar Job",
+    JobType: "Teachers, Chef, Firefighter, Engineers, School administrator, Police officers, Lab technicians",
+    ImgUrl: "assets/grey_collar.png"
+  }, {
+    CategoryId: 3,
+    CategoryName: "White Collar Job",
+    JobType: "Accountant, Actuary, Architect, Doctor, Human Resources Manager, Information Security Analyst, Professor",
+    ImgUrl: "assets/white_collar.png"
+  }];
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -161,7 +178,8 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
       MaxAgeLimit: new FormControl(this.postJobDeatil.MaxAgeLimit),
       NoOfPosts: new FormControl(this.postJobDeatil.NoOfPosts),
       ContractPeriodInMonths: new FormControl(this.postJobDeatil.ContractPeriodInMonths),
-      JobRequirementId: new FormControl(this.postJobDeatil.JobRequirementId)
+      JobRequirementId: new FormControl(this.postJobDeatil.JobRequirementId),
+      JobCategoryId: new FormControl(this.postJobDeatil.JobCategoryId)
     })
   }
 
@@ -366,6 +384,9 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
         this.contries = res.ResponseBody.Countries;
         this.currencies = res.ResponseBody.Currencies;
         this.jobTypes = res.ResponseBody.JobTypes;
+        if (this.postJobDeatil.JobCategoryId > 0) {
+          this.filterJobTypes = this.jobTypes.filter(x => x.CategoryId == this.postJobDeatil.JobCategoryId);
+        }
         this.initForm();
         $("#postJobModal").modal("show");
         this.isLoading = false;
@@ -413,6 +434,7 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
 
   reset() {
     this.postJobDeatil = new PostJobModal();
+    this.filterJobTypes = this.jobTypes.filter(x => x.CategoryId == this.postJobDeatil.JobCategoryId);
     this.initForm();
     this.isFilesizeExceed = false;
   }
@@ -461,6 +483,12 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
   goToHome() {
     this.nav.navigate(Index, null);
   }
+
+  selectJobCategory(item: any) {
+    this.isLoading = true;
+    this.postJobForm.get("JobCategoryId").setValue(item.CategoryId);
+    this.filterJobTypes = this.jobTypes.filter(x => x.CategoryId == item.CategoryId);
+  }
 }
 
 interface Item {
@@ -495,4 +523,5 @@ class PostJobModal {
   ContractPeriodInMonths: number = 0;
   Files: Array<any> = [];
   FileDetail: string = null;
+  JobCategoryId: number = 1;
 }
