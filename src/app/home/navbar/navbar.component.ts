@@ -148,9 +148,10 @@ export class NavbarComponent implements OnInit {
         if (res.ResponseBody) {
           this.jwtService.setLoginDetail(res.ResponseBody);
           let userId = res.ResponseBody.UserDetail.UserId;
-          this.isLoading = false;
-          this.isSubmitted = false;
           Toast("Sign Up successfully");
+          $("#loginModal").modal("hide");
+          this.isSubmitted = false;
+          this.isLoading = false;
           this.nav.navigate(AccountSetup, userId);
           // [routerLink]="['/AccountSetup']"
         }
