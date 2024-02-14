@@ -150,7 +150,10 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.currentUser = this.user.getInstance();
     if (this.currentUser && this.currentUser.FirstName) {
-      this.userName = this.currentUser.FirstName + " " + this.currentUser.LastName;
+      if (this.currentUser.LastName)
+        this.userName = this.currentUser.FirstName + " " + this.currentUser.LastName;
+      else
+      this.userName = this.currentUser.FirstName;
     }
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;

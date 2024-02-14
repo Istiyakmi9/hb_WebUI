@@ -45,12 +45,11 @@ export class AccountSetupComponent implements OnInit {
 
   ngOnInit(): void {
     this.isPageReady = false;
-    if (this.isInitalSetupDone) {
-      this.nav.navigate(Index, null);
-    } else {
-      this.userId = this.nav.getValue();
-      if (this.userId) {
+    let data = this.nav.getValue();
+    if (data) {
+      if (data.UserId > 0 && !data.IsAccountConfig) {
         this.isPageReady= true;
+        this.userId = data.UserId;
         this.locationData = new autoCompleteModal();
         this.locationData.data = [];
         this.locationData.placeholder = "Select location";
@@ -60,8 +59,10 @@ export class AccountSetupComponent implements OnInit {
         this.JobTypeData.placeholder = "Select Job Title";
         this.JobTypeData.className = "disable-field";
       } else {
-        ErrorToast("Invalid user");
+        this.nav.navigate(Index, null);
       }
+    } else {
+      ErrorToast("Invalid user");
     }
   }
 

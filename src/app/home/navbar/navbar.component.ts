@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
@@ -46,10 +46,18 @@ export class NavbarComponent implements OnInit {
 
       if(credential) {
         this.jwtService.setGoogleJwtToken(credential);
-        this.http.login(`googlelogin`, { "Token": credential }, AUTHSERVICE).then((response: ResponseModel) => {
+        this.http.login(`googlelogin`, { "Token": credential }, AUTHSERVICE).then((res: ResponseModel) => {
           $("#loginModal").modal("hide");
-          Toast("Please wait loading dashboard ...", 15);
-          this.nav.navigate(Index, null);
+          if (res.ResponseBody.IsAccountConfig) {
+            Toast("Please wait loading dashboard ...", 15);
+            this.nav.navigate(Index, null);
+          } else {
+            let response = {
+              UserId: res.ResponseBody.UserDetail.UserId,
+              IsAccountConfig: res.ResponseBody.IsAccountConfig
+            };
+            this.nav.navigate(AccountSetup, response);
+          }
         });
       }
     }
@@ -91,8 +99,16 @@ export class NavbarComponent implements OnInit {
       this.http.login('authenticate', loginValue, AUTHSERVICE).then((result: ResponseModel) => {
         if (result.ResponseBody) {
           $("#loginModal").modal("hide");
-          Toast("Please wait loading dashboard ...", 15);
-          this.nav.navigate(Index, null);
+          if (result.ResponseBody.IsAccountConfig) {
+            this.nav.navigate(Index, null);
+            Toast("Please wait loading dashboard ...", 15);
+          } else {
+            let response = {
+              UserId: result.ResponseBody.UserDetail.UserId,
+              IsAccountConfig: result.ResponseBody.IsAccountConfig
+            };
+            this.nav.navigate(AccountSetup, response);
+          }
           this.isLoading = false;
           // if(Data.UserTypeId == 1)
           // else
@@ -133,10 +149,20 @@ export class NavbarComponent implements OnInit {
     this.signUpForm = this.fb.group({
       FullName: new FormControl("", [Validators.required]),
       Mobile: new FormControl("", [Validators.required]),
-      Email: new FormControl("", [Validators.required]),
+      Email: new FormControl("", [Validators.required, Validators.email]),
       Password: new FormControl("", [Validators.required]),
       ConfirmPassword: new FormControl("", [Validators.required])
-    })
+    }, {validators: this.matchPassword})
+  }
+
+  matchPassword(control: AbstractControl) {
+    let password = control.get("Password").value;
+    let confirmPassword = control.get("ConfirmPassword").value;
+
+    if (password != confirmPassword)
+      control.get("ConfirmPassword").setErrors({mismatch: true});
+    else
+      control.get("ConfirmPassword").setErrors(null);
   }
 
   signUp() {
@@ -147,12 +173,15 @@ export class NavbarComponent implements OnInit {
       this.http.post("signup", value, AUTHSERVICE).then((res:ResponseModel) => {
         if (res.ResponseBody) {
           this.jwtService.setLoginDetail(res.ResponseBody);
-          let userId = res.ResponseBody.UserDetail.UserId;
+          let response = {
+            UserId: res.ResponseBody.UserDetail.UserId,
+            IsAccountConfig: res.ResponseBody.IsAccountConfig
+          }
           Toast("Sign Up successfully");
           $("#loginModal").modal("hide");
           this.isSubmitted = false;
           this.isLoading = false;
-          this.nav.navigate(AccountSetup, userId);
+          this.nav.navigate(AccountSetup, response);
           // [routerLink]="['/AccountSetup']"
         }
       }).catch(e => {
