@@ -79,6 +79,8 @@ export class AccountSetupComponent implements OnInit {
       if (res.ResponseBody) {
         let countries = res.ResponseBody.Countries;
         let jobtypes = res.ResponseBody.JobTypes;
+        this.locationData.data = [];
+        this.JobTypeData.data = [];
         countries.map(x => {
           this.locationData.data.push({
             value: x.Id,
