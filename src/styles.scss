@@ -8024,3 +8024,9 @@ input::-webkit-inner-spin-button {
   .bg-dc {
     background-color: var(--primary-dark)!important;
   }
+
+  .disable-field {
+    background-color: #e9ecef !important;
+    pointer-events: none !important;
+    opacity: 1;
+  }
