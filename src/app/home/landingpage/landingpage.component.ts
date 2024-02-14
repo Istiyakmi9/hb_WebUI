@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-landingpage',
   templateUrl: './landingpage.component.html',
   styleUrls: ['./landingpage.component.scss']
 })
-export class LandingpageComponent {
+export class LandingpageComponent implements OnInit {
+
+  ngOnInit(): void {
+    localStorage.clear();
+    sessionStorage.clear();
+  }
 
 }
