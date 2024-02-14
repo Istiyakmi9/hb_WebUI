@@ -485,7 +485,6 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
   }
 
   selectJobCategory(item: any) {
-    this.isLoading = true;
     this.postJobForm.get("JobCategoryId").setValue(item.CategoryId);
     this.filterJobTypes = this.jobTypes.filter(x => x.CategoryId == item.CategoryId);
   }
