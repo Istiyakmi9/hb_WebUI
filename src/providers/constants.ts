@@ -17,6 +17,7 @@ export const AUTHSERVICE = "oauth";
 export const Index = "home/index";
 export const JobPost = "home/myjobpost";
 export const AccountSetup = "home/accountsetup";
+export const Resume = "home/resume";
 
 export const Client = "admin/client";
 export const ManageClient = "admin/manageclient";
