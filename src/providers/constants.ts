@@ -24,3 +24,4 @@ export const Dashboard = "admin/dashboard";
 export const Employee = "admin/employee";
 export const ManageEmployee = "admin/manageemployee";
 export const Profile = "admin/profile";
+export const ResumeMaker = "home/resume_maker";
