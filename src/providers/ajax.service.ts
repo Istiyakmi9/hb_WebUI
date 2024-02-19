@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpResponse, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { JwtService, ResponseModel } from "src/auth/jwtService";
@@ -15,6 +15,12 @@ export class AjaxService {
   ) {
   }
 
+  private GetHeader(){
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/pdf'
+    });
+  }
 
   LoadStaticJson(StaticUrl: string): Observable<any> {
     let JsonData = this.http.get(StaticUrl);
