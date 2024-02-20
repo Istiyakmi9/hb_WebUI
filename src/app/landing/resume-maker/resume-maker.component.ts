@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AjaxService } from 'src/providers/ajax.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { JwtService } from 'src/auth/jwtService';
+import { JwtService, ResponseModel } from 'src/auth/jwtService';
 
 @Component({
   selector: 'app-resume-maker',
@@ -387,6 +387,7 @@ export class ResumeMakerComponent implements OnInit {
 
   trustedHtmlString: SafeHtml;
   isContentReady: boolean = false;
+  
 
   bindData() {
     this.trustedHtmlString = this.sanitizer.bypassSecurityTrustHtml(this.htmlContent);
@@ -396,13 +397,26 @@ export class ResumeMakerComponent implements OnInit {
   ngOnInit() {
     this.isContentReady = false;
     this.bindData();
+    this.getResumeDetails();
   }
 
   constructor(
     private http: HttpClient,
     private sanitizer: DomSanitizer,
-    private tokenHelper: JwtService
+    private tokenHelper: JwtService,
+    private ajax: AjaxService
   ) { }
+
+    getResumeDetails(){
+        this.ajax.get(`resume/getResumeDetail/1`).then((res:ResponseModel)=>{
+            if(res.ResponseBody){
+                this.htmlContent = res.ResponseBody.ResumeDetail;
+                this.bindData();
+            }
+        }).catch( e=> {
+            console.log(e);
+        })
+    }
 
   downloadPdf() {
     let iframe: any = document.getElementById("resume-container");
@@ -452,6 +466,8 @@ export class ResumeMakerComponent implements OnInit {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     });
+
+    
 
     // this.http.post("http://localhost:5003/api/FileGenerator/HtmlToPdf", data).subscribe((res: any) => {
     //   if (res.ResponseBody) {
