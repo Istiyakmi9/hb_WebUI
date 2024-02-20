@@ -6,6 +6,7 @@ import { UtilModule } from '../util/util.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JobpostComponent } from './jobpost/jobpost.component';
 import { AccountSetupComponent } from './account-setup/account-setup.component';
+import { ResumeComponent } from './resume/resume.component';
 import { ResumeMakerComponent } from './resume-maker/resume-maker.component';
 
 @NgModule({
@@ -13,6 +14,7 @@ import { ResumeMakerComponent } from './resume-maker/resume-maker.component';
     IndexComponent,
     JobpostComponent,
     AccountSetupComponent,
+    ResumeComponent,
     ResumeMakerComponent
   ],
   imports: [

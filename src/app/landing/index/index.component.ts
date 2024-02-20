@@ -3,7 +3,7 @@ import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { UserService } from 'src/providers/userService';
 import 'bootstrap';
 import { iNavigation } from 'src/providers/iNavigation';
-import { Dashboard, JobPost, Profile, ResumeMaker } from 'src/providers/constants';
+import { Dashboard, JobPost, Profile, Resume, ResumeMaker } from 'src/providers/constants';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ResponseModel } from 'src/auth/jwtService';
 import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
@@ -511,6 +511,10 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   selectJobCategory(item: any) {
     this.postJobForm.get("JobCategoryId").setValue(item.CategoryId);
     this.filterJobTypes = this.jobTypes.filter(x => x.CategoryId == item.CategoryId);
+  }
+
+  gotoResume() {
+    this.nav.navigate(Resume, null);
   }
 }
 
