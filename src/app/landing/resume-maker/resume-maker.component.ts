@@ -408,7 +408,7 @@ export class ResumeMakerComponent implements OnInit {
   ) { }
 
     getResumeDetails(){
-        this.ajax.get(`resume/getResumeDetail/1`).then((res:ResponseModel)=>{
+        this.ajax.get(`resume/getResumeDetail/3`).then((res:ResponseModel)=>{
             if(res.ResponseBody){
                 this.htmlContent = res.ResponseBody.ResumeDetail;
                 this.bindData();
