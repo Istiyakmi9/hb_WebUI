@@ -1,0 +1,93 @@
+<div class="main-container container z-3">
+    <div class="col-md-12">
+      <div class="row justify-content-evenly">
+        <div class="col-md-7 col-lg-8 col-sm-6">
+            <div class="card p-3">
+                <div class="form-control mb-3  py-0 d-flex align-items-center my-auto rounded rounded-pill">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="form-control border-0" placeholder="Search" (keyup)="filterFriend($event)" (keydown.esc)="resetFilter($event)">
+                </div>
+                <ng-container *ngIf="isPageReady">
+                    <div class="row mt-3" *ngFor="let item of filterFriendList">
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="assets/face.jpg" alt="" class="rounded rounded-circle profile-image">
+                                </div>
+                                <div class="col-auto">
+                                    <span class="mb-0">{{item.FirstName}} {{(item.LastName != null && item.LastName != "") ? item.LastName : ''}}</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" class="ms-1" alt="" width="4%">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary-c" (click)="addFriend(item)" *ngIf="item.IsFriend"> Friend</button>
+                            <button class="btn btn-primary-c" (click)="addFriend(item)" *ngIf="!item.IsFriend">Add Friend</button>
+                        </div>
+                    </div>
+                </ng-container>
+                <h3 *ngIf="filterFriendList.length == 0" class="my-5 py-5 text-dark fw-bold text-center">No Friend Found</h3>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-4 position-sticky sticky-sidebar">
+          <div class="card p-4">
+            <div class="row align-items-center justify-content-between">
+              <div class="col-lg-10 col-md-9 col-sm-8 text-truncate">
+                Manage Pages and profiles
+              </div>
+              <div class="col-auto">
+                <a href="javascript:void(0)" class="text-decoration-none">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-12 d-flex align-items-center mt-2 mb-3">
+              <div class="col-md-1 overfloe-hidden">
+                <img src="assets/face.jpg" alt="" class="rounded rounded-circle" width="100%">
+              </div>
+              <span class="ps-3 fw-bold">{{userName | titlecase}}</span>
+            </div>
+            <div class="text-start mt-3">
+              <a href="javascript:void(0)" class="text-decoration-none text-muted" (click)="goToHome()">
+                <i class="fa-solid fa-house"></i>
+                <span class="px-2 mb-0 fw-normal text-truncate">Home</span>
+                <i class="fa-solid fa-circle-exclamation"></i>
+              </a>
+            </div>
+            <div class="text-start mt-3">
+              <a href="javascript:void(0)" class="text-decoration-none text-muted">
+                <i class="fa-solid fa-earth-americas"></i>
+                <span class="px-2 mb-0 fw-normal text-truncate">My Post</span>
+                <i class="fa-solid fa-circle-exclamation"></i>
+              </a>
+            </div>
+            <div *ngFor="let item of rightMenu" class="row align-items-center justify-content-between text-muted mt-3">
+              <div class="col-auto">
+                <a href="javascript:void(0)" class="text-decoration-none d-flex align-items-center text-muted">
+                  <i class="{{item.Icon}}"></i>
+                  <div class="px-2 mb-0 fw-normal text-truncate col-lg-10 col-md-9 col-sm-8">{{item.Title}}</div>
+                  <small>
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                  </small>
+                </a>
+              </div>
+              <div class="col-auto ps-0">
+                {{item.Total}}
+              </div>
+            </div>
+            <hr>
+            <div class="text-muted mt-1">
+              <a href="javascript:void(0)" class="text-decoration-none d-flex align-items-center text-muted">
+                <i class="fa-brands fa-mendeley"></i>
+                <h6 class="px-2 mb-0 fw-normal">Main menu</h6>
+                <small>
+                  <i class="fa-solid fa-circle-exclamation" data-bs-toggle="tooltip"
+                  data-bs-placement="right" title="Goto main menu"></i>
+                </small>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
