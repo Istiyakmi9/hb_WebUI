@@ -3,7 +3,7 @@ import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { UserService } from 'src/providers/userService';
 import 'bootstrap';
 import { iNavigation } from 'src/providers/iNavigation';
-import { Dashboard, JobPost, Profile, Resume, ResumeMaker } from 'src/providers/constants';
+import { Dashboard, JobPost, ManageFriend, Profile, Resume, ResumeMaker } from 'src/providers/constants';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ResponseModel } from 'src/auth/jwtService';
 import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
@@ -131,6 +131,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     JobType: "Accountant, Actuary, Architect, Doctor, Human Resources Manager, Information Security Analyst, Professor",
     ImgUrl: "assets/white_collar.png"
   }];
+  page: number = 1;
 
   constructor(private user: UserService,
               private nav: iNavigation,
@@ -166,7 +167,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
   loadData() {
     this.isPageReady = false;
-    this.http.get("userposts/getAllUserPosts").then((res:ResponseModel) => {
+    this.http.get(`userposts/getHomePage/${this.page}`).then((res:ResponseModel) => {
       if (res.ResponseBody) {
         this.bindData(res.ResponseBody);
         this.isPageReady = true;
@@ -515,6 +516,10 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
   gotoResume() {
     this.nav.navigate(Resume, null);
+  }
+
+  navToAddFriend() {
+    this.nav.navigate(ManageFriend, null);
   }
 }
 

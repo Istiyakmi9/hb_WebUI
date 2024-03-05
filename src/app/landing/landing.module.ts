@@ -8,6 +8,7 @@ import { JobpostComponent } from './jobpost/jobpost.component';
 import { AccountSetupComponent } from './account-setup/account-setup.component';
 import { ResumeComponent } from './resume/resume.component';
 import { ResumeMakerComponent } from './resume-maker/resume-maker.component';
+import { ManageFriendComponent } from './manage-friend/manage-friend.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ResumeMakerComponent } from './resume-maker/resume-maker.component';
     JobpostComponent,
     AccountSetupComponent,
     ResumeComponent,
-    ResumeMakerComponent
+    ResumeMakerComponent,
+    ManageFriendComponent
   ],
   imports: [
     CommonModule,
