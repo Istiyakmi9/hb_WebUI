@@ -347,3 +347,9 @@ a {
 .category-img {
   width: 3rem;
 }
+
+.main-container {
+  overflow-y: scroll;
+  height: calc(100vh - 4rem) !important;
+  width: 100%;
+}

@@ -1,6 +1,7 @@
 .content-wrapper {
-  height: calc(100vh - 4rem) !important;
-  overflow: auto;
+  // height: calc(100vh - 4rem) !important;
+  height: auto;
+  overflow: hidden;
   background: #efefef !important;
 }
 

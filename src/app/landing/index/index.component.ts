@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, HostListener, OnInit } from '@angular/core';
 import { UserService } from 'src/providers/userService';
 import 'bootstrap';
 import { iNavigation } from 'src/providers/iNavigation';
@@ -18,25 +18,25 @@ declare var $: any;
   animations: [
     trigger('animation', [
       transition('void => visible', [
-        style({transform: 'scale(0.5)'}),
-        animate('150ms', style({transform: 'scale(1)'}))
+        style({ transform: 'scale(0.5)' }),
+        animate('150ms', style({ transform: 'scale(1)' }))
       ]),
       transition('visible => void', [
-        style({transform: 'scale(1)'}),
-        animate('150ms', style({transform: 'scale(0.5)'}))
+        style({ transform: 'scale(1)' }),
+        animate('150ms', style({ transform: 'scale(0.5)' }))
       ]),
     ]),
     trigger('animation2', [
       transition(':leave', [
-        style({opacity: 1}),
-        animate('50ms', style({opacity: 0.8}))
+        style({ opacity: 1 }),
+        animate('50ms', style({ opacity: 0.8 }))
       ])
     ])
   ]
 })
 export class IndexComponent implements OnInit, AfterViewChecked {
 
-  rightMenu: Array<any> =[{
+  rightMenu: Array<any> = [{
     Icon: "fa-solid fa-users",
     Title: "Post engagement",
     Detail: "",
@@ -52,7 +52,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     Detail: "",
     Total: 0
   }];
-  leftMenu: Array<any> =[{
+  leftMenu: Array<any> = [{
     Icon: "fa-solid fa-chart-column",
     Title: "Ads Manager",
   }, {
@@ -86,10 +86,14 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     Icon: "fa-solid fa-calendar-check",
     Title: "Events",
   }];
+
+  totalRecords: number = 0;
+  totalPages: number = 0;
+  isNextPageLoaded: boolean = false;
   posts: Array<any> = [];
   userName: string = null;
   postMessage: string = null;
-  showCount:boolean = false;
+  showCount: boolean = false;
   previewImage = false;
   showMask = false;
   currentLightboxImage: Item = this.posts[0];
@@ -113,7 +117,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   uploadedFile: Array<any> = [];
   isFilesizeExceed: boolean = false;
   allJobType: Array<any> = [];
-  selectedInterests: Array<number>= [];
+  selectedInterests: Array<number> = [];
   filterJobTypes: Array<any> = [];
   jobCategory: Array<any> = [{
     CategoryId: 1,
@@ -134,9 +138,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   page: number = 1;
 
   constructor(private user: UserService,
-              private nav: iNavigation,
-              private http: AjaxService,
-              private fb: FormBuilder) {}
+    private nav: iNavigation,
+    private http: AjaxService,
+    private fb: FormBuilder) { }
 
   ngAfterViewChecked(): void {
     $('[data-bs-toggle="tooltip"]').tooltip({
@@ -154,10 +158,13 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       if (this.currentUser.LastName)
         this.userName = this.currentUser.FirstName + " " + this.currentUser.LastName;
       else
-      this.userName = this.currentUser.FirstName;
+        this.userName = this.currentUser.FirstName;
     }
+
+    this.posts = [];
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
+    this.isPageReady = false;
     this.loadData();
   }
 
@@ -165,23 +172,11 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     this.nav.navigate(ResumeMaker, null);
   }
 
-  loadData() {
-    this.isPageReady = false;
-    this.http.get(`userposts/getHomePage/${this.page}`).then((res:ResponseModel) => {
-      if (res.ResponseBody) {
-        this.bindData(res.ResponseBody);
-        this.isPageReady = true;
-        Toast("Page loaded");
-      }
-    }).catch(e => {
-      this.isPageReady = true;
-    })
-  }
-
   bindData(res: any) {
-    this.posts = [];
-    this.posts = res;
-    if (this.posts) {
+    this.posts = this.posts.concat(res);
+    if (this.posts && this.posts.length > 0) {
+      this.totalRecords = this.posts[0].TotalRecords;
+      this.totalPages = parseInt((this.totalRecords / 10).toString()) + (this.totalRecords % 10 > 0 ? 1 : 0);
       this.posts.forEach(x => {
         x.PostedOn = ToLocateDate(x.PostedOn);
         if (x.Files && x.Files.length > 0) {
@@ -237,7 +232,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }
 
   onAnimationEnd(event: any) {
-    if(event.toState === 'void') {
+    if (event.toState === 'void') {
       this.showMask = false;
     }
   }
@@ -250,7 +245,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     e.preventDefault();
     e.stopPropagation();
     this.currentIndex = this.currentIndex + 1;
-    if(this.currentIndex > this.currentImgSlide.length - 1) {
+    if (this.currentIndex > this.currentImgSlide.length - 1) {
       this.currentIndex = 0;
     }
     this.currentLightboxImage = this.currentImgSlide[this.currentIndex];
@@ -260,7 +255,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     e.preventDefault();
     e.stopPropagation();
     this.currentIndex = this.currentIndex - 1;
-    if(this.currentIndex < 0) {
+    if (this.currentIndex < 0) {
       this.currentIndex = this.currentImgSlide.length - 1;
     }
     this.currentLightboxImage = this.currentImgSlide[this.currentIndex];
@@ -280,9 +275,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       for (let i = 0; i < selectedfile.length; i++) {
         const reader = new FileReader();
         var type = "";
-        if(selectedfile[i].type.indexOf('image')> -1){
+        if (selectedfile[i].type.indexOf('image') > -1) {
           type = 'image';
-        } else if(selectedfile[i].type.indexOf('video')> -1){
+        } else if (selectedfile[i].type.indexOf('video') > -1) {
           type = 'video';
         }
         reader.onload = (e: any) => {
@@ -299,7 +294,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           file: file
         });
       }
-      let totalFileSize = this.fileDetail.map(x => x.file.size).reduce((acc, curr)=> {return acc+curr;}, 0)/(1024*1024);
+      let totalFileSize = this.fileDetail.map(x => x.file.size).reduce((acc, curr) => { return acc + curr; }, 0) / (1024 * 1024);
       if (totalFileSize > 6)
         this.isFilesizeExceed = true;
       else
@@ -332,7 +327,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           postimg.push({
             ImageSrc: this.previews[i].Url,
             Format: this.previews[i].Format,
-            ImageAlt: i+1
+            ImageAlt: i + 1
           })
         }
       }
@@ -384,6 +379,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
       this.http.post(url, formData).then(res => {
         if (res.ResponseBody) {
+          this.posts = [];
           this.bindData(res.ResponseBody);
           $("#postJobModal").modal("hide");
           Toast("Message posted successfully");
@@ -401,7 +397,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     this.isLoading = true;
     this.fileDetail = [];
     this.uploadedFile = [];
-    this.http.get(`userposts/getUserPostByUserPostId/${posiId}`).then((res:ResponseModel) => {
+    this.http.get(`userposts/getUserPostByUserPostId/${posiId}`).then((res: ResponseModel) => {
       if (res.ResponseBody) {
         if (res.ResponseBody.UserPost && res.ResponseBody.UserPost.length > 0) {
           this.postJobDeatil = res.ResponseBody.UserPost[0];
@@ -447,15 +443,15 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     $("#postModal").modal("show");
   }
 
-  addLike(item){
+  addLike(item) {
     this.isLoading = true;
     // let value = this.postJobForm.value;
-    this.http.post("userposts/addLikedPost",item).then((res:ResponseModel) => {
-      if(res.ResponseBody){
+    this.http.post("userposts/addLikedPost", item).then((res: ResponseModel) => {
+      if (res.ResponseBody) {
         Toast("liked details added");
         this.isLoading = false;
       }
-    }).catch( e => {
+    }).catch(e => {
       alert(e.message)
       this.isLoading = false;
     })
@@ -496,7 +492,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     let value = e.target.value;
     console.log(value);
     let elem = e.target.parentElement.parentElement.nextElementSibling.classList;
-    if (value && value!= "") {
+    if (value && value != "") {
       if (elem.contains("d-none"))
         elem.remove("d-none");
     } else {
@@ -520,6 +516,36 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
   navToAddFriend() {
     this.nav.navigate(ManageFriend, null);
+  }
+
+  async loadData() {
+    this.http.get(`userposts/getHomePage/${this.page}`).then((res: ResponseModel) => {
+      if (res.ResponseBody) {
+        this.bindData(res.ResponseBody);
+        this.isPageReady = true;
+        this.isNextPageLoaded = false;
+        this.page++;
+        Toast("Your application is ready now.");
+      }
+    }).catch(e => {
+      this.isPageReady = true;
+    })
+  }
+
+  // Listen for scroll events
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: any) {
+    const bottomOffset = 900; // Adjust as needed
+    let div: any = document.getElementById("main-container");
+    const scrollPosition = div.scrollTop;
+    const scrollHeight = div.scrollHeight;
+
+    if (scrollPosition > scrollHeight - bottomOffset && !this.isNextPageLoaded && this.totalPages >= this.page) {
+      // Load more data when scrolled to the bottom
+      this.isNextPageLoaded = true;
+      console.log("Loading page: " + this.page);
+      this.loadData();
+    }
   }
 }
 
