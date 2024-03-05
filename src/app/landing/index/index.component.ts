@@ -172,12 +172,11 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     this.nav.navigate(ResumeMaker, null);
   }
 
-  bindData(res: any) {
-    this.posts = this.posts.concat(res);
-    if (this.posts && this.posts.length > 0) {
-      this.totalRecords = this.posts[0].TotalRecords;
+  bindData(res: any) {    
+    if (res && res.length > 0) {
+      this.totalRecords = res[0].TotalRecords;
       this.totalPages = parseInt((this.totalRecords / 10).toString()) + (this.totalRecords % 10 > 0 ? 1 : 0);
-      this.posts.forEach(x => {
+      res.forEach(x => {
         x.PostedOn = ToLocateDate(x.PostedOn);
         if (x.Files && x.Files.length > 0) {
           x.Files.forEach(y => {
@@ -189,7 +188,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
             y.FilePath = this.imgBaseUrl + y.FilePath;
           })
         }
-      })
+      });
+
+      this.posts = this.posts.concat(res);
     }
   }
 
