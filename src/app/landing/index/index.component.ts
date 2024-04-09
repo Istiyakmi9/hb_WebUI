@@ -9,6 +9,7 @@ import { ResponseModel } from 'src/auth/jwtService';
 import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
 import { environment } from 'src/environments/environment';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { autoCompleteModal } from 'src/app/util/iautocomplete/iautocomplete.component';
 declare var $: any;
 
 @Component({
@@ -110,15 +111,12 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   postForm: any = null;
   profileURL: string = null;
   imgBaseUrl: string = null;
-  contries: Array<any> = [];
-  currencies: Array<any> = [];
   jobTypes: Array<any> = [];
   currentUser: any = null;
   uploadedFile: Array<any> = [];
   isFilesizeExceed: boolean = false;
   allJobType: Array<any> = [];
   selectedInterests: Array<number> = [];
-  filterJobTypes: Array<any> = [];
   jobCategory: Array<any> = [{
     CategoryId: 1,
     CategoryName: "Blue Collar Job",
@@ -136,6 +134,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     ImgUrl: "assets/white_collar.png"
   }];
   page: number = 1;
+  countryData: autoCompleteModal = null;
+  currenciesData: autoCompleteModal = null;
+  jobTypeData: autoCompleteModal = null;
 
   constructor(private user: UserService,
     private nav: iNavigation,
@@ -160,7 +161,18 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       else
         this.userName = this.currentUser.FirstName;
     }
-
+    this.countryData = new autoCompleteModal();
+    this.countryData.data = [];
+    this.countryData.placeholder = "Select Country";
+    this.countryData.className = "disable-field"; 
+    this.currenciesData = new autoCompleteModal();
+    this.currenciesData.data = [];
+    this.currenciesData.placeholder = "Select Country";
+    this.currenciesData.className = "disable-field"; 
+    this.jobTypeData = new autoCompleteModal();
+    this.jobTypeData.data = [];
+    this.jobTypeData.placeholder = "Select Country";
+    this.jobTypeData.className = "disable-field"; 
     this.posts = [];
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
@@ -417,11 +429,35 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           this.postJobDeatil = new PostJobModal();
         }
 
-        this.contries = res.ResponseBody.Countries;
-        this.currencies = res.ResponseBody.Currencies;
+        let contries = res.ResponseBody.Countries;
+        this.countryData.data = [];
+        this.currenciesData.data = [];
+        contries.map(x => {
+          this.countryData.data.push({
+            value: x.Id,
+            text: x.Name
+          })
+        });
+        this.countryData.className="";
+        let currencies = res.ResponseBody.Currencies;
+        currencies.map(x => {
+          this.currenciesData.data.push({
+            value: x.Id,
+            text: x.Currency
+          })
+        });
+        this.currenciesData.className="";
         this.jobTypes = res.ResponseBody.JobTypes;
         if (this.postJobDeatil.JobCategoryId > 0) {
-          this.filterJobTypes = this.jobTypes.filter(x => x.CategoryId == this.postJobDeatil.JobCategoryId);
+          let filterJobTypes = this.jobTypes.filter(x => x.CategoryId == this.postJobDeatil.JobCategoryId);
+          filterJobTypes.map(x => {
+            this.jobTypeData.data.push({
+              value: x.JobTypeId,
+              text: x.JobTypeName
+            })
+          })
+          this.jobTypeData.className="";
+          this.jobTypeData.isMultiSelect = true;
         }
         this.initForm();
         $("#postJobModal").modal("show");
@@ -508,7 +544,17 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
   selectJobCategory(item: any) {
     this.postJobForm.get("JobCategoryId").setValue(item.CategoryId);
-    this.filterJobTypes = this.jobTypes.filter(x => x.CategoryId == item.CategoryId);
+    let filterJobTypes = this.jobTypes.filter(x => x.CategoryId == item.CategoryId);
+    if (filterJobTypes.length > 0) {
+      this.jobTypeData = new autoCompleteModal();
+      this.jobTypeData.data = [];
+      // filterJobTypes.forEach(x => {
+      //   this.jobTypeData.data.push({
+      //     value: x.JobTypeId,
+      //     text: x.JobTypeName
+      //   })
+      // })
+    }
   }
 
   gotoResume() {
@@ -547,6 +593,10 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       console.log("Loading page: " + this.page);
       this.loadData();
     }
+  }
+
+  selectJobType(e: any) {
+
   }
 }
 

@@ -80,9 +80,20 @@ export class ManageFriendComponent implements OnInit {
       this.http.post("user/filterFriend", data).then((res:ResponseModel) => {
         if (res.ResponseBody) {
           this.filterFriendList = res.ResponseBody;
-          this.filterFriendList.forEach(x => {
-            x.IsFriend = false;
-          })
+          if (this.filterFriendList.length > 0) {
+            this.filterFriendList = this.filterFriendList.filter(x => x.UserId != this.currentUser.UserId);
+            this.filterFriendList.forEach(x => {
+              if (this.friendList.length > 0) {
+                let existUser = this.friendList.find(i => i.UserId == x.UserId);
+                if (existUser != null)
+                  x.IsFriend = true;
+                else
+                  x.IsFriend = false;
+              } else {
+                x.IsFriend = false;
+              }
+            })
+          }
         }
       })
     } else {
