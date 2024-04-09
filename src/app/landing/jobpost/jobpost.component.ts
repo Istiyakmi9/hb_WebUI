@@ -1,6 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { autoCompleteModal } from 'src/app/util/iautocomplete/iautocomplete.component';
 import { ResponseModel } from 'src/auth/jwtService';
 import { environment } from 'src/environments/environment';
 import { AjaxService } from 'src/providers/ajax.service';
@@ -95,7 +96,9 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
     JobType: "Accountant, Actuary, Architect, Doctor, Human Resources Manager, Information Security Analyst, Professor",
     ImgUrl: "assets/white_collar.png"
   }];
-
+  countryData: autoCompleteModal = null;
+  currenciesData: autoCompleteModal = null;
+  
   constructor(private user: UserService,
               private nav: iNavigation,
               private http: AjaxService,
@@ -118,6 +121,14 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
     }
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
+    this.countryData = new autoCompleteModal();
+    this.countryData.data = [];
+    this.countryData.placeholder = "Select Country";
+    this.countryData.className = "disable-field"; 
+    this.currenciesData = new autoCompleteModal();
+    this.currenciesData.data = [];
+    this.currenciesData.placeholder = "Select Country";
+    this.currenciesData.className = "disable-field"; 
     this.loadData();
   }
 
@@ -381,8 +392,24 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
           this.postJobDeatil = new PostJobModal();
         }
 
-        this.contries = res.ResponseBody.Countries;
-        this.currencies = res.ResponseBody.Currencies;
+        let contries = res.ResponseBody.Countries;
+        this.countryData.data = [];
+        this.currenciesData.data = [];
+        contries.map(x => {
+          this.countryData.data.push({
+            value: x.Id,
+            text: x.Name
+          })
+        });
+        this.countryData.className="";
+        let currencies = res.ResponseBody.Currencies;
+        currencies.map(x => {
+          this.currenciesData.data.push({
+            value: x.Id,
+            text: x.Currency
+          })
+        });
+        this.currenciesData.className="";
         this.jobTypes = res.ResponseBody.JobTypes;
         if (this.postJobDeatil.JobCategoryId > 0) {
           this.filterJobTypes = this.jobTypes.filter(x => x.CategoryId == this.postJobDeatil.JobCategoryId);

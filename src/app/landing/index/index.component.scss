@@ -167,7 +167,7 @@
 }
 
 .sticky-sidebar {
-  top: 25px !important;
+  top: 0px !important;
   height: 83vh;
   overflow: auto !important;
 }
@@ -190,7 +190,7 @@ input[readonly] {
 }
 
 .module-member-bg {
-  background-image: url('../../../assets/module-member-bg.svg');
+  background-image: url('../../../assets/bg_gg.jpg');
   background-position: center;
   background-size: cover;
   display: block;
@@ -240,7 +240,7 @@ input[readonly] {
 }
 .tab__label {
   justify-content: space-between;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
 }
 .tab__label::after {
   content: "\276F";
@@ -345,7 +345,7 @@ a {
 }
 
 .category-img {
-  width: 3rem;
+  width: 2rem;
 }
 
 .main-container {

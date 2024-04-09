@@ -10,16 +10,14 @@
               <!-- <i class="fa-solid fa-camera-retro fa-3x text-dark  rounded rounded-circle p-3" *ngIf="profileURL == null"></i> -->
               <div class="rounded rounded-circle">
                 <img [src]="profileURL" alt="profile" *ngIf="profileURL != null" class="rounded profile-picture rounded-circle">
-                <img src="assets/camera.svg" alt="profile" *ngIf="profileURL == null" class="rounded p-3 bg-light profile-picture-icon rounded-circle">
+                <img src="assets/camera.png" alt="profile" *ngIf="profileURL == null" class="rounded p-2 bg-light profile-picture-icon rounded-circle">
               </div>
               <h6 class="mt-3 text-dark fw-bold" (click)="viewProfile()">Welcome, {{userName | uppercase}}!</h6>
             </a>
           </div>
           <input type="file" id="uploadProfile" multiple class="d-none" accept=".jpg, .jpeg, .png" (change)="uploadProfileImg($event)"/>
           <a href="javascript:void(0)" class="text-decoration-none" (click)="profilefireBrowser()">Add a photo</a>
-        </div>
-        <div class="card px-4 pb-4 pt-2 mt-3">
-          <div *ngFor="let item of leftMenu" class="row align-items-center justify-content-between text-muted mt-4">
+          <div *ngFor="let item of leftMenu" class="row align-items-center justify-content-between text-muted mt-4 px-3">
             <a href="javascript:void(0)" class="text-decoration-none d-flex align-items-center text-muted">
               <i class="{{item.Icon}} fa-lg"></i>
               <div class="pe-2 ps-3 col-lg-10 col-md-10 text-start text-truncate fw-normal ">{{item.Title}}</div>
@@ -72,7 +70,7 @@
                         {{item.FullName}}.
                         <!-- <i class="fa-solid fa-circle-check ms-1 text-primary"></i> -->
                         <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" class="ms-1" alt="" width="4%">
-                        <a href="javascript:void(0)" class="text-decoration-none ms-2">Follow</a>
+                        <!-- <a href="javascript:void(0)" class="text-decoration-none ms-2">Follow</a> -->
                       </div>
                       <small>
                         {{item.PostedOn | date: 'MMMM d, y, h:mm:ss a'}}
@@ -304,51 +302,52 @@
 <div class="modal fade" id="postJobModal" tabindex="-1" aria-labelledby="postJobModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content px-3">
-      <div class="modal-header border-bottom-0">
-        <h1 class="modal-title fs-5" id="postJobModalLabel">Post Job</h1>
+      <div class="modal-header border-bottom-0" *ngIf="postJobForm">
+        <h1 class="modal-title fs-5" id="postJobModalLabel">{{f['JobCategoryId'].value == 1 ? "Blue Collar Job Form" : f['JobCategoryId'].value == 2 ? "Grey Collar Job Form" : "White Collar Job Form"}}</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body text-start">
+      <div class="modal-body pt-0 text-start">
         <form [formGroup]="postJobForm" *ngIf="postJobForm">
-          <fieldset>
-            <legend>{{f['JobCategoryId'].value == 1 ? "Blue Collar Job Form" : f['JobCategoryId'].value == 2 ? "Grey Collar Job Form" : "White Collar Job Form"}}</legend>
-            <div class="row align-items-center col-md-12">
-              <a href="javascript:void(0)" (click)="selectJobCategory(item)" data-name="" class="text-decoration-none my-2 col-md-4" *ngFor="let item of jobCategory; let i=index;">
-                <div class="card px-4 py-3" [ngClass]="{'active-category': f['JobCategoryId'].value == i+1}">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <img [src]="item.ImgUrl" class="category-img" alt="blue-color-jox">
-                    </div>
-                    <div class="col">
-                      <h5 class="text-dark fw-bold">{{item.CategoryName}}</h5>
-                    </div>
+          <div class="row align-items-center col-md-12">
+            <a href="javascript:void(0)" (click)="selectJobCategory(item)" data-name="" class="text-decoration-none my-2 col-md-4" *ngFor="let item of jobCategory; let i=index;">
+              <div class="card px-4 py-2" [ngClass]="{'active-category': f['JobCategoryId'].value == i+1}">
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <img [src]="item.ImgUrl" class="category-img" alt="blue-color-jox">
+                  </div>
+                  <div class="col">
+                    <h5 class="text-dark fw-bold mb-0">{{item.CategoryName}}</h5>
                   </div>
                 </div>
-              </a>
-            </div>
-          </fieldset>
-          <div class="col-md-12">
-            <label class="form-label">Short Description</label>
-            <textarea class="form-control" formControlName="ShortDescription" placeholder="Short Description" maxlength="250" rows="2"></textarea>
+              </div>
+            </a>
           </div>
-          <div class="col-md-12 mt-3">
-            <label class="form-label">Complete Description</label>
-            <textarea class="form-control" formControlName="CompleteDescription" placeholder="Complete Description" rows="4"></textarea>
+          <div class="row">
+            <div class="col-md-5 mt-2">
+              <label class="form-label">Short Description</label>
+              <textarea class="form-control" formControlName="ShortDescription" placeholder="Short Description" maxlength="250" rows="2"></textarea>
+            </div>
+            <div class="col-md-7 mt-2">
+              <label class="form-label">Complete Description</label>
+              <textarea class="form-control" formControlName="CompleteDescription" placeholder="Complete Description" rows="2"></textarea>
+            </div>
           </div>
           <div class="mt-3 row">
             <div class="col-md-3">
               <label class="form-label">Catagory Type</label>
-              <select class="form-select" formControlName="CatagoryTypeId">
+              <bot-multiselect [data]="jobTypeData" (OnSelect)="selectJobType($event)"></bot-multiselect>
+              <!-- <select class="form-select" formControlName="CatagoryTypeId">
                 <option value="0" disabled >Select Catagory Type</option>
                 <option [value]="item.JobTypeId" *ngFor="let item of filterJobTypes">{{item.JobTypeName}}</option>
-              </select>
+              </select> -->
             </div>
             <div class="col-md-3">
               <label class="form-label">Country</label>
-              <select class="form-select" formControlName="CountryId">
+              <bot-autocomplete [data]="countryData" formControlName="CountryId"></bot-autocomplete>
+              <!-- <select class="form-select" >
                 <option value="0" disabled >Select Country</option>
                 <option [value]="item.Id" *ngFor="let item of contries">{{item.Name}}</option>
-              </select>
+              </select> -->
             </div>
             <div class="col-md-3">
               <label class="form-label">Bonus</label>
@@ -356,10 +355,11 @@
             </div>
             <div class="col-md-3">
               <label class="form-label">Salary Currency</label>
-              <select class="form-select" formControlName="SalaryCurrency">
+              <bot-autocomplete [data]="currenciesData" formControlName="SalaryCurrency"></bot-autocomplete>
+              <!-- <select class="form-select" formControlName="SalaryCurrency">
                 <option value=null disabled>Select Salary Currency</option>
                 <option [value]="item.Name" *ngFor="let item of currencies">{{item.Name}}</option>
-              </select>
+              </select> -->
             </div>
           </div>
           <section class="accordion mt-4">
@@ -410,12 +410,12 @@
               <fieldset>
                 <legend>Age Limit:</legend>
                 <div class="row">
-                  <div class="col-md-6">
-                    <label class="form-label">Min</label>
+                  <div class="col-md-6 d-flex align-items-center">
+                    <label class="form-label pe-2">Min</label>
                     <input type="text" class="form-control" formControlName="MinAgeLimit" placeholder="Min Age Limit" [OnlyNumber]="2">
                   </div>
-                  <div class="col-md-6">
-                    <label class="form-label">Max</label>
+                  <div class="col-md-6  d-flex align-items-center">
+                    <label class="form-label pe-2">Max</label>
                     <input type="text" class="form-control" formControlName="MaxAgeLimit" placeholder="Max Age Limit" [OnlyNumber]="2">
                   </div>
                 </div>
@@ -425,23 +425,23 @@
               <fieldset>
                 <legend>CTC:</legend>
                 <div class="row">
-                  <div class="col-md-6">
-                    <label class="form-label">Min</label>
+                  <div class="col-md-6  d-flex align-items-center">
+                    <label class="form-label pe-2">Min</label>
                     <input type="text" class="form-control" formControlName="MinimunCTC" placeholder="Minimun CTC" [OnlyNumber]="10">
                   </div>
-                  <div class="col-md-6">
-                    <label class="form-label">Max</label>
+                  <div class="col-md-6  d-flex align-items-center">
+                    <label class="form-label pe-2">Max</label>
                     <input type="text" class="form-control" formControlName="MaximunCTC" placeholder="Maximum CTC" [OnlyNumber]="10">
                   </div>
                 </div>
               </fieldset>
             </div>
-            <div class="col-md-4">
-              <div class="col-md-12">
+            <div class="col-md-4 row">
+              <div class="col-md-4">
                 <label class="form-label">No of Posts</label>
                 <input type="text" class="form-control" formControlName="NoOfPosts" placeholder="NoOfPosts" [OnlyNumber]="5">
               </div>
-              <div class="col-md-12">
+              <div class="col-md-8">
                 <label class="form-label">Contract Period In Months</label>
                 <input type="text" class="form-control" formControlName="ContractPeriodInMonths" placeholder="Contract Period In Months" [OnlyNumber]="5">
               </div>
@@ -506,7 +506,7 @@
           </div>
         </form>
       </div>
-      <div class="modal-footer border-top-0">
+      <div class="modal-footer border-top-0 pt-0">
         <button class="btn btn-danger" data-bs-dismiss="modal" (click)="reset()">
           <i class="fa-solid fa-ban"></i>
           Reset</button>
