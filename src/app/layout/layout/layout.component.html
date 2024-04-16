@@ -1,7 +1,5 @@
 <div class="vh-100 overflow-hidden">
-  @if (!isAccountSetup) {
-    <app-navbar></app-navbar>
-  }
+  <app-navbar *ngIf="!isAccountSetup"></app-navbar>
   <div class="container-scroller h-100 w-100" [ngClass]="{'d-flex': !isAccountSetup}">
     <div class="l-panel" [ngClass]="{'d-none': (isIndexPage || isAccountSetup)}">
       <app-sidemenu></app-sidemenu>

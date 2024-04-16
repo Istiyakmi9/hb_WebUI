@@ -11,201 +11,198 @@
             </div>
           </div>
         </div>
-        @if (isReady) {
+        <ng-container *ngIf="isReady">
           <div class="x_content">
             <form [formGroup]="clientForm" autocomplete="off">
               <div class="col-12 row">
                 <div class="col-md-4 mt-3">
                   <label class="form-label">Company Name</label>
                   <input type="text" formControlName="CompanyName" placeholder="Company Name" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250"
-                    [ngClass]="{'error-field': submitted && f.CompanyName.errors !== null && f.CompanyName.errors.required}">
-                  </div>
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label">Client Type</label>
-                    <select class="form-select" formControlName="ClientTypeId" [ngClass]="{'error-field': submitted && f.ClientTypeId.errors !== null && f.ClientTypeId.errors.required}">
-                      <option value=null disabled selected>Select Client Type</option>
-                      @for (item of clientTypes; track item) {
-                        <option [value]="item.ClientTypeId">{{item.ClientType}}</option>
-                      }
-                    </select>
-                  </div>
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label">Country</label>
-                    <select class="form-select" (change)="selectCountry($event)" formControlName="Country" [ngClass]="{'error-field': submitted && f.Country.errors !== null && f.Country.errors.required}">
-                      <option value=null disabled selected>Select Country</option>
-                      @for (item of countries; track item) {
-                        <option [value]="item.Name">{{item.Name}}</option>
-                      }
-                    </select>
+                  [ngClass]="{'error-field': submitted && f.CompanyName.errors !== null && f.CompanyName.errors.required}">
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">Client Type</label>
+                  <select class="form-select" formControlName="ClientTypeId" [ngClass]="{'error-field': submitted && f.ClientTypeId.errors !== null && f.ClientTypeId.errors.required}">
+                    <option value=null disabled selected>Select Client Type</option>
+                    <option [value]="item.ClientTypeId" *ngFor="let item of clientTypes">{{item.ClientType}}</option>
+                  </select>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">Country</label>
+                  <select class="form-select" (change)="selectCountry($event)" formControlName="Country" [ngClass]="{'error-field': submitted && f.Country.errors !== null && f.Country.errors.required}">
+                    <option value=null disabled selected>Select Country</option>
+                    <option [value]="item.Name" *ngFor="let item of countries">{{item.Name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row col-md-12">
+                <div class="col-md-4 mt-3">
+                  <label class="form-label" >Mobile No.#</label>
+                  <div class="input-group">
+                    <div class="input-group-text">{{clientForm.controls.CountryPhoneCode.value}}</div>
+                    <input OnlyNumber="15" placeholder="Mobile No." formControlName="Mobile"class="form-control"  [ngClass]="{'error-field': submitted && f.Mobile.errors !== null && f.Mobile.errors.required}">
                   </div>
                 </div>
-                <div class="row col-md-12">
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label" >Mobile No.#</label>
-                    <div class="input-group">
-                      <div class="input-group-text">{{clientForm.controls.CountryPhoneCode.value}}</div>
-                      <input OnlyNumber="15" placeholder="Mobile No." formControlName="Mobile"class="form-control"  [ngClass]="{'error-field': submitted && f.Mobile.errors !== null && f.Mobile.errors.required}">
-                    </div>
-                  </div>
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label">Alternate Mobile No.#</label>
-                    <div class="input-group">
-                      <div class="input-group-text">{{clientForm.controls.CountryPhoneCode.value}}</div>
-                      <input placeholder="Alternate Mobile No." formControlName="AlternetModile_1" class="form-control"  OnlyNumber="15">
-                    </div>
-                  </div>
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label">Alternate Mobile No.#</label>
-                    <div class="input-group">
-                      <div class="input-group-text">{{clientForm.controls.CountryPhoneCode.value}}</div>
-                      <input placeholder="Alternate Mobile No."  formControlName="AlternetModile_2" class="form-control"  OnlyNumber="15">
-                    </div>
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">Alternate Mobile No.#</label>
+                  <div class="input-group">
+                    <div class="input-group-text">{{clientForm.controls.CountryPhoneCode.value}}</div>
+                    <input placeholder="Alternate Mobile No." formControlName="AlternetModile_1" class="form-control"  OnlyNumber="15">
                   </div>
                 </div>
-                <div class="col-md-12 row">
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" placeholder="Email" formControlName="Email" class="form-control" maxlength="75"
-                      [ngClass]="{'error-field': submitted && f.Email.errors !== null && f.Email.errors.required}">
-                    </div>
-                    <div class="col-md-4 mt-3">
-                      <label class="form-label">Alternate Email</label>
-                      <input type="email" placeholder="Alternate Email" formControlName="AlternateEmail_1" class="form-control" maxlength="75">
-                    </div>
-                    <div class="col-md-4 mt-3">
-                      <label class="form-label">Alternate Email</label>
-                      <input type="email" placeholder="Alternate Email"  formControlName="AlternateEmail_2" class="form-control" maxlength="75">
-                    </div>
-                  </div>
-                  <div class="row col-md-12">
-                    <div class="col-md-4 mt-3">
-                      <label class="form-label">GSTIN No.#</label>
-                      <input type="text" placeholder="GSTIN No." formControlName="GSTIN" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="20">
-                    </div>
-                    <div class="col-md-4 mt-3">
-                      <label class="form-label">License No.#</label>
-                      <input type="text" placeholder="License No." formControlName="LicenseNo" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="25">
-                    </div>
-                    <div class="col-md-4 mt-3">
-                      <label class="form-label">PAN No.#</label>
-                      <input type="text" placeholder="PAN No." formControlName="PANNum" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="20">
-                    </div>
-                  </div>
-                  <div class="col-md-12 row">
-                    <div class="col-md-4 mt-3">
-                      <label class="form-label">Legan Entity</label>
-                      <input type="text" placeholder="Legan Entity" formControlName="LegalEntity" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250"
-                        [ngClass]="{'error-field': submitted && f.LegalEntity.errors !== null && f.LegalEntity.errors.required}">
-                      </div>
-                      <div class="col-md-4 mt-3">
-                        <label class="form-label">Website</label>
-                        <input type="text" placeholder="Website" formControlName="Website" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="150">
-                      </div>
-                    </div>
-                    <div class="col-12 row mt-4">
-                      <div class="col-md-6">
-                        <div class="x_panel">
-                          <div class="x_header">
-                            <div class="x_header_title">
-                              <h2>Bank Detail<small>Bank related detail for transaction.</small></h2>
-                            </div>
-                          </div>
-                          <div class="col-md-12 mb-3 mb-3 row">
-                            <div class="col-md-12">
-                              <label class="form-label">Bank Name</label>
-                              <input placeholder="Bank name" formControlName="BankName" class="form-control"oninput="this.value = this.value.toUpperCase()" maxlength="40"
-                                [ngClass]="{'error-field': submitted && f.BankName.errors !== null && f.BankName.errors.required}"
-                                onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"/>
-                              </div>
-                              <div class="col-md-12 mt-4">
-                                <label class="form-label">Account No.#</label>
-                                <input placeholder="Account No.#" formControlName="AccountNo" class="form-control" OnlyNumber="30"
-                                  onkeypress="return event.charCode >=48 && event.charCode <=57" [ngClass]="{'error-field': submitted && f.AccountNo.errors !== null && f.AccountNo.errors.required}"/>
-                                </div>
-                                <div class="col-md-12 mt-4">
-                                  <label class="form-label">IFSC Code</label>
-                                  <input placeholder="IFSC Code" formControlName="IFSC" class="form-control"onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"
-                                  oninput="this.value = this.value.toUpperCase()"  maxlength="11"  [ngClass]="{'error-field': submitted && f.IFSC.errors !== null && f.IFSC.errors.required}"/>
-                                </div>
-                                <div class="col-md-12 mt-4">
-                                  <label class="form-label">Branch Name (Optional)</label>
-                                  <input placeholder="Branch name" formControlName="Branch" class="form-control"  oninput="this.value = this.value.toUpperCase()" maxlength="40"
-                                    onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="x_panel">
-                                <div class="x_header">
-                                  <div class="x_header_title">
-                                    <h2>Client Other Detail<small> Other detail like Address, State etc.</small></h2>
-                                  </div>
-                                </div>
-                                <div class="col-md-12 mb-3 mb-3 row">
-                                  <div class="col-md-12">
-                                    <label class="form-label">Description </label>
-                                    <textarea placeholder="Decription" formControlName="Description" rows="3" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="700"></textarea>
-                                  </div>
-                                  <div class="col-md-6 mt-4">
-                                    <label class="form-label">Country Code</label>
-                                    <input type="text" placeholder="Country Code" formControlName="CountryCode" readonly class="form-control">
-                                  </div>
-                                  <div class="col-md-6 mt-4">
-                                    <label class="form-label">State *</label>
-                                    <input placeholder="State" class="form-control" formControlName="State" maxlength="50" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()"
-                                    [ngClass]="{'error-field': submitted && f.State.errors !== null && f.State.errors.required}"/>
-                                  </div>
-                                  <div class="col-md-6 mt-4">
-                                    <label class="form-label">City *</label>
-                                    <input placeholder="City" class="form-control" formControlName="City" maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()"
-                                    [ngClass]="{'error-field': submitted && f.City.errors !== null && f.City.errors.required}"/>
-                                  </div>
-                                  <div class="col-md-6 mt-4">
-                                    <label class="form-label">Pincode *</label>
-                                    <input placeholder="Pincode" type="number" formControlName="Pincode" class="form-control" OnlyNumber="6" maxlength="6" [ngClass]="{'error-field': submitted && f.Pincode.errors !== null && f.Pincode.errors.required}"/>
-                                  </div>
-                                  <div class="col-md-12 mt-4">
-                                    <label class="form-label">Address *</label>
-                                    <textarea placeholder="Address Line" formControlName="Address" class="form-control" oninput="this.value = this.value.toUpperCase()" [ngClass]="{'error-field': submitted && f.Address.errors !== null && f.Address.errors.required}"
-                                    maxlength="500"></textarea>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-12 text-end">
-                            <button class="btn btn-danger" (click)="reset()">
-                              <i class="fa-solid fa-ban"></i>
-                            Reset</button>
-                            <button class="btn btn-custom-pink ms-3" [disabled]="isLoading" (click)="addClientDetail()">
-                              <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
-                              {{ isLoading ? 'Processing' : 'Submit' }}
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    }
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">Alternate Mobile No.#</label>
+                  <div class="input-group">
+                    <div class="input-group-text">{{clientForm.controls.CountryPhoneCode.value}}</div>
+                    <input placeholder="Alternate Mobile No."  formControlName="AlternetModile_2" class="form-control"  OnlyNumber="15">
                   </div>
                 </div>
               </div>
-            </div>
+              <div class="col-md-12 row">
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">Email</label>
+                  <input type="email" placeholder="Email" formControlName="Email" class="form-control" maxlength="75"
+                  [ngClass]="{'error-field': submitted && f.Email.errors !== null && f.Email.errors.required}">
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">Alternate Email</label>
+                  <input type="email" placeholder="Alternate Email" formControlName="AlternateEmail_1" class="form-control" maxlength="75">
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">Alternate Email</label>
+                  <input type="email" placeholder="Alternate Email"  formControlName="AlternateEmail_2" class="form-control" maxlength="75">
+                </div>
+              </div>
+              <div class="row col-md-12">
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">GSTIN No.#</label>
+                  <input type="text" placeholder="GSTIN No." formControlName="GSTIN" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="20">
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">License No.#</label>
+                  <input type="text" placeholder="License No." formControlName="LicenseNo" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="25">
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">PAN No.#</label>
+                  <input type="text" placeholder="PAN No." formControlName="PANNum" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="20">
+                </div>
+              </div>
+              <div class="col-md-12 row">
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">Legan Entity</label>
+                  <input type="text" placeholder="Legan Entity" formControlName="LegalEntity" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250"
+                  [ngClass]="{'error-field': submitted && f.LegalEntity.errors !== null && f.LegalEntity.errors.required}">
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">Website</label>
+                  <input type="text" placeholder="Website" formControlName="Website" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="150">
+                </div>
+              </div>
+              <div class="col-12 row mt-4">
+                <div class="col-md-6">
+                  <div class="x_panel">
+                    <div class="x_header">
+                      <div class="x_header_title">
+                        <h2>Bank Detail<small>Bank related detail for transaction.</small></h2>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mb-3 mb-3 row">
+                      <div class="col-md-12">
+                        <label class="form-label">Bank Name</label>
+                        <input placeholder="Bank name" formControlName="BankName" class="form-control"oninput="this.value = this.value.toUpperCase()" maxlength="40"
+                          [ngClass]="{'error-field': submitted && f.BankName.errors !== null && f.BankName.errors.required}"
+                           onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"/>
+                      </div>
+                      <div class="col-md-12 mt-4">
+                        <label class="form-label">Account No.#</label>
+                        <input placeholder="Account No.#" formControlName="AccountNo" class="form-control" OnlyNumber="30"
+                        onkeypress="return event.charCode >=48 && event.charCode <=57" [ngClass]="{'error-field': submitted && f.AccountNo.errors !== null && f.AccountNo.errors.required}"/>
+                      </div>
+                      <div class="col-md-12 mt-4">
+                        <label class="form-label">IFSC Code</label>
+                        <input placeholder="IFSC Code" formControlName="IFSC" class="form-control"onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"
+                          oninput="this.value = this.value.toUpperCase()"  maxlength="11"  [ngClass]="{'error-field': submitted && f.IFSC.errors !== null && f.IFSC.errors.required}"/>
+                      </div>
+                      <div class="col-md-12 mt-4">
+                        <label class="form-label">Branch Name (Optional)</label>
+                        <input placeholder="Branch name" formControlName="Branch" class="form-control"  oninput="this.value = this.value.toUpperCase()" maxlength="40"
+                           onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-            <!-- Employee Register or Update message modal -->
-            <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="p-2 modal-content">
-                  <div class="modal-body text-dark d-flex align-items-center mb-0 pb-0">
-                    <div class="wrapper-checkmark me-3">
-                      <svg class="checkmark-register" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                      </svg>
+                <div class="col-md-6">
+                  <div class="x_panel">
+                    <div class="x_header">
+                      <div class="x_header_title">
+                        <h2>Client Other Detail<small> Other detail like Address, State etc.</small></h2>
+                      </div>
                     </div>
-                    Congratulation!! client detail registered/ updated successfully!
-                  </div>
-                  <div class="modal-footer mt-0 pt-0 border-top-0">
-                    <a href="javascript:void(0)" class="text-decoration-none text-dark fw-bold" (click)="gotoClientPage()">OK</a>
+                    <div class="col-md-12 mb-3 mb-3 row">
+                      <div class="col-md-12">
+                        <label class="form-label">Description </label>
+                        <textarea placeholder="Decription" formControlName="Description" rows="3" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="700"></textarea>
+                      </div>
+                      <div class="col-md-6 mt-4">
+                        <label class="form-label">Country Code</label>
+                        <input type="text" placeholder="Country Code" formControlName="CountryCode" readonly class="form-control">
+                      </div>
+                      <div class="col-md-6 mt-4">
+                        <label class="form-label">State *</label>
+                        <input placeholder="State" class="form-control" formControlName="State" maxlength="50" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()"
+                        [ngClass]="{'error-field': submitted && f.State.errors !== null && f.State.errors.required}"/>
+                      </div>
+                      <div class="col-md-6 mt-4">
+                        <label class="form-label">City *</label>
+                        <input placeholder="City" class="form-control" formControlName="City" maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()"
+                        [ngClass]="{'error-field': submitted && f.City.errors !== null && f.City.errors.required}"/>
+                      </div>
+                      <div class="col-md-6 mt-4">
+                        <label class="form-label">Pincode *</label>
+                        <input placeholder="Pincode" type="number" formControlName="Pincode" class="form-control" OnlyNumber="6" maxlength="6" [ngClass]="{'error-field': submitted && f.Pincode.errors !== null && f.Pincode.errors.required}"/>
+                      </div>
+                      <div class="col-md-12 mt-4">
+                        <label class="form-label">Address *</label>
+                        <textarea placeholder="Address Line" formControlName="Address" class="form-control" oninput="this.value = this.value.toUpperCase()" [ngClass]="{'error-field': submitted && f.Address.errors !== null && f.Address.errors.required}"
+                           maxlength="500"></textarea>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- End -->
+              <div class="col-md-12 text-end">
+                <button class="btn btn-danger" (click)="reset()">
+                  <i class="fa-solid fa-ban"></i>
+                  Reset</button>
+                <button class="btn btn-custom-pink ms-3" [disabled]="isLoading" (click)="addClientDetail()">
+                  <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
+                  {{ isLoading ? 'Processing' : 'Submit' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Employee Register or Update message modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="p-2 modal-content">
+      <div class="modal-body text-dark d-flex align-items-center mb-0 pb-0">
+        <div class="wrapper-checkmark me-3">
+          <svg class="checkmark-register" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+        Congratulation!! client detail registered/ updated successfully!
+      </div>
+      <div class="modal-footer mt-0 pt-0 border-top-0">
+        <a href="javascript:void(0)" class="text-decoration-none text-dark fw-bold" (click)="gotoClientPage()">OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End -->

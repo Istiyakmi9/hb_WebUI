@@ -23,10 +23,7 @@ export class NavbarComponent implements OnInit {
   constructor (private http: AjaxService,
               private jwtService: JwtService,
               private nav:iNavigation,
-              private fb: FormBuilder) {
-
-                
-              }
+              private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.initSignUpForm();

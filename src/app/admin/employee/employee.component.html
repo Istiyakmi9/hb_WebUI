@@ -1,18 +1,18 @@
 <div class="main-container" [ngClass]="{'preload': !isEmployeeFound}">
-  <div class="col-md-12">
-    <div class="col-12 u-header shadow curren-bg row m-0 my-3 align-items-center">
-      <div class="col-md-3">
-        <div class="d-inline-block c-tab" id="employee-tab">
-          <a class="a-tab tab-active" (click)="SwitchTab($event, 1)">
-            Active
-          </a>
+    <div class="col-md-12">
+      <div class="col-12 u-header shadow curren-bg row m-0 my-3 align-items-center">
+        <div class="col-md-3">
+          <div class="d-inline-block c-tab" id="employee-tab">
+            <a class="a-tab tab-active" (click)="SwitchTab($event, 1)">
+              Active
+            </a>
+          </div>
         </div>
-      </div>
-      <div class="col-md-7 row m-0">
-        <div class="col-md-10">
-          <input type="text" class="form-control form-control-sm" (keydown.esc)="resetFilter()"
-            (keyup.enter)="globalFilter()" placeholder="Search by any: (First Name, Mobile No, Email, City and Country)"
-            [(ngModel)]="anyFilter">
+        <div class="col-md-7 row m-0">
+          <div class="col-md-10">
+            <input type="text" class="form-control form-control-sm" (keydown.esc)="resetFilter()"
+              (keyup.enter)="globalFilter()" placeholder="Search by any: (First Name, Mobile No, Email, City and Country)"
+              [(ngModel)]="anyFilter">
           </div>
           <div class="col-md-2">
             <button class="btn btn-custom-pink" (click)="globalFilter()"
@@ -24,12 +24,12 @@
             </button>
           </div>
         </div>
-
+  
         <div class="col-md-2 inline-row d-r p-0 m-0">
           <div class="">
             <button class="btn btn-custom-pink" (click)="navtoRegisterEmployee()"
               routerLinkActive="router-link-active"> <i class="fa-regular fa-square-plus ps-2" aria-hidden="true"></i>Add
-            Employee</button>
+              Employee</button>
           </div>
         </div>
       </div>
@@ -43,168 +43,160 @@
             </div>
           </div>
         </div>
-        <div>
-          @switch (isEmployeeFound) {
-            @case (false) {
-              <div>
-                <div class="mt-5">
-                  <app-pre-load-table></app-pre-load-table>
-                </div>
-              </div>
-            }
-            @default {
-              <div>
-                <ng-container>
-                  <div class="x_content">
-                    <div class="t-table t-list col-md-12">
-                      <div class="t-head">
-                        <div class="tr">
-                          <div class="th fe-index">
-                            <div class="t-filter t-index">
-                              <a href="javascript:void()" class="ps-3">#</a>
-                            </div>
-                          </div>
-                          <div class="th fe-3">
-                            <div class="cell-wrapper">
-                              <input class="form-control form-control-sm" (keydown.esc)="resetFilter()"
-                                (keyup.enter)="filterRecords()" [(ngModel)]="employeeDetails.firstName"
-                                placeholder="Search by First Name">
-                                <div class="t-filter" (click)="arrangeDetails(orderByFirstNameAsc, 'firstName')">
-                                  <a href="javascript:void()" class="pe-2">First Name</a>
-                                  <i class="fa-solid fa-arrow-down-wide-short"
-                                  [ngClass]="{'d-none': orderByFirstNameAsc == null || !orderByFirstNameAsc }" aria-hidden="true"></i>
-                                  <i class="fa-solid fa-arrow-down-short-wide"
-                                  [ngClass]="{'d-none': orderByFirstNameAsc == null || orderByFirstNameAsc }" aria-hidden="true"></i>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="th fe-2">
-                              <div class="cell-wrapper">
-                                <input class="form-control form-control-sm" (keyup.enter)="filterRecords()"
-                                  (keydown.esc)="resetFilter()" [(ngModel)]="employeeDetails.email" placeholder="Search by Email">
-                                  <div class="t-filter" (click)="arrangeDetails(orderByEmailAsc, 'email')">
-                                    <a href="javascript:void()" class="pe-2">Email</a>
-                                    <i class="fa-solid fa-arrow-down-wide-short"
-                                    [ngClass]="{'d-none': orderByEmailAsc == null || !orderByEmailAsc }" aria-hidden="true"></i>
-                                    <i class="fa-solid fa-arrow-down-short-wide"
-                                    [ngClass]="{'d-none': orderByEmailAsc == null || orderByEmailAsc }" aria-hidden="true"></i>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="th fe-2">
-                                <div class="cell-wrapper">
-                                  <input class="form-control form-control-sm" (keyup.enter)="filterRecords()"
-                                    (keydown.esc)="resetFilter()" [(ngModel)]="employeeDetails.mobile"
-                                    placeholder="Search by Mobile">
-                                    <div class="t-filter" (click)="arrangeDetails(orderByMobileAsc, 'mobile')">
-                                      <a href="javascript:void()" class="pe-2">Mobile No.#</a>
-                                      <i class="fa-solid fa-arrow-down-wide-short"
-                                        [ngClass]="{'d-none': orderByMobileAsc == null || !orderByMobileAsc }"
-                                      aria-hidden="true"></i>
-                                      <i class="fa-solid fa-arrow-down-short-wide"
-                                        [ngClass]="{'d-none': orderByMobileAsc == null || orderByMobileAsc }"
-                                      aria-hidden="true"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="th fe-2">
-                                  <div class="cell-wrapper">
-                                    <input class="form-control form-control-sm" (keyup.enter)="filterRecords()"
-                                      (keydown.esc)="resetFilter()" [(ngModel)]="employeeDetails.city" placeholder="Search by City">
-                                      <div class="t-filter" (click)="arrangeDetails(orderByCityAsc, 'city')">
-                                        <a href="javascript:void()" class="pe-2">City</a>
-                                        <i class="fa-solid fa-arrow-down-wide-short"
-                                        [ngClass]="{'d-none': orderByCityAsc == null || !orderByCityAsc }" aria-hidden="true"></i>
-                                        <i class="fa-solid fa-arrow-down-short-wide"
-                                        [ngClass]="{'d-none': orderByCityAsc == null || orderByCityAsc }" aria-hidden="true"></i>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="th fe-2">
-                                    <div class="cell-wrapper">
-                                      <input class="form-control form-control-sm" (keyup.enter)="filterRecords()"
-                                        (keydown.esc)="resetFilter()" [(ngModel)]="employeeDetails.country" placeholder="Search by Country">
-                                        <div class="t-filter" (click)="arrangeDetails(orderByCountryAsc, 'country')">
-                                          <a href="javascript:void()" class="pe-2">Country</a>
-                                          <i class="fa-solid fa-arrow-down-wide-short"
-                                          [ngClass]="{'d-none': orderByCountryAsc == null || !orderByCountryAsc }" aria-hidden="true"></i>
-                                          <i class="fa-solid fa-arrow-down-short-wide"
-                                          [ngClass]="{'d-none': orderByCountryAsc == null || orderByCountryAsc }" aria-hidden="true"></i>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="th fe-1 text-center">
-                                      <a href="javascript:void(0)" class="text-decoration-none text-success ps-1 fw-bold" (click)="filterRecords()">
-                                        <i class="fa-solid fa-filter">
-                                        </i>
-                                        <span class="ms-1">Filter</span>
-                                      </a>
-                                      <div class="t-filter d-block text-center">
-                                        <a href="javascript:void(0)">ACTIONS</a>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="t-body">
-                                  @if (employees.length > 0) {
-                                    @for (employees of employees; track employees; let i = $index) {
-                                      <div class="tr py-2">
-                                        <div class="td align-middle text-center fe-index">{{i+1}}</div>
-                                        <div class="td align-middle fe-3">
-                                          <div class="cell-wrapper">
-                                            <a href="javascript:void(0)" (click)="EditCurrent(employees)" class="employee-name-link">
-                                              {{employees.firstName}}
-                                            </a>
-                                          </div>
-                                        </div>
-                                        <div class="td align-middle fe-2">
-                                          <div class="cell-wrapper">
-                                            {{employees.mobile}}
-                                          </div>
-                                        </div>
-                                        <div class="td align-middle fe-2">
-                                          <div class="cell-wrapper">
-                                            {{employees.email}}
-                                          </div>
-                                        </div>
-                                        <div class="td align-middle fe-2">
-                                          <div class="cell-wrapper">
-                                            {{employees.city}}
-                                          </div>
-                                        </div>
-                                        <div class="td align-middle fe-2">
-                                          <div class="cell-wrapper">
-                                            {{employees.country}}
-                                          </div>
-                                        </div>
-                                        <div class="td align-middle fe-1">
-                                          <div class=" d-flex flex-row justify-content-evenly">
-                                            <a href="javascript:void(0)">
-                                              <span class="badge bg-success"><i class="fa-regular fa-pen-to-square" aria-hidden="true"
-                                              (click)="EditCurrent(employees)"></i></span>
-                                            </a>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    }
-                                  }
-                                </div>
-                                @if (employees.length == 0) {
-                                  <div class="custom-height my-5 py-5 d-flex align-items-center justify-content-center">
-                                    <p class="my-5 py-5 text-danger fs-2 fw-bold">Record Not Found</p>
-                                  </div>
-                                }
-                              </div>
-                            </div>
-                            <div class="mt-3">
-                              <app-pagination [pagination]="employeeData" (onPageChange)="GetFilterResult($event)"></app-pagination>
-                            </div>
-                          </ng-container>
-                        </div>
-                      }
-                    }
-                  </div>
-                </div>
-              </div>
+        <div [ngSwitch]="isEmployeeFound">
+          <div *ngSwitchCase="false">
+            <div class="mt-5">
+              <app-pre-load-table></app-pre-load-table>
             </div>
-
+          </div>
+          <div *ngSwitchDefault>
+            <ng-container>
+              <div class="x_content">
+                <div class="t-table t-list col-md-12">
+                  <div class="t-head">
+                    <div class="tr">
+                      <div class="th fe-index">
+                        <div class="t-filter t-index">
+                          <a href="javascript:void()" class="ps-3">#</a>
+                        </div>
+                      </div>
+                      <div class="th fe-3">
+                        <div class="cell-wrapper">
+                          <input class="form-control form-control-sm" (keydown.esc)="resetFilter()"
+                            (keyup.enter)="filterRecords()" [(ngModel)]="employeeDetails.firstName"
+                            placeholder="Search by First Name">
+                          <div class="t-filter" (click)="arrangeDetails(orderByFirstNameAsc, 'firstName')">
+                            <a href="javascript:void()" class="pe-2">First Name</a>
+                            <i class="fa-solid fa-arrow-down-wide-short"
+                              [ngClass]="{'d-none': orderByFirstNameAsc == null || !orderByFirstNameAsc }" aria-hidden="true"></i>
+                            <i class="fa-solid fa-arrow-down-short-wide"
+                              [ngClass]="{'d-none': orderByFirstNameAsc == null || orderByFirstNameAsc }" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="th fe-2">
+                        <div class="cell-wrapper">
+                          <input class="form-control form-control-sm" (keyup.enter)="filterRecords()"
+                            (keydown.esc)="resetFilter()" [(ngModel)]="employeeDetails.email" placeholder="Search by Email">
+                          <div class="t-filter" (click)="arrangeDetails(orderByEmailAsc, 'email')">
+                            <a href="javascript:void()" class="pe-2">Email</a>
+                            <i class="fa-solid fa-arrow-down-wide-short"
+                              [ngClass]="{'d-none': orderByEmailAsc == null || !orderByEmailAsc }" aria-hidden="true"></i>
+                            <i class="fa-solid fa-arrow-down-short-wide"
+                              [ngClass]="{'d-none': orderByEmailAsc == null || orderByEmailAsc }" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="th fe-2">
+                        <div class="cell-wrapper">
+                          <input class="form-control form-control-sm" (keyup.enter)="filterRecords()"
+                            (keydown.esc)="resetFilter()" [(ngModel)]="employeeDetails.mobile"
+                            placeholder="Search by Mobile">
+                          <div class="t-filter" (click)="arrangeDetails(orderByMobileAsc, 'mobile')">
+                            <a href="javascript:void()" class="pe-2">Mobile No.#</a>
+                            <i class="fa-solid fa-arrow-down-wide-short"
+                              [ngClass]="{'d-none': orderByMobileAsc == null || !orderByMobileAsc }"
+                              aria-hidden="true"></i>
+                            <i class="fa-solid fa-arrow-down-short-wide"
+                              [ngClass]="{'d-none': orderByMobileAsc == null || orderByMobileAsc }"
+                              aria-hidden="true"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="th fe-2">
+                        <div class="cell-wrapper">
+                          <input class="form-control form-control-sm" (keyup.enter)="filterRecords()"
+                            (keydown.esc)="resetFilter()" [(ngModel)]="employeeDetails.city" placeholder="Search by City">
+                          <div class="t-filter" (click)="arrangeDetails(orderByCityAsc, 'city')">
+                            <a href="javascript:void()" class="pe-2">City</a>
+                            <i class="fa-solid fa-arrow-down-wide-short"
+                              [ngClass]="{'d-none': orderByCityAsc == null || !orderByCityAsc }" aria-hidden="true"></i>
+                            <i class="fa-solid fa-arrow-down-short-wide"
+                              [ngClass]="{'d-none': orderByCityAsc == null || orderByCityAsc }" aria-hidden="true"></i>
+                          </div>
+                         </div>
+                        </div>
+                        <div class="th fe-2">
+                            <div class="cell-wrapper">
+                              <input class="form-control form-control-sm" (keyup.enter)="filterRecords()"
+                                (keydown.esc)="resetFilter()" [(ngModel)]="employeeDetails.country" placeholder="Search by Country">
+                              <div class="t-filter" (click)="arrangeDetails(orderByCountryAsc, 'country')">
+                                <a href="javascript:void()" class="pe-2">Country</a>
+                                <i class="fa-solid fa-arrow-down-wide-short"
+                                  [ngClass]="{'d-none': orderByCountryAsc == null || !orderByCountryAsc }" aria-hidden="true"></i>
+                                <i class="fa-solid fa-arrow-down-short-wide"
+                                  [ngClass]="{'d-none': orderByCountryAsc == null || orderByCountryAsc }" aria-hidden="true"></i>
+                              </div>
+                             </div>
+                            </div>
+                      <div class="th fe-1 text-center">
+                        <a href="javascript:void(0)" class="text-decoration-none text-success ps-1 fw-bold" (click)="filterRecords()">
+                          <i class="fa-solid fa-filter">
+                          </i>
+                          <span class="ms-1">Filter</span>
+                        </a>
+                        <div class="t-filter d-block text-center">
+                          <a href="javascript:void(0)">ACTIONS</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="t-body">
+                    <ng-container *ngIf="employees.length > 0">
+                      <div class="tr py-2" *ngFor="let employees of employees; let i = index;">
+                        <div class="td align-middle text-center fe-index">{{i+1}}</div>
+                        <div class="td align-middle fe-3">
+                          <div class="cell-wrapper">
+                            <a href="javascript:void(0)" (click)="EditCurrent(employees)" class="employee-name-link">
+                              {{employees.firstName}}
+                            </a>
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{employees.mobile}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{employees.email}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{employees.city}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{employees.country}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-1">
+                          <div class=" d-flex flex-row justify-content-evenly">
+                            <a href="javascript:void(0)">
+                              <span class="badge bg-success"><i class="fa-regular fa-pen-to-square" aria-hidden="true"
+                                  (click)="EditCurrent(employees)"></i></span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <ng-container *ngIf="employees.length == 0">
+                    <div class="custom-height my-5 py-5 d-flex align-items-center justify-content-center">
+                      <p class="my-5 py-5 text-danger fs-2 fw-bold">Record Not Found</p>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="mt-3">
+                <app-pagination [pagination]="employeeData" (onPageChange)="GetFilterResult($event)"></app-pagination>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  
