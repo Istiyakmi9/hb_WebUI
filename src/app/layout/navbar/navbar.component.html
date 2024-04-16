@@ -34,16 +34,18 @@
           <ul class="dropdown-menu dropdown-menu-end text-center">
             <li>
               <img src="assets/face.jpg" alt="" class="img-xl rounded rounded-circle">
-              <p class="mb-0" *ngIf="userName != null">{{userName}}</p>
+              @if (userName != null) {
+                <p class="mb-0">{{userName}}</p>
+              }
             </li>
             <hr>
-            <li><a class="dropdown-item" href="javascript:void(0)">Manage Account</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0)">Change Password</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0)" (click)="LogoutUser()">Log Out</a></li>
-          </ul>
+              <li><a class="dropdown-item" href="javascript:void(0)">Manage Account</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)">Change Password</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)" (click)="LogoutUser()">Log Out</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 

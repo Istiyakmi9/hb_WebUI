@@ -1,332 +1,335 @@
 <div class="col-12 full-v main-container">
-    <div class="col-12 row p-0 m-0">
-      <div class="right-panel container col-md-12 p-0">
-        <div class="x_panel mt-2">
-          <div class="x_header">
-            <div class="d-flex justify-content-between">
-              <div class="col-8">
-                <div class="px-1">
-                  <app-breadcrums [title]="'Employee'" [subtitle]="'Details'"></app-breadcrums>
-                </div>
+  <div class="col-12 row p-0 m-0">
+    <div class="right-panel container col-md-12 p-0">
+      <div class="x_panel mt-2">
+        <div class="x_header">
+          <div class="d-flex justify-content-between">
+            <div class="col-8">
+              <div class="px-1">
+                <app-breadcrums [title]="'Employee'" [subtitle]="'Details'"></app-breadcrums>
               </div>
             </div>
           </div>
-          <ng-container *ngIf="isReady">
-            <div class="x_content">
-             <form [formGroup]="employeeForm">
-                <div class="col-12 row">
-                    <div class="col-md-4 mt-3">
-                      <label class="form-label">First Name</label>
-                      <input type="text" formControlName="FirstName" placeholder="First Name" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250"
-                      [ngClass]="{'error-field': submitted && f.firstName.errors !== null && f.firstName.errors.required}">
-                    </div>
-                    <div class="col-md-4 mt-3">
-                      <label class="form-label">Last Name</label>
-                      <input type="text" formControlName="LastName" placeholder="Last Name" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250"
+        </div>
+        @if (isReady) {
+          <div class="x_content">
+            <form [formGroup]="employeeForm">
+              <div class="col-12 row">
+                <div class="col-md-4 mt-3">
+                  <label class="form-label">First Name</label>
+                  <input type="text" formControlName="FirstName" placeholder="First Name" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250"
+                    [ngClass]="{'error-field': submitted && f.firstName.errors !== null && f.firstName.errors.required}">
+                  </div>
+                  <div class="col-md-4 mt-3">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" formControlName="LastName" placeholder="Last Name" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250"
                       [ngClass]="{'error-field': submitted && f.lastName.errors !== null && f.lastName.errors.required}">
                     </div>
                     <div class="col-md-4 mt-3">
                       <label class="form-label">Email</label>
                       <input type="email" placeholder="Email" formControlName="Email" class="form-control" maxlength="75"
-                      [ngClass]="{'error-field': submitted && f.email.errors !== null && f.email.errors.required}">
-                    </div>
-                </div>
-                <div class="row col-md-12">
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label">Mobile</label>
-                    <input type="text" placeholder="Mobile" formControlName="Mobile" class="form-control" maxlength="75"
-                    [ngClass]="{'error-field': submitted && f.mobile.errors !== null && f.mobile.required}">
-                  </div>
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label">Alternate Mobile</label>
-                    <input type="text" placeholder="Alternate Number" formControlName="AlternateNumber" class="form-control" maxlength="75"
-                    [ngClass]="{'error-field': submitted && f.alternateNumber.errors !== null && f.alternateNumber.required}">
-                  </div>
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label">Role</label>
-                    <select class="form-select" formControlName="RoleId">
-                      <option value="1">Admin</option>
-                      <option value="2">Employee</option>
-                      <option value="3">Client</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row col-md-12">
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label">Designation</label>
-                    <select class="form-select" formControlName="DesignationId">
-                      <option value="1">Engineer</option>
-                      <option value="2">Jr. Engineer</option>
-                      <option value="3">Supervisor</option>
-                      <option value="4">Helper</option>
-                      <option value="5">Labour</option>
-                    </select>
-                  </div>
-                  <div class="col-md-4 mt-3">
-                    <label class="form-label">Reportee</label>
-                    <select class="form-select" formControlName="ReporteeId">
-                      <option value="1">Khalid</option>
-                      <option value="2">Junaid</option>
-                      <option value="3">Sameer</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-12 row m-0 mt-5">
-                  <div class="col-md-6">
-                    <div class="x_panel">
-                      <div class="x_header">
-                        <div class="x_header_title">
-                          <h2>Personal Detail<small>Fill employee personal details</small></h2>
-                        </div>
-                      </div>
-                      <div class="col-md-12 mb-3 row m-0 p-3 pb-1">
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Father Name *</label>
-                          <input class="form-control" placeholder="Father Name" name="FatherName" transform="" oninput="this.value = this.value.toUpperCase()" maxlength="40"
-                          [ngClass]="{'error-field': submitted && f.fatherName.errors !== null && f.fatherName.errors.required}" formControlName="FatherName"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Mother Name</label>
-                          <input class="form-control" placeholder="Mother Name" name="motherName" transform="" oninput="this.value = this.value.toUpperCase()" maxlength="40"
-                            formControlName="MotherName" />
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Country</label>
-                          <input class="form-control" placeholder="Country" name="country" oninput="this.value = this.value.toUpperCase()" maxlength="40"
-                            formControlName="Country"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">State</label>
-                          <input class="form-control" placeholder="State" name="state" formControlName="State" oninput="this.value = this.value.toUpperCase()" maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">City</label>
-                          <input class="form-control" placeholder="City" name="city" formControlName="City" oninput="this.value = this.value.toUpperCase()" maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Pincode</label>
-                          <input class="form-control" placeholder="Pincode" OnlyNumber="6" name="PinCode" onkeypress="return event.charCode >=48 && event.charCode <=57"
-                            formControlName="PinCode" />
-                        </div>
-                        <div class="col-md-12 mb-3">
-                          <label class="form-label">Address</label>
-                          <textarea rows="5" class="form-control address-box" placeholder="Address" name="address" oninput="this.value = this.value.toUpperCase()" [rows]="3"
-                            formControlName="Address" maxlength="100"></textarea>
-                        </div>
+                        [ngClass]="{'error-field': submitted && f.email.errors !== null && f.email.errors.required}">
                       </div>
                     </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="x_panel">
-                      <div class="x_header">
-                        <div class="x_header_title">
-                          <h2>Account Detail<small>Fill employee account details</small></h2>
+                    <div class="row col-md-12">
+                      <div class="col-md-4 mt-3">
+                        <label class="form-label">Mobile</label>
+                        <input type="text" placeholder="Mobile" formControlName="Mobile" class="form-control" maxlength="75"
+                          [ngClass]="{'error-field': submitted && f.mobile.errors !== null && f.mobile.required}">
                         </div>
-                      </div>
-                      <div class="col-md-12 mb-3 row m-0 p-3 pb-1">
-                        <div class="col-md-12 mb-3">
-                          <label class="form-label">Bank Account No.# *</label>
-                          <input class="form-control" placeholder="Bank Account No.#" name="accountNo" OnlyNumber="34" onkeypress="return event.charCode >=48 && event.charCode <=57"
-                            [ngClass]="{'error-field': submitted && f.accountNo.errors !== null && f.accountNo.errors.required}" formControlName="AccountNo" />
+                        <div class="col-md-4 mt-3">
+                          <label class="form-label">Alternate Mobile</label>
+                          <input type="text" placeholder="Alternate Number" formControlName="AlternateNumber" class="form-control" maxlength="75"
+                            [ngClass]="{'error-field': submitted && f.alternateNumber.errors !== null && f.alternateNumber.required}">
+                          </div>
+                          <div class="col-md-4 mt-3">
+                            <label class="form-label">Role</label>
+                            <select class="form-select" formControlName="RoleId">
+                              <option value="1">Admin</option>
+                              <option value="2">Employee</option>
+                              <option value="3">Client</option>
+                            </select>
+                          </div>
                         </div>
-                        <div class="col-md-12 mb-3">
-                          <label class="form-label">Bank Name *</label>
-                          <input class="form-control" placeholder="Bank Name" name="bankName" transform="" oninput="this.value = this.value.toUpperCase()" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"
-                            [ngClass]="{'error-field': submitted && f.bankName.errors !== null && f.bankName.errors.required}" formControlName="BankName" maxlength="40"/>
+                        <div class="row col-md-12">
+                          <div class="col-md-4 mt-3">
+                            <label class="form-label">Designation</label>
+                            <select class="form-select" formControlName="DesignationId">
+                              <option value="1">Engineer</option>
+                              <option value="2">Jr. Engineer</option>
+                              <option value="3">Supervisor</option>
+                              <option value="4">Helper</option>
+                              <option value="5">Labour</option>
+                            </select>
+                          </div>
+                          <div class="col-md-4 mt-3">
+                            <label class="form-label">Reportee</label>
+                            <select class="form-select" formControlName="ReporteeId">
+                              <option value="1">Khalid</option>
+                              <option value="2">Junaid</option>
+                              <option value="3">Sameer</option>
+                            </select>
+                          </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">IFSC Code *</label>
-                          <input class="form-control" placeholder="IFSC Code" name="ifscCode" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"
-                            [ngClass]="{'error-field': submitted && f.ifscCode.errors !== null && f.ifscCode.errors.required}" oninput="this.value = this.value.toUpperCase()" formControlName="IfscCode" maxlength="11"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Branch (Optional)</label>
-                          <input class="form-control" placeholder="Branch name" name="branch" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"
-                            oninput="this.value = this.value.toUpperCase()" formControlName="Branch" maxlength="40"/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 row m-0 mt-3 px-3">
-                  <div class="col-md-6">
-                    <div class="x_panel x-panel-changed">
-                      <div class="x_header">
-                        <div class="x_header_title">
-                          <h2>Professional Detail <small>Fill employee professional details</small></h2>
-                        </div>
-                      </div>
-                      <div class="col-md-12 mb-3 row m-0 p-3 pb-1">
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">PAN No. # *</label>
-                          <input class="form-control" placeholder="PAN card no.#" name="pan" [ngClass]="{'error-field': submitted && f.pAN.errors !== null && f.pAN.errors.required}" maxlength="10"
-                            oninput="this.value = this.value.toUpperCase()" formControlName="Pan" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Aadhar No. #</label>
-                          <input class="form-control" placeholder="Aadhar No. #" name="aadhar" OnlyNumber="16" formControlName="Aadhar" onkeypress="return event.charCode >=48 && event.charCode <=57"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Passport No. # *</label>
-                          <input class="form-control" placeholder="Passport no.#" name="passportNumber" [ngClass]="{'error-field': submitted && f.passportNumber.errors !== null && f.passportNumber.errors.required}" maxlength="25"
-                            oninput="this.value = this.value.toUpperCase()" formControlName="PassportNumber" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Work Exprience in Month</label>
-                          <input class="form-control" placeholder="Month's of Exprience" OnlyNumber="3" onkeypress="return event.charCode >=48 && event.charCode <=57"
-                            name="experienceInMonths" formControlName="ExperienceInMonths"  [ngClass]="{'error-field': submitted && f.experienceInMonths.errors !== null && f.experienceInMonths.errors.required}"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Last Working Date</label>
-                          <form class="form-inline">
-                            <div class="form-group w-100">
-                              <div class="input-group inline-calendar w-100">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="lastWorkingDate" [minDate]="{year: 1970, month:1, day: 1}" [maxDate]="{year: 2050, month:1, day: 19}"
-                                  [(ngModel)]="lastWorkingDatemodel" (dateSelect)="onLastWorkingDateSelection($event)" ngbDatepicker
-                                  #lastWorkingDate="ngbDatepicker">
-                                <div class="input-group-append">
-                                  <button class="btn calendar" (click)="lastWorkingDate.toggle()"
-                                    type="button"><i class="fa-regular fa-calendar-days fa-lg" aria-hidden="true"></i>
-                                  </button>
+                        <div class="col-12 row m-0 mt-5">
+                          <div class="col-md-6">
+                            <div class="x_panel">
+                              <div class="x_header">
+                                <div class="x_header_title">
+                                  <h2>Personal Detail<small>Fill employee personal details</small></h2>
                                 </div>
                               </div>
-                            </div>
-                          </form>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Job Type</label>
-                          <input class="form-control" placeholder="Job Type" name="jobTypeId" transform=""
-                            [ngClass]="{'error-field': submitted && f.jobTypeId.errors !== null && f.jobTypeId.errors.required}" formControlName="JobTypeId" maxlength="40"/>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                          <label class="form-label">Last Company Name</label>
-                          <input class="form-control" placeholder="Last Company Name" name="lastCompanyName" transform="" oninput="this.value = this.value.toUpperCase()" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"
-                            [ngClass]="{'error-field': submitted && f.lastCompanyName.errors !== null && f.lastCompanyName.errors.required}" formControlName="LastCompanyName" maxlength="40"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Designation</label>
-                          <input class="form-control" placeholder="Designation" name="designation" transform="" oninput="this.value = this.value.toUpperCase()" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"
-                            [ngClass]="{'error-field': submitted && f.designation.errors !== null && f.designation.errors.required}" formControlName="Designation" maxlength="40"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Salary</label>
-                          <input class="form-control" placeholder="Salary" name="salary" OnlyNumber="15" onkeypress="return event.charCode >=48 && event.charCode <=57"
-                            [ngClass]="{'error-field': submitted && f.salary.errors !== null && f.salary.errors.required}" formControlName="Salary" maxlength="40"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Expected Salary</label>
-                          <input class="form-control" placeholder="Expected Salary" name="expectedSalary" OnlyNumber="15" onkeypress="return event.charCode >=48 && event.charCode <=57"
-                            [ngClass]="{'error-field': submitted && f.expectedSalary.errors !== null && f.expectedSalary.errors.required}" formControlName="ExpectedSalary" maxlength="40"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Expected Designation</label>
-                          <input class="form-control" placeholder="Expected Designation" name="expectedDesignation" transform="" oninput="this.value = this.value.toUpperCase()" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"
-                            [ngClass]="{'error-field': submitted && f.expectedDesignation.errors !== null && f.expectedDesignation.errors.required}" formControlName="ExpectedDesignation" maxlength="40"/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="x_panel x-panel-changed">
-                      <div class="x_header">
-                        <div class="x_header_title">
-                          <h2>Medical Detail <small>Fill employee medical details</small></h2>
-                        </div>
-                      </div>
-                      <div class="col-md-12 mb-3 row m-0 p-3 pb-1">
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Consulted By</label>
-                          <input class="form-control" placeholder="Consulted By" name="consultedBy" [ngClass]="{'error-field': submitted && f.consultedBy.errors !== null && f.consultedBy.errors.required}"
-                            oninput="this.value = this.value.toUpperCase()" formControlName="ConsultedBy" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Medical Consultancy</label>
-                          <select class="form-select" formControlName="MedicalConsultancyId">
-                            <option value="1">Fortis</option>
-                            <option value="2">Appolo</option>
-                            <option value="3">Westin Hospital</option>
-                          </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Consulted On</label>
-                          <form class="form-inline">
-                            <div class="form-group w-100">
-                              <div class="input-group inline-calendar w-100">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="consultedOn" [minDate]="{year: 1970, month:1, day: 1}" [maxDate]="{year: 2050, month:1, day: 19}"
-                                  [(ngModel)]="lastWorkingDatemodel" (dateSelect)="consultedOnSelection($event)" ngbDatepicker
-                                  #lastWorkingDate="ngbDatepicker">
-                                <div class="input-group-append">
-                                  <button class="btn calendar" (click)="consultedOn.toggle()"
-                                    type="button"><i class="fa-regular fa-calendar-days fa-lg" aria-hidden="true"></i>
-                                  </button>
+                              <div class="col-md-12 mb-3 row m-0 p-3 pb-1">
+                                <div class="col-md-6 mb-3">
+                                  <label class="form-label">Father Name *</label>
+                                  <input class="form-control" placeholder="Father Name" name="FatherName" transform="" oninput="this.value = this.value.toUpperCase()" maxlength="40"
+                                    [ngClass]="{'error-field': submitted && f.fatherName.errors !== null && f.fatherName.errors.required}" formControlName="FatherName"/>
+                                  </div>
+                                  <div class="col-md-6 mb-3">
+                                    <label class="form-label">Mother Name</label>
+                                    <input class="form-control" placeholder="Mother Name" name="motherName" transform="" oninput="this.value = this.value.toUpperCase()" maxlength="40"
+                                      formControlName="MotherName" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                      <label class="form-label">Country</label>
+                                      <input class="form-control" placeholder="Country" name="country" oninput="this.value = this.value.toUpperCase()" maxlength="40"
+                                        formControlName="Country"/>
+                                      </div>
+                                      <div class="col-md-6 mb-3">
+                                        <label class="form-label">State</label>
+                                        <input class="form-control" placeholder="State" name="state" formControlName="State" oninput="this.value = this.value.toUpperCase()" maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"/>
+                                      </div>
+                                      <div class="col-md-6 mb-3">
+                                        <label class="form-label">City</label>
+                                        <input class="form-control" placeholder="City" name="city" formControlName="City" oninput="this.value = this.value.toUpperCase()" maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"/>
+                                      </div>
+                                      <div class="col-md-6 mb-3">
+                                        <label class="form-label">Pincode</label>
+                                        <input class="form-control" placeholder="Pincode" OnlyNumber="6" name="PinCode" onkeypress="return event.charCode >=48 && event.charCode <=57"
+                                        formControlName="PinCode" />
+                                      </div>
+                                      <div class="col-md-12 mb-3">
+                                        <label class="form-label">Address</label>
+                                        <textarea rows="5" class="form-control address-box" placeholder="Address" name="address" oninput="this.value = this.value.toUpperCase()" [rows]="3"
+                                        formControlName="Address" maxlength="100"></textarea>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="x_panel">
+                                    <div class="x_header">
+                                      <div class="x_header_title">
+                                        <h2>Account Detail<small>Fill employee account details</small></h2>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3 row m-0 p-3 pb-1">
+                                      <div class="col-md-12 mb-3">
+                                        <label class="form-label">Bank Account No.# *</label>
+                                        <input class="form-control" placeholder="Bank Account No.#" name="accountNo" OnlyNumber="34" onkeypress="return event.charCode >=48 && event.charCode <=57"
+                                        [ngClass]="{'error-field': submitted && f.accountNo.errors !== null && f.accountNo.errors.required}" formControlName="AccountNo" />
+                                      </div>
+                                      <div class="col-md-12 mb-3">
+                                        <label class="form-label">Bank Name *</label>
+                                        <input class="form-control" placeholder="Bank Name" name="bankName" transform="" oninput="this.value = this.value.toUpperCase()" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"
+                                        [ngClass]="{'error-field': submitted && f.bankName.errors !== null && f.bankName.errors.required}" formControlName="BankName" maxlength="40"/>
+                                      </div>
+                                      <div class="col-md-6 mb-3">
+                                        <label class="form-label">IFSC Code *</label>
+                                        <input class="form-control" placeholder="IFSC Code" name="ifscCode" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"
+                                        [ngClass]="{'error-field': submitted && f.ifscCode.errors !== null && f.ifscCode.errors.required}" oninput="this.value = this.value.toUpperCase()" formControlName="IfscCode" maxlength="11"/>
+                                      </div>
+                                      <div class="col-md-6 mb-3">
+                                        <label class="form-label">Branch (Optional)</label>
+                                        <input class="form-control" placeholder="Branch name" name="branch" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"
+                                        oninput="this.value = this.value.toUpperCase()" formControlName="Branch" maxlength="40"/>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </form>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Reference</label>
-                          <select class="form-select" formControlName="ReferenceId">
-                            <option value="1">Zaid</option>
-                            <option value="2">Vivek</option>
-                            <option value="3">Istiyak</option>
-                          </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Report</label>
-                          <select class="form-select" formControlName="ReportId">
-                            <option value="1">Test Report 1</option>
-                            <option value="2">Test Report 2</option>
-                            <option value="3">Test Report 3</option>
-                          </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Report Path</label>
-                          <input class="form-control" placeholder="Report Path" name="reportPath" [ngClass]="{'error-field': submitted && f.reportPath.errors !== null && f.reportPath.errors.required}"
-                            oninput="this.value = this.value.toUpperCase()" formControlName="ReportPath" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12 text-end">
-                  <button class="btn btn-danger" (click)="reset()">
-                    <i class="fa-solid fa-ban"></i>
-                    Reset</button>
-                  <button class="btn btn-custom-pink ms-3" [disabled]="isLoading" (click)="addEmployee()" *ngIf="employeeDetail.EmployeeId == 0">
-                    <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
-                    {{ isLoading ? 'Processing' : 'Add' }}
-                  </button>
-                  <button class="btn btn-custom-pink ms-3" [disabled]="isLoading" (click)="updateEmployee()" *ngIf="employeeDetail.EmployeeId > 0">
-                    <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
-                    {{ isLoading ? 'Processing' : 'Update' }}
-                  </button>
-                </div>
-             </form>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-    </div>
-  </div>
+                              <div class="col-12 row m-0 mt-3 px-3">
+                                <div class="col-md-6">
+                                  <div class="x_panel x-panel-changed">
+                                    <div class="x_header">
+                                      <div class="x_header_title">
+                                        <h2>Professional Detail <small>Fill employee professional details</small></h2>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3 row m-0 p-3 pb-1">
+                                      <div class="col-md-6 mb-3">
+                                        <label class="form-label">PAN No. # *</label>
+                                        <input class="form-control" placeholder="PAN card no.#" name="pan" [ngClass]="{'error-field': submitted && f.pAN.errors !== null && f.pAN.errors.required}" maxlength="10"
+                                          oninput="this.value = this.value.toUpperCase()" formControlName="Pan" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                          <label class="form-label">Aadhar No. #</label>
+                                          <input class="form-control" placeholder="Aadhar No. #" name="aadhar" OnlyNumber="16" formControlName="Aadhar" onkeypress="return event.charCode >=48 && event.charCode <=57"/>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                          <label class="form-label">Passport No. # *</label>
+                                          <input class="form-control" placeholder="Passport no.#" name="passportNumber" [ngClass]="{'error-field': submitted && f.passportNumber.errors !== null && f.passportNumber.errors.required}" maxlength="25"
+                                            oninput="this.value = this.value.toUpperCase()" formControlName="PassportNumber" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
+                                          </div>
+                                          <div class="col-md-6 mb-3">
+                                            <label class="form-label">Work Exprience in Month</label>
+                                            <input class="form-control" placeholder="Month's of Exprience" OnlyNumber="3" onkeypress="return event.charCode >=48 && event.charCode <=57"
+                                            name="experienceInMonths" formControlName="ExperienceInMonths"  [ngClass]="{'error-field': submitted && f.experienceInMonths.errors !== null && f.experienceInMonths.errors.required}"/>
+                                          </div>
+                                          <div class="col-md-6 mb-3">
+                                            <label class="form-label">Last Working Date</label>
+                                            <form class="form-inline">
+                                              <div class="form-group w-100">
+                                                <div class="input-group inline-calendar w-100">
+                                                  <input class="form-control" placeholder="yyyy-mm-dd" name="lastWorkingDate" [minDate]="{year: 1970, month:1, day: 1}" [maxDate]="{year: 2050, month:1, day: 19}"
+                                                    [(ngModel)]="lastWorkingDatemodel" (dateSelect)="onLastWorkingDateSelection($event)" ngbDatepicker
+                                                    #lastWorkingDate="ngbDatepicker">
+                                                    <div class="input-group-append">
+                                                      <button class="btn calendar" (click)="lastWorkingDate.toggle()"
+                                                        type="button"><i class="fa-regular fa-calendar-days fa-lg" aria-hidden="true"></i>
+                                                      </button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </form>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                              <label class="form-label">Job Type</label>
+                                              <input class="form-control" placeholder="Job Type" name="jobTypeId" transform=""
+                                                [ngClass]="{'error-field': submitted && f.jobTypeId.errors !== null && f.jobTypeId.errors.required}" formControlName="JobTypeId" maxlength="40"/>
+                                              </div>
+                                              <div class="col-md-12 mb-3">
+                                                <label class="form-label">Last Company Name</label>
+                                                <input class="form-control" placeholder="Last Company Name" name="lastCompanyName" transform="" oninput="this.value = this.value.toUpperCase()" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"
+                                                [ngClass]="{'error-field': submitted && f.lastCompanyName.errors !== null && f.lastCompanyName.errors.required}" formControlName="LastCompanyName" maxlength="40"/>
+                                              </div>
+                                              <div class="col-md-6 mb-3">
+                                                <label class="form-label">Designation</label>
+                                                <input class="form-control" placeholder="Designation" name="designation" transform="" oninput="this.value = this.value.toUpperCase()" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"
+                                                [ngClass]="{'error-field': submitted && f.designation.errors !== null && f.designation.errors.required}" formControlName="Designation" maxlength="40"/>
+                                              </div>
+                                              <div class="col-md-6 mb-3">
+                                                <label class="form-label">Salary</label>
+                                                <input class="form-control" placeholder="Salary" name="salary" OnlyNumber="15" onkeypress="return event.charCode >=48 && event.charCode <=57"
+                                                [ngClass]="{'error-field': submitted && f.salary.errors !== null && f.salary.errors.required}" formControlName="Salary" maxlength="40"/>
+                                              </div>
+                                              <div class="col-md-6 mb-3">
+                                                <label class="form-label">Expected Salary</label>
+                                                <input class="form-control" placeholder="Expected Salary" name="expectedSalary" OnlyNumber="15" onkeypress="return event.charCode >=48 && event.charCode <=57"
+                                                [ngClass]="{'error-field': submitted && f.expectedSalary.errors !== null && f.expectedSalary.errors.required}" formControlName="ExpectedSalary" maxlength="40"/>
+                                              </div>
+                                              <div class="col-md-6 mb-3">
+                                                <label class="form-label">Expected Designation</label>
+                                                <input class="form-control" placeholder="Expected Designation" name="expectedDesignation" transform="" oninput="this.value = this.value.toUpperCase()" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"
+                                                [ngClass]="{'error-field': submitted && f.expectedDesignation.errors !== null && f.expectedDesignation.errors.required}" formControlName="ExpectedDesignation" maxlength="40"/>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="x_panel x-panel-changed">
+                                            <div class="x_header">
+                                              <div class="x_header_title">
+                                                <h2>Medical Detail <small>Fill employee medical details</small></h2>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-12 mb-3 row m-0 p-3 pb-1">
+                                              <div class="col-md-6 mb-3">
+                                                <label class="form-label">Consulted By</label>
+                                                <input class="form-control" placeholder="Consulted By" name="consultedBy" [ngClass]="{'error-field': submitted && f.consultedBy.errors !== null && f.consultedBy.errors.required}"
+                                                  oninput="this.value = this.value.toUpperCase()" formControlName="ConsultedBy" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                  <label class="form-label">Medical Consultancy</label>
+                                                  <select class="form-select" formControlName="MedicalConsultancyId">
+                                                    <option value="1">Fortis</option>
+                                                    <option value="2">Appolo</option>
+                                                    <option value="3">Westin Hospital</option>
+                                                  </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                  <label class="form-label">Consulted On</label>
+                                                  <form class="form-inline">
+                                                    <div class="form-group w-100">
+                                                      <div class="input-group inline-calendar w-100">
+                                                        <input class="form-control" placeholder="yyyy-mm-dd" name="consultedOn" [minDate]="{year: 1970, month:1, day: 1}" [maxDate]="{year: 2050, month:1, day: 19}"
+                                                          [(ngModel)]="lastWorkingDatemodel" (dateSelect)="consultedOnSelection($event)" ngbDatepicker
+                                                          #lastWorkingDate="ngbDatepicker">
+                                                          <div class="input-group-append">
+                                                            <button class="btn calendar" (click)="consultedOn.toggle()"
+                                                              type="button"><i class="fa-regular fa-calendar-days fa-lg" aria-hidden="true"></i>
+                                                            </button>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </form>
+                                                  </div>
+                                                  <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Reference</label>
+                                                    <select class="form-select" formControlName="ReferenceId">
+                                                      <option value="1">Zaid</option>
+                                                      <option value="2">Vivek</option>
+                                                      <option value="3">Istiyak</option>
+                                                    </select>
+                                                  </div>
+                                                  <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Report</label>
+                                                    <select class="form-select" formControlName="ReportId">
+                                                      <option value="1">Test Report 1</option>
+                                                      <option value="2">Test Report 2</option>
+                                                      <option value="3">Test Report 3</option>
+                                                    </select>
+                                                  </div>
+                                                  <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Report Path</label>
+                                                    <input class="form-control" placeholder="Report Path" name="reportPath" [ngClass]="{'error-field': submitted && f.reportPath.errors !== null && f.reportPath.errors.required}"
+                                                      oninput="this.value = this.value.toUpperCase()" formControlName="ReportPath" onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-12 text-end">
+                                              <button class="btn btn-danger" (click)="reset()">
+                                                <i class="fa-solid fa-ban"></i>
+                                              Reset</button>
+                                              @if (employeeDetail.EmployeeId == 0) {
+                                                <button class="btn btn-custom-pink ms-3" [disabled]="isLoading" (click)="addEmployee()">
+                                                  <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
+                                                  {{ isLoading ? 'Processing' : 'Add' }}
+                                                </button>
+                                              }
+                                              @if (employeeDetail.EmployeeId > 0) {
+                                                <button class="btn btn-custom-pink ms-3" [disabled]="isLoading" (click)="updateEmployee()">
+                                                  <i class="" [ngClass]="{'fa-solid fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-square-plus': !isLoading}"></i>
+                                                  {{ isLoading ? 'Processing' : 'Update' }}
+                                                </button>
+                                              }
+                                            </div>
+                                          </form>
+                                        </div>
+                                      }
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
 
-  <!-- Employee Register or Update message modal -->
-  <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="messageModalEmployee" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="p-2 modal-content">
-        <div class="modal-body text-dark d-flex align-items-center mb-0 pb-0">
-          <div class="wrapper-checkmark me-3">
-            <svg class="checkmark-register" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-            </svg>
-          </div>
-          Congratulation!! Employee detail registered/ updated successfully!
-        </div>
-        <div class="modal-footer mt-0 pt-0 border-top-0">
-          <a href="javascript:void(0)" class="text-decoration-none text-dark fw-bold" (click)="gotoEmployeePage()">OK</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End -->
+                              <!-- Employee Register or Update message modal -->
+                              <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="messageModalEmployee" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="p-2 modal-content">
+                                    <div class="modal-body text-dark d-flex align-items-center mb-0 pb-0">
+                                      <div class="wrapper-checkmark me-3">
+                                        <svg class="checkmark-register" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                        </svg>
+                                      </div>
+                                      Congratulation!! Employee detail registered/ updated successfully!
+                                    </div>
+                                    <div class="modal-footer mt-0 pt-0 border-top-0">
+                                      <a href="javascript:void(0)" class="text-decoration-none text-dark fw-bold" (click)="gotoEmployeePage()">OK</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- End -->
 
