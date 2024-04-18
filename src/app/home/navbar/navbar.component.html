@@ -135,13 +135,12 @@
               <form [formGroup]="signUpForm">
                 <div class="mt-3">
                   <label class="form-label">Full Name</label>
-                  <input type="text" class="form-control" formControlName="FullName" placeholder="Enter your full name"
-                  [ngClass]="{'error-field': isSubmitted && f.FullName.errors !== null && f.FullName.errors.required}">
+                  <input type="text" class="form-control" formControlName="FullName" placeholder="Enter your full name">
                 </div>
                 <div class="mt-3">
                   <label class="form-label">Mobile</label>
                   <input type="number" class="form-control" formControlName="Mobile" placeholder="Enter your mobile no" maxlength="10"
-                  [ngClass]="{'error-field': isSubmitted && f.Mobile.errors !== null && f.Mobile.errors.required }" oninput="this.value = this.value.slice(0, this.maxLength);">
+                  oninput="this.value = this.value.slice(0, this.maxLength);">
                 </div>
                 <div class="mt-3">
                   <label class="form-label">Email</label>
@@ -151,7 +150,7 @@
                   <label class="form-label">Password</label>
                   <div class="position-relative p-0 m-0 form-group">
                     <input type="password" (keyup.enter)="UserLogin()" formControlName="Password" class="form-control" placeholder="Password"
-                      name="Password" [ngClass]="{'error-field': isSubmitted && f.Password.errors !== null && f.Password.errors.required}">
+                      name="Password">
                       <a href="javascript:void(0)" class="view-c d-none" (click)="hidePassword($event)">
                         <i class="fa-regular fa-eye"></i>
                       </a>
@@ -164,7 +163,7 @@
                   <label class="form-label">Confirm Password</label>
                   <div class="position-relative p-0 m-0 form-group">
                     <input type="password" (keyup.enter)="UserLogin()" formControlName="ConfirmPassword" class="form-control" placeholder="Confirm Password"
-                      name="ConfirmPassword" [ngClass]="{'error-field': isSubmitted && (f.ConfirmPassword.errors !== null && f.ConfirmPassword.errors.required) || f.ConfirmPassword.hasError('mismatch')}">
+                      name="ConfirmPassword">
                       <a href="javascript:void(0)" class="view-c d-none" (click)="hidePassword($event)">
                         <i class="fa-regular fa-eye"></i>
                       </a>

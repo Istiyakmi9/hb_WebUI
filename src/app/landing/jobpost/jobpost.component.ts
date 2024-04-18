@@ -520,6 +520,7 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
 interface Item {
   ImageSrc: string;
   ImageAlt: string;
+  FilePath?: string;
 }
 
 class PostJobModal {

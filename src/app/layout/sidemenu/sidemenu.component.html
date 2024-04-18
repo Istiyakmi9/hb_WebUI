@@ -1,37 +1,39 @@
 <div id="page-menu" class="bg-white menu-items page-menu">
   <ng-container>
     <div id="menu-items" class="menu-container position-relative overflow-auto">
-      <div class="accordion border-0" *ngFor="let catagory of Menu;let i = index;">
-        <div class="accordion-item border-0">
-          <div class="accordion-item-header z-3" [ngClass]="{'active': catagory.IsActive}" [attr.data-index]="i+1" (click)="toogle($event)">
-            <span class="i-chip">
-              <i class="{{catagory.ParentDetail.Icon}}"></i>
-            </span>
-            {{catagory.Name}}
-            <i class="fa-solid fa-caret-right fa-lg ms-auto ps-2 pe-4 z-0" [ngClass]="{'rotate-caret': catagory.IsActive}"></i>
-          </div>
-          <!-- /.accordion-item-header -->
-          <div class="accordion-item-body" [ngClass]="{'active-body': catagory.IsActive}">
-            <div class="accordion-item-body-content">
-              <div class="menu-item-group">
-                <ng-container *ngFor="let item of catagory.Value">
-                  <a [routerLink]="[item.Link]" class="nav-link nav-link-menu a-font"
-                    routerLinkActive="active-link">
-                    <div class="row menu-item-div align-items-center">
-                      <div class="col-md-1">
-                        <i class="menu-item-icon {{item.Icon}}"></i>
-                      </div>
-                      <div class="mene-item col-md-8 ps-3">
-                        {{item.Catagory}}
-                      </div>
-                    </div>
-                  </a>
-                </ng-container>
-              </div>
+      @for (catagory of Menu; track catagory; let i = $index) {
+        <div class="accordion border-0">
+          <div class="accordion-item border-0">
+            <div class="accordion-item-header z-3" [ngClass]="{'active': catagory.IsActive}" [attr.data-index]="i+1" (click)="toogle($event)">
+              <span class="i-chip">
+                <i class="{{catagory.ParentDetail.Icon}}"></i>
+              </span>
+              {{catagory.Name}}
+              <i class="fa-solid fa-caret-right fa-lg ms-auto ps-2 pe-4 z-0" [ngClass]="{'rotate-caret': catagory.IsActive}"></i>
             </div>
-          </div><!-- /.accordion-item-body -->
-        </div><!-- /.accordion-item -->
-      </div>
+            <!-- /.accordion-item-header -->
+            <div class="accordion-item-body" [ngClass]="{'active-body': catagory.IsActive}">
+              <div class="accordion-item-body-content">
+                <div class="menu-item-group">
+                  @for (item of catagory.Value; track item) {
+                    <a [routerLink]="[item.Link]" class="nav-link nav-link-menu a-font"
+                      routerLinkActive="active-link">
+                      <div class="row menu-item-div align-items-center">
+                        <div class="col-md-1">
+                          <i class="menu-item-icon {{item.Icon}}"></i>
+                        </div>
+                        <div class="mene-item col-md-8 ps-3">
+                          {{item.Catagory}}
+                        </div>
+                      </div>
+                    </a>
+                  }
+                </div>
+              </div>
+            </div><!-- /.accordion-item-body -->
+          </div><!-- /.accordion-item -->
+        </div>
+      }
     </div>
   </ng-container>
 </div>

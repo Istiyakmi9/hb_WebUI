@@ -143,7 +143,6 @@ export class ManageEmployeeComponent implements OnInit {
     let date = new Date(e.year, e.month -1, e.day);
     this.employeeForm.get("consultedOn").setValue(date);
   }
-
 }
 
 class EmployeeDetail {

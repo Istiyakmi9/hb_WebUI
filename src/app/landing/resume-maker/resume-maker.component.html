@@ -1,11 +1,11 @@
 <div class="col-md-12">
-    <button class="btn btn-primary" (click)="downloadPdf()">Convert To Pdf</button>
+  <button class="btn btn-primary" (click)="downloadPdf()">Convert To Pdf</button>
 </div>
 
-<ng-container *ngIf="isContentReady">
-    <div class="container col-md-6" id="resume-container" [innerHTML]="trustedHtmlString">
-    </div>
-</ng-container>
+@if (isContentReady) {
+  <div class="container col-md-6" id="resume-container" [innerHTML]="trustedHtmlString">
+  </div>
+}
 
 
 
