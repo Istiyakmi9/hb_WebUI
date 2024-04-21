@@ -508,7 +508,7 @@ hr {
 
 .border-btn2 {
     border: 1px solid #8b92dd;
-    color: #8b92dd;
+    color: #8b92dd !important;
     font: "Muli", sans-serif;
     background: none;
     -moz-user-select: none;
@@ -558,6 +558,9 @@ hr {
     order: 2px solid transparent
 }
 
+.border-btn2:hover {
+    color: #fff !important;
+}
 .breadcrumb>.active {
     color: #888
 }
@@ -5955,6 +5958,7 @@ form.search-box .select-form .nice-select::after {
 
 form.search-box .search-form {
     width: 21%
+    
 }
 
 @media (max-width: 767px) {
@@ -5970,7 +5974,7 @@ form.search-box .search-form a {
     font-size: 20px;
     line-height: 1;
     text-align: center;
-    color: #fff;
+    color: #fff !important;
     display: block;
     padding: 15px;
     border-radius: 0px;
