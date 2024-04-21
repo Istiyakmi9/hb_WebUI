@@ -18,7 +18,7 @@ import * as $ from "jquery";
   (OnSelect)="your-fn($event)"></bot-autocomplete>
 
 
-Need to improve it in AD
+Need to improve
 
 
 
