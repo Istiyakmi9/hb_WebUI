@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
@@ -13,7 +13,7 @@ declare var google: any;
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit,AfterViewInit {
   isLoading: boolean = false;
   clientId : "622966386962-pcep2a9p2l0j75p1nrl5m7clhlln3eil.apps.googleusercontent.com";
   active:number = 1;
@@ -26,19 +26,22 @@ export class NavbarComponent implements OnInit {
               private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.initSignUpForm();
-    google.accounts.id.initialize({
-      client_id : "622966386962-pcep2a9p2l0j75p1nrl5m7clhlln3eil.apps.googleusercontent.com",
-      callback: (resp: any) => this.loginWithGoogle(resp)
-    });
-
-    google.accounts.id.renderButton(document.getElementById("google-oauth"), {
-      theme: 'filled_blue',
-      size: 'large',
-      shape: 'rectangle',
-      width: 900
-    });
+    this.initSignUpForm();    
   }
+
+ngAfterViewInit(): void {
+  google.accounts.id.initialize({
+    client_id : "622966386962-pcep2a9p2l0j75p1nrl5m7clhlln3eil.apps.googleusercontent.com",
+    callback: (resp: any) => this.loginWithGoogle(resp)
+  });
+
+  google.accounts.id.renderButton(document.getElementById("google-oauth"), {
+    theme: 'filled_blue',
+    size: 'large',
+    shape: 'rectangle',
+    width: 900
+  });
+}
 
   loginWithGoogle(resp: any) {
     if (resp && resp.clientId != undefined) {
