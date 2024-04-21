@@ -168,8 +168,9 @@
 
 .sticky-sidebar {
   top: 0px !important;
-  height: 83vh;
-  overflow: auto !important;
+  height: 90vh;
+  overflow-x: hidden;
+  overflow-y: auto !important;
 }
 
 .truncate-text {
@@ -200,8 +201,8 @@ input[readonly] {
 .profile-picture-icon {
   background: #fff;
   margin-top: -1.8rem;
-  width: 4.5rem !important;
-  height: 4.5rem !important;
+  width: 8rem !important;
+  height: 8rem !important;
 }
 
 .nameplate-container:hover {
