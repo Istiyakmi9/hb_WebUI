@@ -285,8 +285,8 @@ input[readonly] {
   z-index: -1;
 }
 .tab__content {
-  max-height: 0;
-  overflow: hidden;
+  max-height: 300rem;
+  //overflow: hidden;
   transition: all 0.35s;
 }
 .tab .input-tab:checked ~ .tab__content {

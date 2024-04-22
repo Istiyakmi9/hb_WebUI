@@ -164,15 +164,15 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     this.countryData = new autoCompleteModal();
     this.countryData.data = [];
     this.countryData.placeholder = "Select Country";
-    this.countryData.className = "disable-field"; 
+    this.countryData.className = "disable-field";
     this.currenciesData = new autoCompleteModal();
     this.currenciesData.data = [];
-    this.currenciesData.placeholder = "Select Country";
-    this.currenciesData.className = "disable-field"; 
+    this.currenciesData.placeholder = "Select Currency";
+    this.currenciesData.className = "disable-field";
     this.jobTypeData = new autoCompleteModal();
     this.jobTypeData.data = [];
     this.jobTypeData.placeholder = "Select Country";
-    this.jobTypeData.className = "disable-field"; 
+    this.jobTypeData.className = "disable-field";
     this.posts = [];
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
@@ -184,7 +184,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     this.nav.navigate(ResumeMaker, null);
   }
 
-  bindData(res: any) {    
+  bindData(res: any) {
     if (res && res.length > 0) {
       this.totalRecords = res[0].TotalRecords;
       this.totalPages = parseInt((this.totalRecords / 10).toString()) + (this.totalRecords % 10 > 0 ? 1 : 0);
@@ -232,7 +232,13 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       NoOfPosts: new FormControl(this.postJobDeatil.NoOfPosts),
       ContractPeriodInMonths: new FormControl(this.postJobDeatil.ContractPeriodInMonths),
       JobRequirementId: new FormControl(this.postJobDeatil.JobRequirementId),
-      JobCategoryId: new FormControl(this.postJobDeatil.JobCategoryId)
+      JobCategoryId: new FormControl(this.postJobDeatil.JobCategoryId),
+      DailyWorkingHours: new FormControl(this.postJobDeatil.DailyWorkingHours),
+      WorkingDays: new FormControl(this.postJobDeatil.WorkingDays),
+      VisaType: new FormControl(this.postJobDeatil.VisaType),
+      IsMedicalInsuranceProvide: new FormControl(this.postJobDeatil.IsMedicalInsuranceProvide),
+      GulfExperience: new FormControl(this.postJobDeatil.GulfExperience),
+      IndiaExperience: new FormControl(this.postJobDeatil.IndiaExperience),
     })
   }
 
@@ -443,7 +449,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         currencies.map(x => {
           this.currenciesData.data.push({
             value: x.Id,
-            text: x.Currency
+            text: x.Name + " "+ `(${x.Code})`
           })
         });
         this.currenciesData.className="";
@@ -634,4 +640,10 @@ class PostJobModal {
   Files: Array<any> = [];
   FileDetail: string = null;
   JobCategoryId: number = 1;
+  DailyWorkingHours: number = 0;
+  WorkingDays: number = null;
+  VisaType: number = null;
+  IsMedicalInsuranceProvide: boolean = true;
+  GulfExperience: number = 0;
+  IndiaExperience: number = 0;
 }
