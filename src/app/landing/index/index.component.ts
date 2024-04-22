@@ -604,12 +604,15 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   selectJobType(e: any) {
 
   }
+
+  deleteImgConformPopup(item: any) { }
 }
 
 interface Item {
   ImageSrc: string;
   ImageAlt: string;
   Format: string;
+  FilePath?: string;
 }
 
 class PostJobModal {

@@ -1,4 +1,4 @@
-<div class="container-fluid mx-0 px-0 navbar-container z-3 mb-2">
+<div class="container-fluid mx-0 px-0 navbar-container z-3">
   <div class="card rounded-0 border-0 bg-transparent">
     <div class="d-flex align-items-center justify-content-between p-2">
       <div class="col-md-3 d-flex align-items-center">
@@ -34,16 +34,18 @@
           <ul class="dropdown-menu dropdown-menu-end text-center">
             <li>
               <img src="assets/face.jpg" alt="" class="img-xl rounded rounded-circle">
-              <p class="mb-0" *ngIf="userName != null">{{userName}}</p>
+              @if (userName != null) {
+                <p class="mb-0">{{userName}}</p>
+              }
             </li>
             <hr>
-            <li><a class="dropdown-item" href="javascript:void(0)">Manage Account</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0)">Change Password</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0)" (click)="LogoutUser()">Log Out</a></li>
-          </ul>
+              <li><a class="dropdown-item" href="javascript:void(0)">Manage Account</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)">Change Password</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)" (click)="LogoutUser()">Log Out</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
