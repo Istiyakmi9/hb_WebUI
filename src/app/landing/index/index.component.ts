@@ -8,32 +8,37 @@ import { AjaxService } from 'src/providers/ajax.service';
 import { ResponseModel } from 'src/auth/jwtService';
 import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
 import { environment } from 'src/environments/environment';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { autoCompleteModal } from 'src/app/util/iautocomplete/iautocomplete.component';
+import { AllownumberDirective } from '../../util/directives/allownumber.directive';
+import { IautocompleteComponent } from '../../util/iautocomplete/iautocomplete.component';
+import { NgClass, NgStyle, UpperCasePipe, TitleCasePipe, DatePipe } from '@angular/common';
 declare var $: any;
 
 @Component({
-  selector: 'app-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
-  animations: [
-    trigger('animation', [
-      transition('void => visible', [
-        style({ transform: 'scale(0.5)' }),
-        animate('150ms', style({ transform: 'scale(1)' }))
-      ]),
-      transition('visible => void', [
-        style({ transform: 'scale(1)' }),
-        animate('150ms', style({ transform: 'scale(0.5)' }))
-      ]),
-    ]),
-    trigger('animation2', [
-      transition(':leave', [
-        style({ opacity: 1 }),
-        animate('50ms', style({ opacity: 0.8 }))
-      ])
-    ])
-  ]
+    selector: 'app-index',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    animations: [
+        trigger('animation', [
+            transition('void => visible', [
+                style({ transform: 'scale(0.5)' }),
+                animate('150ms', style({ transform: 'scale(1)' }))
+            ]),
+            transition('visible => void', [
+                style({ transform: 'scale(1)' }),
+                animate('150ms', style({ transform: 'scale(0.5)' }))
+            ]),
+        ]),
+        trigger('animation2', [
+            transition(':leave', [
+                style({ opacity: 1 }),
+                animate('50ms', style({ opacity: 0.8 }))
+            ])
+        ])
+    ],
+    standalone: true,
+    imports: [NgClass, NgStyle, FormsModule, ReactiveFormsModule, IautocompleteComponent, AllownumberDirective, UpperCasePipe, TitleCasePipe, DatePipe]
 })
 export class IndexComponent implements OnInit, AfterViewChecked {
 

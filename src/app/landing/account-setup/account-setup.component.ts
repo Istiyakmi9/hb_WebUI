@@ -5,11 +5,14 @@ import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast } from 'src/providers/common.service';
 import { Index } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
+import { IautocompleteComponent } from '../../util/iautocomplete/iautocomplete.component';
 
 @Component({
-  selector: 'app-account-setup',
-  templateUrl: './account-setup.component.html',
-  styleUrls: ['./account-setup.component.scss']
+    selector: 'app-account-setup',
+    templateUrl: './account-setup.component.html',
+    styleUrls: ['./account-setup.component.scss'],
+    standalone: true,
+    imports: [IautocompleteComponent]
 })
 export class AccountSetupComponent implements OnInit {
 

@@ -8,8 +8,8 @@ describe('PreLoadTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PreLoadTableComponent ]
-    })
+    imports: [PreLoadTableComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(PreLoadTableComponent);

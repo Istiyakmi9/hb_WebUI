@@ -3,11 +3,19 @@ import { Filter, AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
 import { ManageClient } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
+import { PaginationComponent } from '../../util/pagination/pagination.component';
+import { PreLoadTableComponent } from '../../util/pre-load-table/pre-load-table.component';
+import { BreadcrumsComponent } from '../../util/breadcrums/breadcrums.component';
+import { RouterLinkActive } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-client',
-  templateUrl: './client.component.html',
-  styleUrls: ['./client.component.scss']
+    selector: 'app-client',
+    templateUrl: './client.component.html',
+    styleUrls: ['./client.component.scss'],
+    standalone: true,
+    imports: [NgClass, FormsModule, RouterLinkActive, BreadcrumsComponent, PreLoadTableComponent, PaginationComponent]
 })
 export class ClientComponent implements OnInit {
   isLoading: boolean = false;
