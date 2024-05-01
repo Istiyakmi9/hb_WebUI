@@ -4,9 +4,10 @@ import { iNavigation } from 'src/providers/iNavigation';
 import { UserService } from 'src/providers/userService';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss'],
+    standalone: true
 })
 export class NavbarComponent implements OnInit {
   userName: string = null;

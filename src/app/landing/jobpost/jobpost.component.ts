@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { autoCompleteModal } from 'src/app/util/iautocomplete/iautocomplete.component';
 import { ResponseModel } from 'src/auth/jwtService';
 import { environment } from 'src/environments/environment';
@@ -9,30 +9,35 @@ import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
 import { Dashboard, Index, Profile } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 import { UserService } from 'src/providers/userService';
+import { AllownumberDirective } from '../../util/directives/allownumber.directive';
+import { IautocompleteComponent } from '../../util/iautocomplete/iautocomplete.component';
+import { NgStyle, NgClass, TitleCasePipe, DatePipe } from '@angular/common';
 declare var $: any;
 
 @Component({
-  selector: 'app-jobpost',
-  templateUrl: './jobpost.component.html',
-  styleUrls: ['./jobpost.component.scss'],
-  animations: [
-    trigger('animation', [
-      transition('void => visible', [
-        style({transform: 'scale(0.5)'}),
-        animate('150ms', style({transform: 'scale(1)'}))
-      ]),
-      transition('visible => void', [
-        style({transform: 'scale(1)'}),
-        animate('150ms', style({transform: 'scale(0.5)'}))
-      ]),
-    ]),
-    trigger('animation2', [
-      transition(':leave', [
-        style({opacity: 1}),
-        animate('50ms', style({opacity: 0.8}))
-      ])
-    ])
-  ]
+    selector: 'app-jobpost',
+    templateUrl: './jobpost.component.html',
+    styleUrls: ['./jobpost.component.scss'],
+    animations: [
+        trigger('animation', [
+            transition('void => visible', [
+                style({ transform: 'scale(0.5)' }),
+                animate('150ms', style({ transform: 'scale(1)' }))
+            ]),
+            transition('visible => void', [
+                style({ transform: 'scale(1)' }),
+                animate('150ms', style({ transform: 'scale(0.5)' }))
+            ]),
+        ]),
+        trigger('animation2', [
+            transition(':leave', [
+                style({ opacity: 1 }),
+                animate('50ms', style({ opacity: 0.8 }))
+            ])
+        ])
+    ],
+    standalone: true,
+    imports: [NgStyle, FormsModule, ReactiveFormsModule, NgClass, IautocompleteComponent, AllownumberDirective, TitleCasePipe, DatePipe]
 })
 export class JobpostComponent implements OnInit, AfterViewChecked {
 

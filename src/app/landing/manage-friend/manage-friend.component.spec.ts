@@ -8,8 +8,8 @@ describe('ManageFriendComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ManageFriendComponent ]
-    })
+    imports: [ManageFriendComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ManageFriendComponent);

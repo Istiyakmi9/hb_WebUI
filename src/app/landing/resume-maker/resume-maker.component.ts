@@ -5,9 +5,10 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
 
 @Component({
-  selector: 'app-resume-maker',
-  templateUrl: './resume-maker.component.html',
-  styleUrls: ['./resume-maker.component.scss']
+    selector: 'app-resume-maker',
+    templateUrl: './resume-maker.component.html',
+    styleUrls: ['./resume-maker.component.scss'],
+    standalone: true
 })
 export class ResumeMakerComponent implements OnInit {
   htmlContent = `<!DOCTYPE html>

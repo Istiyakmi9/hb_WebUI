@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
 import { Client } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
+import { NgClass } from '@angular/common';
+import { AllownumberDirective } from '../../util/directives/allownumber.directive';
+import { BreadcrumsComponent } from '../../util/breadcrums/breadcrums.component';
 declare var $: any;
 
 @Component({
-  selector: 'app-manage-client',
-  templateUrl: './manage-client.component.html',
-  styleUrls: ['./manage-client.component.scss']
+    selector: 'app-manage-client',
+    templateUrl: './manage-client.component.html',
+    styleUrls: ['./manage-client.component.scss'],
+    standalone: true,
+    imports: [BreadcrumsComponent, FormsModule, ReactiveFormsModule, AllownumberDirective, NgClass]
 })
 export class ManageClientComponent implements OnInit {
   isReady: boolean = false;

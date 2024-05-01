@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Client, Dashboard, Employee, Index } from 'src/providers/constants';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-sidemenu',
-  templateUrl: './sidemenu.component.html',
-  styleUrls: ['./sidemenu.component.scss']
+    selector: 'app-sidemenu',
+    templateUrl: './sidemenu.component.html',
+    styleUrls: ['./sidemenu.component.scss'],
+    standalone: true,
+    imports: [NgClass, RouterLinkActive, RouterLink]
 })
 export class SidemenuComponent implements OnInit {
   Menu: Array<any> = [];

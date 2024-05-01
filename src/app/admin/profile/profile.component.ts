@@ -2,11 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { UserService } from 'src/providers/userService';
+import { NgClass } from '@angular/common';
+import { BreadcrumsComponent } from '../../util/breadcrums/breadcrums.component';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
+    standalone: true,
+    imports: [BreadcrumsComponent, NgClass]
 })
 export class ProfileComponent implements OnInit {
   isLoading: boolean = false;

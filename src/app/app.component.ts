@@ -1,13 +1,17 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Router, NavigationStart, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommonService } from 'src/providers/common.service';
 import { iNavigation } from 'src/providers/iNavigation';
+import { ToastComponent } from './toast/toast.component';
+import { HomeComponent } from "./home/home/home.component";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports: [RouterOutlet, ToastComponent, HomeComponent]
 })
 export class AppComponent implements OnDestroy {
   title = 'open_jobs';

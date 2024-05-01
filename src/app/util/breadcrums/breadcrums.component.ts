@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { iNavigation } from 'src/providers/iNavigation';
 
 @Component({
-  selector: 'app-breadcrums',
-  templateUrl: './breadcrums.component.html',
-  styleUrls: ['./breadcrums.component.scss']
+    selector: 'app-breadcrums',
+    templateUrl: './breadcrums.component.html',
+    styleUrls: ['./breadcrums.component.scss'],
+    standalone: true
 })
 export class BreadcrumsComponent implements OnInit {
   routePath: Array<any> = [];
