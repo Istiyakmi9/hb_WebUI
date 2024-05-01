@@ -1,9 +1,9 @@
 <div class="col-md-12">
-  <button class="btn btn-primary" (click)="downloadPdf()">Convert To Pdf</button>
+  <button class="btn btn-primary" (click)="downloadNewPdf()">Convert To Pdf</button>
 </div>
 
 @if (isContentReady) {
-  <div class="container col-md-6" id="resume-container" [innerHTML]="trustedHtmlString">
+  <div class="container" style="width: 190mm; height: 277mm;" id="resume-container" [innerHTML]="trustedHtmlString">
   </div>
 }
 

@@ -137,6 +137,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   countryData: autoCompleteModal = null;
   currenciesData: autoCompleteModal = null;
   jobTypeData: autoCompleteModal = null;
+  days: Array<ShiftDays> = [];
+  formStep: number = 1;
 
   constructor(private user: UserService,
     private nav: iNavigation,
@@ -154,6 +156,15 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    this.days = [
+      { day: 'Monday', id: 1, isEnabled: false },
+      { day: 'Tuesday', id: 2, isEnabled: false  },
+      { day: 'Wednesday', id: 3, isEnabled: false  },
+      { day: 'Thusday', id: 4, isEnabled: false  },
+      { day: 'Friday', id: 5, isEnabled: false  },
+      { day: 'Saturday', id: 6, isEnabled: false  },
+      { day: 'Sunday', id: 7, isEnabled: false  }
+    ];
     this.currentUser = this.user.getInstance();
     if (this.currentUser && this.currentUser.FirstName) {
       if (this.currentUser.LastName)
@@ -201,7 +212,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           })
         }
       });
-
+      this.days.map(day => day.isEnabled = false);
       this.posts = this.posts.concat(res);
     }
   }
@@ -234,11 +245,18 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       JobRequirementId: new FormControl(this.postJobDeatil.JobRequirementId),
       JobCategoryId: new FormControl(this.postJobDeatil.JobCategoryId),
       DailyWorkingHours: new FormControl(this.postJobDeatil.DailyWorkingHours),
-      WorkingDays: new FormControl(this.postJobDeatil.WorkingDays),
+      ShiftId: new FormControl(this.postJobDeatil.ShiftId),
       VisaType: new FormControl(this.postJobDeatil.VisaType),
       IsMedicalInsuranceProvide: new FormControl(this.postJobDeatil.IsMedicalInsuranceProvide),
-      GulfExperience: new FormControl(this.postJobDeatil.GulfExperience),
-      IndiaExperience: new FormControl(this.postJobDeatil.IndiaExperience),
+      OverseasExperience: new FormControl(this.postJobDeatil.OverseasExperience),
+      LocalExperience: new FormControl(this.postJobDeatil.LocalExperience),
+      IsMon: new FormControl(false),
+      IsTue: new FormControl(false),
+      IsThu: new FormControl(false),
+      IsWed: new FormControl(false),
+      IsFri: new FormControl(false),
+      IsSat: new FormControl(false),
+      IsSun: new FormControl(false),
     })
   }
 
@@ -300,6 +318,10 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           type = 'video';
         }
         reader.onload = (e: any) => {
+          if (e.target.result.includes("image"))
+            type = 'image';
+          else
+            type = 'video';
           this.previews.push({
             Url: e.target.result,
             Format: type
@@ -466,6 +488,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           this.jobTypeData.isMultiSelect = true;
         }
         this.initForm();
+        this.formStep = 1;
+        this.previews = [];
+        this.updateProgressbar();
         $("#postJobModal").modal("show");
         this.isLoading = false;
       }
@@ -486,11 +511,12 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     $("#postModal").modal("show");
   }
 
-  addLike(item) {
+  addLike(item: any) {
     this.isLoading = true;
     // let value = this.postJobForm.value;
     this.http.post("userposts/addLikedPost", item).then((res: ResponseModel) => {
       if (res.ResponseBody) {
+        item.IsLiked = true;
         Toast("liked details added");
         this.isLoading = false;
       }
@@ -519,6 +545,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   cleanFile() {
     this.fileDetail = [];
     this.isFilesizeExceed = false;
+    this.previews = [];
   }
 
   viewProfile() {
@@ -606,6 +633,56 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }
 
   deleteImgConformPopup(item: any) { }
+
+  allowWorkingHrs(e: any) {
+    let value = e.target.value;
+    if (value && Number(value) > 18)
+      e.target.value = '18';
+  }
+
+  toggleDays(id: number, e: any) {
+    let item = this.days.find(x => x.id == id);
+    // let index = this.selectedDays.findIndex(x => x.id == id);
+    if(!item.isEnabled) {
+      e.currentTarget.querySelector('i[name="selection-on"]').classList.remove("d-none");
+      e.currentTarget.querySelector('i[name="selection-off"]').classList.add("d-none");
+      e.currentTarget.classList.add("border-success");
+      item.isEnabled = true;
+    } else {
+      e.currentTarget.querySelector('i[name="selection-on"]').classList.add("d-none");
+      e.currentTarget.querySelector('i[name="selection-off"]').classList.remove("d-none");
+      e.currentTarget.classList.remove("border-success");
+      item.isEnabled = false;
+    }
+  }
+  previousFormStemp() {
+    if (this.formStep > 1) {
+      this.formStep--;
+      this.updateProgressbar();
+    }
+  }
+
+  nextFormStemp() {
+    if (this.formStep < 5 && this.formStep > 0) {
+      this.formStep++;
+      this.updateProgressbar();
+    }
+  }
+
+  updateProgressbar() {
+    let elem = document.querySelectorAll(".progress-step");
+    for (let i = 0; i < elem.length; i++) {
+      if (i+1 <= this.formStep)
+        elem[i].classList.add("progress-step-active");
+      else
+        elem[i].classList.remove("progress-step-active");
+    }
+
+    let progress = document.getElementById("progress");
+    const progressActive = document.querySelectorAll(".progress-step-active");
+    progress.style.width =
+    ((progressActive.length - 1) / (elem.length - 1)) * 100 + "%";
+  }
 }
 
 interface Item {
@@ -644,9 +721,15 @@ class PostJobModal {
   FileDetail: string = null;
   JobCategoryId: number = 1;
   DailyWorkingHours: number = 0;
-  WorkingDays: number = null;
+  ShiftId: number = null;
   VisaType: number = null;
   IsMedicalInsuranceProvide: boolean = true;
-  GulfExperience: number = 0;
-  IndiaExperience: number = 0;
+  OverseasExperience: number = 0;
+  LocalExperience: number = 0;
+}
+
+interface ShiftDays {
+  day: string,
+  id: number,
+  isEnabled: boolean
 }
