@@ -1,17 +1,22 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
 import { AUTHSERVICE, AccountSetup, Index } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
+import { NgClass } from '@angular/common';
+import { NgbPopover, NgbNav, NgbNavItem, NgbNavItemRole, NgbNavLinkButton, NgbNavLinkBase, NgbNavContent, NgbNavOutlet } from '@ng-bootstrap/ng-bootstrap';
+import { RouterLinkActive, RouterLink } from '@angular/router';
 declare var $: any;
 declare var google: any;
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss'],
+    standalone: true,
+    imports: [RouterLinkActive, RouterLink, NgbPopover, NgbNav, NgbNavItem, NgbNavItemRole, NgbNavLinkButton, NgbNavLinkBase, NgbNavContent, NgClass, FormsModule, ReactiveFormsModule, NgbNavOutlet]
 })
 export class NavbarComponent implements OnInit,AfterViewInit {
   isLoading: boolean = false;

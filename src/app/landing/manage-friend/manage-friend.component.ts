@@ -5,11 +5,14 @@ import { Toast } from 'src/providers/common.service';
 import { Index } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 import { UserService } from 'src/providers/userService';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-manage-friend',
-  templateUrl: './manage-friend.component.html',
-  styleUrls: ['./manage-friend.component.scss']
+    selector: 'app-manage-friend',
+    templateUrl: './manage-friend.component.html',
+    styleUrls: ['./manage-friend.component.scss'],
+    standalone: true,
+    imports: [TitleCasePipe]
 })
 export class ManageFriendComponent implements OnInit {
 

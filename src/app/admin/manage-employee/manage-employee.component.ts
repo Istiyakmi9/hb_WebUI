@@ -1,17 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbDateStruct, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
 import { Toast } from 'src/providers/common.service';
 import { Employee } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
+import { NgClass } from '@angular/common';
+import { AllownumberDirective } from '../../util/directives/allownumber.directive';
+import { BreadcrumsComponent } from '../../util/breadcrums/breadcrums.component';
 declare var $: any;
 
 @Component({
-  selector: 'app-manage-employee',
-  templateUrl: './manage-employee.component.html',
-  styleUrls: ['./manage-employee.component.scss']
+    selector: 'app-manage-employee',
+    templateUrl: './manage-employee.component.html',
+    styleUrls: ['./manage-employee.component.scss'],
+    standalone: true,
+    imports: [BreadcrumsComponent, FormsModule, ReactiveFormsModule, AllownumberDirective, NgbInputDatepicker, NgClass]
 })
 export class ManageEmployeeComponent implements OnInit {
 

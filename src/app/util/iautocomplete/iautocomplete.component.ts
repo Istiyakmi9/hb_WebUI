@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonService } from 'src/providers/common.service';
+import { NgClass } from '@angular/common';
 
 // import * as $ from "jquery";
 
@@ -27,16 +28,18 @@ Need to improve UI abc
 
 
 @Component({
-  selector: 'bot-autocomplete, bot-multiselect',
-  templateUrl: './iautocomplete.component.html',
-  styleUrls: ['./iautocomplete.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => IautocompleteComponent),
-      multi: true,
-    },
-  ],
+    selector: 'bot-autocomplete, bot-multiselect',
+    templateUrl: './iautocomplete.component.html',
+    styleUrls: ['./iautocomplete.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => IautocompleteComponent),
+            multi: true,
+        },
+    ],
+    standalone: true,
+    imports: [NgClass],
 })
 export class IautocompleteComponent implements OnInit, OnDestroy, ControlValueAccessor {
   BindingData: any = [];

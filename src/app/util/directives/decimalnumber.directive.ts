@@ -1,7 +1,8 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[DecimalNumber]'
+    selector: '[DecimalNumber]',
+    standalone: true
 })
 export class DecimalnumberDirective {
   input: number = 0;

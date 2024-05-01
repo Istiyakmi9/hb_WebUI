@@ -4,11 +4,19 @@ import { AjaxService, Filter } from 'src/providers/ajax.service';
 import { CommonService } from 'src/providers/common.service';
 import { ManageEmployee } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
+import { PaginationComponent } from '../../util/pagination/pagination.component';
+import { PreLoadTableComponent } from '../../util/pre-load-table/pre-load-table.component';
+import { BreadcrumsComponent } from '../../util/breadcrums/breadcrums.component';
+import { RouterLinkActive } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-employee',
-  templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.scss']
+    selector: 'app-employee',
+    templateUrl: './employee.component.html',
+    styleUrls: ['./employee.component.scss'],
+    standalone: true,
+    imports: [NgClass, FormsModule, RouterLinkActive, BreadcrumsComponent, PreLoadTableComponent, PaginationComponent]
 })
 export class EmployeeComponent implements OnInit {
 

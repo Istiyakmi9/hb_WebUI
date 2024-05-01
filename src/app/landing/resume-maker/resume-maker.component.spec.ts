@@ -8,8 +8,8 @@ describe('ResumeMakerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ResumeMakerComponent ]
-    })
+    imports: [ResumeMakerComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ResumeMakerComponent);
