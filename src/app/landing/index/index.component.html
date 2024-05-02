@@ -539,204 +539,92 @@
 
 <!--Manage Post Job Modal -->
 <div class="modal fade" id="postJobModal" tabindex="-1" aria-labelledby="postJobModalLabel" aria-hidden="true">
-  <div class="modal-dialog p-4 modal-dialog-centered modal-lg">
+  <div class="modal-dialog p-4 modal-dialog-centered modal-xl">
     <div class="modal-content px-3">
-      @if (postJobForm) {
+      @if (isLoading) {
       <div class="modal-header border-bottom-0">
         <h1 class="modal-title fs-5" id="postJobModalLabel">
-          {{f["JobCategoryId"].value == 1 ? "Blue Collar Job Form" : f["JobCategoryId"].value == 2
+          {{selectedJobCategoryId == 1 ? "Blue Collar Job Form" : selectedJobCategoryId == 2
               ? "Grey Collar Job Form" : "White Collar Job Form"}}
         </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       }
       <div class="modal-body pt-0 text-start">
-        @if (postJobForm) {
-        <form [formGroup]="postJobForm">
-          <div class="progressbar">
-            <div class="progress-line" id="progress"></div>
-            <div class="progress-step progress-step-active" data-title="Job Type"></div>
-            <div class="progress-step" data-title="Job Detail"></div>
-            <div class="progress-step" data-title="Salary Detail"></div>
-            <div class="progress-step" data-title="Others Detail"></div>
-            <div class="progress-step" data-title="Upload File"></div>
-          </div>
-          @if (formStep == 1) {
-            <div class="row align-items-center col-md-12">
-              @for (item of jobCategory; track item; let i = $index) {
-              <a href="javascript:void(0)" (click)="selectJobCategory(item)" class="text-decoration-none my-2 col-md-12">
-                <div class="card px-4 py-2" [ngClass]="{'active-category': f['JobCategoryId'].value == i + 1}">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <img [src]="item.ImgUrl" class="category-img" alt="blue-color-jox"/>
-                    </div>
-                    <div class="col">
-                      <h5 class="text-dark fw-bold mb-0">
-                        {{ item.CategoryName }}
-                      </h5>
+        <div class="progressbar">
+          <div class="progress-line" id="progress"></div>
+          <div class="progress-step progress-step-active" data-title="Job Type" data-index="1" (click)="previousStep($event)"></div>
+          <div class="progress-step" data-index="2" (click)="previousStep($event)" data-title="Job Detail"></div>
+          <div class="progress-step" data-index="3" (click)="previousStep($event)" data-title="Salary Detail"></div>
+          <div class="progress-step" data-index="4" (click)="previousStep($event)" data-title="Exp. & Working Detail"></div>
+          <div class="progress-step" data-index="5" (click)="previousStep($event)" data-title="Others Detail"></div>
+          <div class="progress-step" data-index="6" (click)="previousStep($event)" data-title="Upload File"></div>
+        </div>
+
+          @if (formStep == 1 && jobTypeForm) {
+            <form [formGroup]="jobTypeForm">
+              <div class="row align-items-center col-md-12">
+                @for (item of jobCategory; track item; let i = $index) {
+                <a href="javascript:void(0)" (click)="selectJobCategory(item)" class="text-decoration-none my-2 col-md-4">
+                  <div class="card px-4 py-2" [ngClass]="{'active-category': selectedJobCategoryId == i + 1}">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <img [src]="item.ImgUrl" class="category-img" alt="blue-color-jox"/>
+                      </div>
+                      <div class="col">
+                        <h5 class="text-dark fw-bold mb-0">
+                          {{ item.CategoryName }}
+                        </h5>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </a>
-              }
-            </div>
+                </a>
+                }
+              </div>
+            </form>
           }
           @else if (formStep == 2) {
-            <div class="col-md-12 mt-2">
-              <label class="form-label">Title</label>
-              <textarea class="form-control" formControlName="ShortDescription" placeholder="Job Title" maxlength="250" rows="2">
-              </textarea>
-            </div>
-            <div class="col-md-12 mt-2">
-              <label class="form-label">Job Description</label>
-              <textarea class="form-control" formControlName="CompleteDescription" placeholder="Job Description" rows="3">
-              </textarea>
-            </div>
-            <div class="mt-2 row">
-              <div class="col-md-6">
-                <label class="form-label">Catagory Type</label>
-                <bot-multiselect [data]="jobTypeData" (OnSelect)="selectJobType($event)"></bot-multiselect>
+            <form [formGroup]="jobTypeForm">
+              <div class="col-md-12 mt-2">
+                <label class="form-label">Title <span class="text-danger">*</span></label>
+                <textarea class="form-control" formControlName="ShortDescription" placeholder="Job Title" maxlength="250" rows="2"
+                [ngClass]="{'error-field': submitted && jobTypeFormControl['ShortDescription'].errors !== null && jobTypeFormControl['ShortDescription'].errors['required']}">
+                </textarea>
               </div>
-              <div class="col-md-6">
-                <label class="form-label">Country</label>
-                <bot-autocomplete [data]="countryData" formControlName="CountryId"></bot-autocomplete>
+              <div class="col-md-12 mt-2">
+                <label class="form-label">Job Description <span class="text-danger">*</span></label>
+                <textarea class="form-control" formControlName="CompleteDescription" placeholder="Job Description" rows="3"
+                [ngClass]="{'error-field': submitted && jobTypeFormControl['CompleteDescription'].errors !== null && jobTypeFormControl['CompleteDescription'].errors['required']}">
+                </textarea>
               </div>
-            </div>
-          }
-          @else if (formStep == 3) {
-            <div class="row mt-3">
-              <div class="col-md-6">
-                <fieldset>
-                  <legend>CTC:</legend>
-                  <div class="row">
-                    <div class="col-md-6 d-flex align-items-center">
-                      <label class="form-label pe-2">Min</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="MinimunCTC"
-                        placeholder="Minimun CTC"
-                        [OnlyNumber]="10"
-                      />
-                    </div>
-                    <div class="col-md-6 d-flex align-items-center">
-                      <label class="form-label pe-2">Max</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="MaximunCTC"
-                        placeholder="Maximum CTC"
-                        [OnlyNumber]="10"
-                      />
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Bonus</label>
-                <input type="text" class="form-control" formControlName="Bonus"
-                  placeholder="Bonus" [OnlyNumber]="5"/>
-              </div>
-            </div>
-            <section class="accordion mt-4">
-              <div class="tab">
-                <input type="checkbox" class="input-tab" name="accordion-1" id="cb1"/>
-                <label for="cb1" class="tab__label">Allowance</label>
-                <div class="tab__content mx-1">
-                  <div class="mt-3 row align-items-center justify-content-between">
-                    <div class="col-md-4 mb-3 ms-1 row align-items-center">
-                      <div class="form-check col-auto">
-                        <input class="form-check-input" type="checkbox" formControlName="IsHRAAllowance" id="IsHRAAllowance"/>
-                        <label class="form-check-label text-dark" for="IsHRAAllowance">
-                          HRA
-                        </label>
-                      </div>
-                      <div class="col">
-                        <input type="text" [readOnly]="f['IsHRAAllowance'].value == false" class="form-control" formControlName="HRAAllowanceAmount" placeholder="HRA Amount" [OnlyNumber]="10"/>
-                      </div>
-                    </div>
-                    <div class="col-md-4 mb-3 row align-items-center">
-                      <div class="form-check col-auto">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          formControlName="IsTravelAllowance"
-                          id="IsTravelAllowance"
-                        />
-                        <label
-                          class="form-check-label text-dark"
-                          for="IsTravelAllowance"
-                        >
-                          Travel
-                        </label>
-                      </div>
-                      <div class="col">
-                        <input
-                          type="text"
-                          class="form-control"
-                          [readOnly]="f['IsTravelAllowance'].value == false"
-                          formControlName="TravelAllowanceAmount"
-                          placeholder="Travel Amount"
-                          [OnlyNumber]="10"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-4 mb-3 row align-items-center">
-                      <div class="form-check col-auto">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          formControlName="IsFoodAllowance"
-                          id="IsFoodAllowance"
-                        />
-                        <label
-                          class="form-check-label text-dark"
-                          for="IsFoodAllowance"
-                        >
-                          Food
-                        </label>
-                      </div>
-                      <div class="col">
-                        <input
-                          type="text"
-                          class="form-control"
-                          [readOnly]="f['IsFoodAllowance'].value == false"
-                          formControlName="FoodAllowanceAmount"
-                          placeholder="Food Amount"
-                          [OnlyNumber]="10"
-                        />
-                      </div>
-                    </div>
-                  </div>
+              <div class="mt-2 row">
+                <div class="col-md-6">
+                  <label class="form-label">Catagory Type <span class="text-danger">*</span></label>
+                  <bot-multiselect [data]="jobTypeData" (OnSelect)="selectCatagoryType($event)"></bot-multiselect>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Country <span class="text-danger">*</span></label>
+                  <bot-autocomplete [data]="countryData" formControlName="CountryId"></bot-autocomplete>
                 </div>
               </div>
-            </section>
-            <div class="row mt-3">
-              <div class="col-md-6">
-                <label class="form-label">Salary Currency</label>
-                <bot-autocomplete [data]="currenciesData" formControlName="SalaryCurrency"></bot-autocomplete>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Special Allowance</label>
-                <input type="number" placeholder="Special Allowance" class="form-control">
-              </div>
-            </div>
+            </form>
           }
-          @else if (formStep == 4) {
-            <div class="row mt-3">
-              <div class="col-md-6">
-                <div class="col-md-12">
+          @else if (formStep == 3 && salaryDetailForm) {
+            <form [formGroup]="salaryDetailForm">
+              <div class="row mt-3">
+                <div class="col-md-6">
                   <fieldset>
-                    <legend>Age Limit:</legend>
+                    <legend>CTC: <span class="text-danger">*</span></legend>
                     <div class="row">
                       <div class="col-md-6 d-flex align-items-center">
                         <label class="form-label pe-2">Min</label>
                         <input
                           type="text"
                           class="form-control"
-                          formControlName="MinAgeLimit"
-                          placeholder="Min Age Limit"
-                          [OnlyNumber]="2"
+                          formControlName="MinimunCTC"
+                          placeholder="Minimun CTC"
+                          [OnlyNumber]="10"
+                          [ngClass]="{'error-field': submitted && salaryDetailFormControl['MinimunCTC'].errors !== null && salaryDetailFormControl['MinimunCTC'].errors['required']}"
                         />
                       </div>
                       <div class="col-md-6 d-flex align-items-center">
@@ -744,152 +632,330 @@
                         <input
                           type="text"
                           class="form-control"
-                          formControlName="MaxAgeLimit"
-                          placeholder="Max Age Limit"
-                          [OnlyNumber]="2"
-                        />
-                      </div>
-                    </div>
-                  </fieldset>
-                </div>
-                <div class="col-md-12 mt-3">
-                  <fieldset>
-                    <legend>Foreign Return:</legend>
-                    <div class="row align-items-center">
-                      <div class="form-check col-auto ms-2">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          formControlName="IsForeignReturnCompulsory"
-                          id="IsForeignReturnCompulsory"
-                        />
-                        <label
-                          class="form-check-label"
-                          for="IsForeignReturnCompulsory"
-                        >
-                          Compulsory
-                        </label>
-                      </div>
-                      <div class="col">
-                        <input
-                          type="text"
-                          class="form-control"
-                          [readOnly]="f['IsForeignReturnCompulsory'].value == false"
-                          formControlName="MinimunDaysRequired"
-                          placeholder="Minimun Days Required"
+                          formControlName="MaximunCTC"
+                          placeholder="Maximum CTC"
                           [OnlyNumber]="10"
+                          [ngClass]="{'error-field': submitted && salaryDetailFormControl['MaximunCTC'].errors !== null && salaryDetailFormControl['MaximunCTC'].errors['required']}"
                         />
                       </div>
                     </div>
                   </fieldset>
                 </div>
-                <div class="col-md-12 mt-3">
-                  <fieldset>
-                    <legend>Over Time:</legend>
-                    <div class="row align-items-center">
-                      <div class="form-check col-auto ms-2">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          formControlName="IsOTIncluded"
-                          id="IsOTIncluded"
-                        />
-                        <label class="form-check-label" for="IsOTIncluded">
-                          Include
-                        </label>
-                      </div>
-                      <div class="col">
-                        <input
-                          type="text"
-                          class="form-control"
-                          [readOnly]="f['IsOTIncluded'].value == false"
-                          formControlName="MaxOTHours"
-                          placeholder="Maximum OT Hours"
-                          [OnlyNumber]="1"
-                        />
-                      </div>
-                    </div>
-                  </fieldset>
+                <div class="col-md-6">
+                  <label class="form-label">Bonus</label>
+                  <input type="text" class="form-control" formControlName="Bonus"
+                    placeholder="Bonus" [OnlyNumber]="5"/>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="col-md-12">
-                  <label class="form-label">Working Shift</label>
-                  <select class="form-select" formControlName="ShiftId">
-                    <option [value]="null" disabled>Select Shift</option>
-                    <option value="1">Morning Shift</option>
-                    <option value="2">Day Shift</option>
-                    <option value="3">Eevening Shift</option>
-                    <option value="4">Night Shift</option>
-                  </select>
-                </div>
-                <div class="col-md-12 mt-3">
-                  <label class="form-label">Working Hours</label>
-                  <input type="number" class="form-control" formControlName="DailyWorkingHours" (input)="allowWorkingHrs($event)" placeholder="Working Hours" maxlength="2">
-                </div>
-                <div class="col-md-12 mt-3">
-                  <label class="form-label">Working Exp. (Month)</label>
-                  <div class="row">
-                    <div class="col-md-6 d-flex align-items-center">
-                      <label class="form-label">Overseas</label>
-                      <input type="text" class="form-control w-50 ms-2" formControlName="OverseasExperience" placeholder="Exp. in Gulf">
-                    </div>
-                    <div class="col-md-6 d-flex align-items-center">
-                      <label class="form-label">Local</label>
-                      <input type="text" class="form-control w-50 ms-2" formControlName="LocalExperience" placeholder="Exp. in India">
+              <section class="accordion mt-4">
+                <div class="tab">
+                  <input type="checkbox" class="input-tab" name="accordion-1" id="cb1"/>
+                  <label for="cb1" class="tab__label">Allowance</label>
+                  <div class="tab__content mx-1">
+                    <div class="mt-3 row align-items-center justify-content-between">
+                      <div class="col-md-4 mb-3 ms-1 row align-items-center">
+                        <div class="form-check col-auto">
+                          <input class="form-check-input" type="checkbox" formControlName="IsHRAAllowance" id="IsHRAAllowance"/>
+                          <label class="form-check-label text-dark" for="IsHRAAllowance">
+                            HRA
+                          </label>
+                        </div>
+                        <div class="col">
+                          <input type="text" [readOnly]="salaryDetailFormControl['IsHRAAllowance'].value == false" class="form-control" formControlName="HRAAllowanceAmount" placeholder="HRA Amount" [OnlyNumber]="10"/>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3 row align-items-center">
+                        <div class="form-check col-auto">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            formControlName="IsTravelAllowance"
+                            id="IsTravelAllowance"
+                          />
+                          <label
+                            class="form-check-label text-dark"
+                            for="IsTravelAllowance"
+                          >
+                            Travel
+                          </label>
+                        </div>
+                        <div class="col">
+                          <input
+                            type="text"
+                            class="form-control"
+                            [readOnly]="salaryDetailFormControl['IsTravelAllowance'].value == false"
+                            formControlName="TravelAllowanceAmount"
+                            placeholder="Travel Amount"
+                            [OnlyNumber]="10"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3 row align-items-center">
+                        <div class="form-check col-auto">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            formControlName="IsFoodAllowance"
+                            id="IsFoodAllowance"
+                          />
+                          <label
+                            class="form-check-label text-dark"
+                            for="IsFoodAllowance"
+                          >
+                            Food
+                          </label>
+                        </div>
+                        <div class="col">
+                          <input
+                            type="text"
+                            class="form-control"
+                            [readOnly]="salaryDetailFormControl['IsFoodAllowance'].value == false"
+                            formControlName="FoodAllowanceAmount"
+                            placeholder="Food Amount"
+                            [OnlyNumber]="10"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-12 mt-3">
-                  <label class="form-label">Visa Type</label>
-                  <select class="form-select" formControlName="VisaType">
-                    <option [value]="null" disabled>Select Option</option>
-                    <option value="1">Tourist</option>
-                    <option value="2">Employment</option>
-                  </select>
+              </section>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Salary Currency <span class="text-danger">*</span></label>
+                  <bot-autocomplete [data]="currenciesData" (OnSelect)="selectCurrency($event)" formControlName="SalaryCurrency"></bot-autocomplete>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Special Allowance</label>
+                  <input type="number" placeholder="Special Allowance" formControlName="SpecialAllowance" class="form-control">
                 </div>
               </div>
-            </div>
-            <div class="col-md-12 mt-3">
-              <label class="form-label">Weekend:</label>
-              <div class="d-flex flex-wrap">
-                @for(day of days; track day.id) {
-                  <div class="day-of-week"
-                    [ngClass]="{ 'border-success': day.isEnabled }" (click)="toggleDays(day.id, $event)">
-                    <a href="javascript:void(0)"
-                      [ngClass]="{'ms-0': day.id == 1, 'blur-text': !day.isEnabled}">
-                      {{ day.day }}
-                      <i class="fa-solid fa-toggle-on ps-2 text-success"
-                        [ngClass]="{ 'd-none': !day.isEnabled }" name="selection-on">
-                      </i>
-                      <i class="fa-solid fa-toggle-off ps-2 text-muted"
-                        [ngClass]="{ 'd-none': day.isEnabled }" name="selection-off"
-                        aria-hidden="true">
-                      </i>
-                    </a>
-                  </div>
-                }
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-4 text-truncate">
-                <label class="form-label">Medical Insurance</label>
-                <select formControlName="IsMedicalInsuranceProvide" class="form-select">
-                  <option [value]="true">Provided By Company</option>
-                  <option [value]="false">Not Provided By Company</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">No of Vacancy</label>
-                <input type="text" class="form-control" formControlName="NoOfPosts" placeholder="No of Vacancy" [OnlyNumber]="5">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Contract Period (Months)</label>
-                <input type="text" class="form-control" formControlName="ContractPeriodInMonths" placeholder="Contract Period In Months" [OnlyNumber]="5">
-              </div>
-            </div>
+            </form>
           }
-          @else if (formStep == 5) {
+          @else if(formStep == 4 && ExpWorkingForm){
+            <form [formGroup]="ExpWorkingForm">
+              <div class="row">
+                <div class="col-md-6 mt-3">
+                  <fieldset>
+                    <legend>Working Exp.</legend>
+                    <div class="d-flex align-items-center">
+                      <label class="form-label col-md-3">Overseas</label>
+                      <div class="col-auto d-flex align-items-center">
+                        <select class="form-select" formControlName="OverseasExpYrs">
+                          @for (item of totalYears; track item) {
+                            <option [value]="item">{{item}}</option>
+                          }
+                        </select>
+                        <label class="form-label mx-2">Yrs</label>
+                      </div>
+                      <div class="col-auto d-flex align-items-center">
+                        <select class="form-select" formControlName="OverseasExpMonth">
+                          @for (item of totalMonths; track item) {
+                            <option [value]="item">{{item}}</option>
+                          }
+                        </select>
+                        <label class="form-label ms-2">Months</label>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center mt-3">
+                      <label class="form-label col-md-3">Local</label>
+                      <div class="col-auto d-flex align-items-center">
+                        <select class="form-select" formControlName="LocalExpYrs">
+                          @for (item of totalYears; track item) {
+                            <option [value]="item">{{item}}</option>
+                          }
+                        </select>
+                        <label class="form-label mx-2">Yrs</label>
+                      </div>
+                      <div class="col-auto d-flex align-items-center">
+                        <select class="form-select"  formControlName="LocalExpMonth">
+                          @for (item of totalMonths; track item) {
+                            <option [value]="item">{{item}}</option>
+                          }
+                        </select>
+                        <label class="form-label ms-2">Months</label>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-12 mt-3">
+                    <label class="form-label">Working Shift <span class="text-danger">*</span></label>
+                    <select class="form-select" formControlName="ShiftId"
+                    [ngClass]="{'error-field': submitted && ExpWorkingFormControl['ShiftId'].errors !== null && ExpWorkingFormControl['ShiftId'].errors['required']}">
+                      <option [value]="null" disabled>Select Shift</option>
+                      <option value="0">Any Shift</option>
+                      <option value="1">Morning Shift</option>
+                      <option value="2">Day Shift</option>
+                      <option value="3">Eevening Shift</option>
+                      <option value="4">Night Shift</option>
+                    </select>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="form-label">Working Hours <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" formControlName="DailyWorkingHours" (input)="allowWorkingHrs($event)" placeholder="Working Hours" maxlength="2"
+                    [ngClass]="{'error-field': submitted && ExpWorkingFormControl['DailyWorkingHours'].errors !== null && ExpWorkingFormControl['DailyWorkingHours'].errors['required']}">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 mt-3">
+                <label class="form-label">Weekend:</label>
+                <div class="d-flex flex-wrap">
+                  @for(day of days; track day.id) {
+                    <div class="day-of-week"
+                      [ngClass]="{ 'border-success': day.isEnabled }" (click)="toggleDays(day.id, $event)">
+                      <a href="javascript:void(0)"
+                        [ngClass]="{'ms-0': day.id == 1, 'blur-text': !day.isEnabled}">
+                        {{ day.day }}
+                        <i class="fa-solid fa-toggle-on ps-2 text-success"
+                          [ngClass]="{ 'd-none': !day.isEnabled }" name="selection-on">
+                        </i>
+                        <i class="fa-solid fa-toggle-off ps-2 text-muted"
+                          [ngClass]="{ 'd-none': day.isEnabled }" name="selection-off"
+                          aria-hidden="true">
+                        </i>
+                      </a>
+                    </div>
+                  }
+                </div>
+              </div>
+            </form>
+          }
+          @else if (formStep == 5 && otherDetailForm) {
+            <form [formGroup]="otherDetailForm">
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <div class="col-md-12">
+                    <fieldset>
+                      <legend>Age Limit: <span class="text-danger">*</span></legend>
+                      <div class="row">
+                        <div class="col-md-6 d-flex align-items-center">
+                          <label class="form-label pe-2">Min</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            formControlName="MinAgeLimit"
+                            placeholder="Min Age Limit"
+                            [OnlyNumber]="2"
+                            [ngClass]="{'error-field': submitted && otherDetailFormControl['MinAgeLimit'].errors !== null && otherDetailFormControl['MinAgeLimit'].errors['required']}"
+                          />
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center">
+                          <label class="form-label pe-2">Max</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            formControlName="MaxAgeLimit"
+                            placeholder="Max Age Limit"
+                            [OnlyNumber]="2"
+                            [ngClass]="{'error-field': submitted && otherDetailFormControl['MaxAgeLimit'].errors !== null && otherDetailFormControl['MaxAgeLimit'].errors['required']}"
+                          />
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <fieldset>
+                      <legend>Foreign Return:</legend>
+                      <div class="row align-items-center">
+                        <div class="form-check col-auto ms-2">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            formControlName="IsForeignReturnCompulsory"
+                            id="IsForeignReturnCompulsory"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="IsForeignReturnCompulsory"
+                          >
+                            Compulsory
+                          </label>
+                        </div>
+                        <div class="col">
+                          <input
+                            type="text"
+                            class="form-control"
+                            [readOnly]="otherDetailFormControl['IsForeignReturnCompulsory'].value == false"
+                            formControlName="MinimunDaysRequired"
+                            placeholder="Minimun Days Required"
+                            [OnlyNumber]="10"
+                          />
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <fieldset>
+                      <legend>Over Time:</legend>
+                      <div class="row align-items-center">
+                        <div class="form-check col-auto ms-2">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            formControlName="IsOTIncluded"
+                            id="IsOTIncluded"
+                          />
+                          <label class="form-check-label" for="IsOTIncluded">
+                            Include
+                          </label>
+                        </div>
+                        <div class="col">
+                          <input
+                            type="text"
+                            class="form-control"
+                            [readOnly]="otherDetailFormControl['IsOTIncluded'].value == false"
+                            formControlName="MaxOTHours"
+                            placeholder="Maximum OT Hours"
+                            [OnlyNumber]="1"
+                          />
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-12 text-truncate">
+                    <label class="form-label">Medical Insurance</label>
+                    <select formControlName="IsMedicalInsuranceProvide" class="form-select">
+                      <option [value]="true">Provided By Company</option>
+                      <option [value]="false">Not Provided</option>
+                    </select>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="form-label">No of Vacancy <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="NoOfPosts" placeholder="No of Vacancy" [OnlyNumber]="5"
+                    [ngClass]="{'error-field': submitted && otherDetailFormControl['NoOfPosts'].errors !== null && otherDetailFormControl['NoOfPosts'].errors['required']}">
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="form-label">Visa Type <span class="text-danger">*</span></label>
+                    <select class="form-select" formControlName="VisaType"
+                    [ngClass]="{'error-field': submitted && otherDetailFormControl['VisaType'].errors !== null && otherDetailFormControl['VisaType'].errors['required']}">
+                      <option [value]="null" disabled>Select Visa Type</option>
+                      <option value="1">Tourist</option>
+                      <option value="2">Employment</option>
+                    </select>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="form-label">Job Type <span class="text-danger">*</span></label>
+                    <select class="form-select" (change)="selectJobType($event)" formControlName="JobTypeId"
+                    [ngClass]="{'error-field': submitted && otherDetailFormControl['JobTypeId'].errors !== null && otherDetailFormControl['JobTypeId'].errors['required']}">
+                      <option [value]="null" disabled>Select Job Type</option>
+                      <option [value]="1">Contractual</option>
+                      <option [value]="2">Permanent</option>
+                    </select>
+                  </div>
+                  @if (selectedJobType == 1) {
+                    <div class="col-md-12 mt-3">
+                      <label class="form-label">Contract Period (Months)</label>
+                      <input type="text" class="form-control" formControlName="ContractPeriodInMonths" placeholder="Contract Period In Months" [OnlyNumber]="5">
+                    </div>
+                  }
+                </div>
+              </div>
+            </form>
+          }
+          @else if (formStep == 6) {
             <div class="row col-md-12">
               @if (previews.length > 0) {
                 <h5>Preview Images</h5>
@@ -962,8 +1028,6 @@
             </div>
             }
           }
-        </form>
-        }
       </div>
       <div class="modal-footer border-top-0 pt-0">
         <button
@@ -971,16 +1035,16 @@
           data-bs-dismiss="modal"
           (click)="reset()"
         >
-          <i class="fa-solid fa-ban"></i>
+        <i class="fa-solid fa-rotate-left pe-1"></i>
           Reset
         </button>
         @if (formStep > 1) {
           <button class="btn btn-primary-c" (click)="previousFormStemp()"><i class="fa-solid fa-arrow-left pe-2"></i>Previous</button>
         }
-        @if (formStep > 0 && formStep < 5) {
-          <button class="btn btn-success" (click)="nextFormStemp()">Nex<i class="fa-solid fa-arrow-right ps-2"></i></button>
+        @if (formStep > 0 && formStep < 6) {
+          <button class="btn btn-success" (click)="nextFormStem()">Nex<i class="fa-solid fa-arrow-right ps-2"></i></button>
         }
-        @if (formStep == 5) {
+        @if (formStep == 6) {
           <button
             class="btn btn-primary-c"
             [disabled]="isLoading || isFilesizeExceed"
@@ -993,7 +1057,7 @@
                 'fa-regular fa-square-plus': !isLoading
               }"
             ></i>
-            {{ isLoading ? "Processing" : "Save" }}
+            {{ isLoading ? "Processing" : "Publish" }}
           </button>
         }
       </div>

@@ -8,7 +8,7 @@ import { AjaxService } from 'src/providers/ajax.service';
 import { ResponseModel } from 'src/auth/jwtService';
 import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
 import { environment } from 'src/environments/environment';
-import { FormGroup, FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { autoCompleteModal } from 'src/app/util/iautocomplete/iautocomplete.component';
 import { AllownumberDirective } from '../../util/directives/allownumber.directive';
 import { IautocompleteComponent } from '../../util/iautocomplete/iautocomplete.component';
@@ -111,7 +111,6 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   isPageReady: boolean = false;
   isLoading: boolean = false;
   fileDetail: Array<any> = [];
-  postJobForm: FormGroup;
   postJobDeatil: PostJobModal = new PostJobModal();
   postForm: any = null;
   profileURL: string = null;
@@ -144,7 +143,15 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   jobTypeData: autoCompleteModal = null;
   days: Array<ShiftDays> = [];
   formStep: number = 1;
-
+  otherDetailForm: FormGroup;
+  salaryDetailForm: FormGroup;
+  ExpWorkingForm: FormGroup;
+  jobTypeForm: FormGroup;
+  submitted: boolean = false;
+  selectedJobType: number = 0;
+  totalYears: Array<number> = [];
+  totalMonths: Array<number> = [];
+  selectedJobCategoryId: number = 1;
   constructor(private user: UserService,
     private nav: iNavigation,
     private http: AjaxService,
@@ -170,6 +177,12 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       { day: 'Saturday', id: 6, isEnabled: false  },
       { day: 'Sunday', id: 7, isEnabled: false  }
     ];
+    for (let i = 0; i <= 30; i++) {
+      this.totalYears.push(i);
+    }
+    for (let i = 0; i <= 12; i++) {
+      this.totalMonths.push(i);
+    }
     this.currentUser = this.user.getInstance();
     if (this.currentUser && this.currentUser.FirstName) {
       if (this.currentUser.LastName)
@@ -223,46 +236,60 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }
 
   initForm() {
-    this.postJobForm = this.fb.group({
+    this.jobTypeForm = this.fb.group({
       UserPostId: new FormControl(this.postJobDeatil.UserPostId),
-      ShortDescription: new FormControl(this.postJobDeatil.ShortDescription),
-      CompleteDescription: new FormControl(this.postJobDeatil.CompleteDescription),
-      CatagoryTypeId: new FormControl(this.postJobDeatil.CatagoryTypeId),
-      CountryId: new FormControl(this.postJobDeatil.CountryId),
+      CompleteDescription: new FormControl(this.postJobDeatil.CompleteDescription, [Validators.required]),
+      CatagoryTypeId: new FormControl(this.postJobDeatil.CatagoryTypeId, [Validators.required]),
+      CountryId: new FormControl(this.postJobDeatil.CountryId, [Validators.required]),
+      ShortDescription: new FormControl(this.postJobDeatil.ShortDescription, [Validators.required]),
+      JobCategoryId: new FormControl(this.postJobDeatil.JobCategoryId),
+    });
+
+    this.salaryDetailForm = this.fb.group({
+      MinimunCTC: new FormControl(this.postJobDeatil.MinimunCTC, [Validators.required]),
+      MaximunCTC: new FormControl(this.postJobDeatil.MaximunCTC, [Validators.required]),
+      Bonus: new FormControl(this.postJobDeatil.Bonus),
       IsHRAAllowance: new FormControl(this.postJobDeatil.IsHRAAllowance),
       HRAAllowanceAmount: new FormControl(this.postJobDeatil.HRAAllowanceAmount),
       IsTravelAllowance: new FormControl(this.postJobDeatil.IsTravelAllowance),
       TravelAllowanceAmount: new FormControl(this.postJobDeatil.TravelAllowanceAmount),
       IsFoodAllowance: new FormControl(this.postJobDeatil.IsFoodAllowance),
       FoodAllowanceAmount: new FormControl(this.postJobDeatil.FoodAllowanceAmount),
-      IsForeignReturnCompulsory: new FormControl(this.postJobDeatil.IsForeignReturnCompulsory),
-      MinimunDaysRequired: new FormControl(this.postJobDeatil.MinimunDaysRequired),
-      MinimunCTC: new FormControl(this.postJobDeatil.MinimunCTC),
-      MaximunCTC: new FormControl(this.postJobDeatil.MaximunCTC),
-      IsOTIncluded: new FormControl(this.postJobDeatil.IsOTIncluded),
-      MaxOTHours: new FormControl(this.postJobDeatil.MaxOTHours),
-      Bonus: new FormControl(this.postJobDeatil.Bonus),
-      SalaryCurrency: new FormControl(this.postJobDeatil.SalaryCurrency),
-      MinAgeLimit: new FormControl(this.postJobDeatil.MinAgeLimit),
-      MaxAgeLimit: new FormControl(this.postJobDeatil.MaxAgeLimit),
-      NoOfPosts: new FormControl(this.postJobDeatil.NoOfPosts),
-      ContractPeriodInMonths: new FormControl(this.postJobDeatil.ContractPeriodInMonths),
-      JobRequirementId: new FormControl(this.postJobDeatil.JobRequirementId),
-      JobCategoryId: new FormControl(this.postJobDeatil.JobCategoryId),
-      DailyWorkingHours: new FormControl(this.postJobDeatil.DailyWorkingHours),
-      ShiftId: new FormControl(this.postJobDeatil.ShiftId),
-      VisaType: new FormControl(this.postJobDeatil.VisaType),
-      IsMedicalInsuranceProvide: new FormControl(this.postJobDeatil.IsMedicalInsuranceProvide),
+      SalaryCurrency: new FormControl(this.postJobDeatil.SalaryCurrency, [Validators.required]),
+      SpecialAllowance: new FormControl(this.postJobDeatil.SpecialAllowance)
+    });
+
+    this.ExpWorkingForm = this.fb.group({
       OverseasExperience: new FormControl(this.postJobDeatil.OverseasExperience),
+      OverseasExpYrs: new FormControl(this.postJobDeatil.OverseasExpYrs),
+      OverseasExpMonth: new FormControl(this.postJobDeatil.OverseasExpMonth),
       LocalExperience: new FormControl(this.postJobDeatil.LocalExperience),
+      LocalExpYrs: new FormControl(this.postJobDeatil.LocalExpYrs),
+      LocalExpMonth: new FormControl(this.postJobDeatil.LocalExpMonth),
+      DailyWorkingHours: new FormControl(this.postJobDeatil.DailyWorkingHours, [Validators.required]),
+      ShiftId: new FormControl(this.postJobDeatil.ShiftId, [Validators.required]),
       IsMon: new FormControl(false),
       IsTue: new FormControl(false),
       IsThu: new FormControl(false),
       IsWed: new FormControl(false),
       IsFri: new FormControl(false),
       IsSat: new FormControl(false),
-      IsSun: new FormControl(false),
-    })
+      IsSun: new FormControl(false)
+    });
+
+    this.otherDetailForm = this.fb.group({
+      MinAgeLimit: new FormControl(this.postJobDeatil.MinAgeLimit, [Validators.required]),
+      MaxAgeLimit: new FormControl(this.postJobDeatil.MaxAgeLimit, [Validators.required]),
+      IsForeignReturnCompulsory: new FormControl(this.postJobDeatil.IsForeignReturnCompulsory),
+      MinimunDaysRequired: new FormControl(this.postJobDeatil.MinimunDaysRequired),
+      IsOTIncluded: new FormControl(this.postJobDeatil.IsOTIncluded),
+      MaxOTHours: new FormControl(this.postJobDeatil.MaxOTHours),
+      VisaType: new FormControl(this.postJobDeatil.VisaType, [Validators.required]),
+      IsMedicalInsuranceProvide: new FormControl(this.postJobDeatil.IsMedicalInsuranceProvide),
+      NoOfPosts: new FormControl(this.postJobDeatil.NoOfPosts, [Validators.required]),
+      ContractPeriodInMonths: new FormControl(this.postJobDeatil.ContractPeriodInMonths, [Validators.required]),
+      JobTypeId: new FormControl(this.postJobDeatil.JobTypeId, [Validators.required])
+    });
   }
 
   onPreviewImage(index: number, img: any): void {
@@ -394,31 +421,22 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
   saveJobPost() {
     this.isLoading = true;
-    if (!this.postJobForm.get("IsForeignReturnCompulsory").value)
-      this.postJobForm.get("MinimunDaysRequired").setValue(0);
-
-    if (!this.postJobForm.get("IsOTIncluded").value)
-      this.postJobForm.get("MaxOTHours").setValue(0);
-
-    if (!this.postJobForm.get("IsHRAAllowance").value)
-      this.postJobForm.get("HRAAllowanceAmount").setValue(0);
-
-    if (!this.postJobForm.get("IsTravelAllowance").value)
-      this.postJobForm.get("TravelAllowanceAmount").setValue(0);
-
-    if (!this.postJobForm.get("IsFoodAllowance").value)
-      this.postJobForm.get("FoodAllowanceAmount").setValue(0);
-
-    if (this.postJobForm.valid && !this.isFilesizeExceed) {
+    if (this.otherDetailForm.valid && !this.isFilesizeExceed) {
       let formData = new FormData();
       if (this.fileDetail.length > 0) {
         for (let i = 0; i < this.fileDetail.length; i++) {
           formData.append("postImages", this.fileDetail[i].file)
         }
       }
-      formData.append("userPost", JSON.stringify(this.postJobForm.value));
+      const value = {
+        ...this.jobTypeForm.value,
+        ...this.salaryDetailForm.value,
+        ...this.otherDetailForm.value
+      }
+      console.log(value);
+      formData.append("userPost", JSON.stringify(value));
       let url = "";
-      if (this.postJobForm.get("UserPostId").value == 0)
+      if (this.jobTypeForm.get("UserPostId").value == 0)
         url = "userposts/uploadUserPosts"
       else
         url = "userposts/updateUserPosts"
@@ -491,12 +509,16 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           })
           this.jobTypeData.className="";
           this.jobTypeData.isMultiSelect = true;
-        }
+        };
+        let index = this.days.findIndex(x => x.id == 7);
+        if (index != -1)
+          this.days[index].isEnabled = true;
+
         this.initForm();
         this.formStep = 1;
         this.previews = [];
-        this.updateProgressbar();
         $("#postJobModal").modal("show");
+        this.updateProgressbar();
         this.isLoading = false;
       }
     }).catch(e => {
@@ -518,7 +540,6 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
   addLike(item: any) {
     this.isLoading = true;
-    // let value = this.postJobForm.value;
     this.http.post("userposts/addLikedPost", item).then((res: ResponseModel) => {
       if (res.ResponseBody) {
         item.IsLiked = true;
@@ -532,8 +553,20 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
   }
 
-  get f() {
-    return this.postJobForm.controls;
+  get jobTypeFormControl() {
+    return this.jobTypeForm.controls;
+  }
+
+  get salaryDetailFormControl() {
+    return this.salaryDetailForm.controls;
+  }
+
+  get otherDetailFormControl() {
+    return this.otherDetailForm.controls;
+  }
+
+  get ExpWorkingFormControl() {
+    return this.ExpWorkingForm.controls;
   }
 
   fullTextView(e: any) {
@@ -581,17 +614,18 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }
 
   selectJobCategory(item: any) {
-    this.postJobForm.get("JobCategoryId").setValue(item.CategoryId);
+    this.jobTypeForm.get("JobCategoryId").setValue(item.CategoryId);
+    this.selectedJobCategoryId = item.CategoryId;
     let filterJobTypes = this.jobTypes.filter(x => x.CategoryId == item.CategoryId);
     if (filterJobTypes.length > 0) {
       this.jobTypeData = new autoCompleteModal();
       this.jobTypeData.data = [];
-      // filterJobTypes.forEach(x => {
-      //   this.jobTypeData.data.push({
-      //     value: x.JobTypeId,
-      //     text: x.JobTypeName
-      //   })
-      // })
+      filterJobTypes.forEach(x => {
+        this.jobTypeData.data.push({
+          value: x.JobTypeId,
+          text: x.JobTypeName
+        })
+      })
     }
   }
 
@@ -633,8 +667,10 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  selectJobType(e: any) {
-
+  selectCatagoryType(e: any) {
+    let value = e.value;
+    console.log(value);
+    // this.CatagoryTypeId
   }
 
   deleteImgConformPopup(item: any) { }
@@ -667,9 +703,60 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  nextFormStemp() {
-    if (this.formStep < 5 && this.formStep > 0) {
+  nextFormStem() {
+    if (this.formStep < 6 && this.formStep > 0) {
+      let errorCount = 0;
+      this.submitted = true;
+      if (this.formStep == 2) {
+        if (this.jobTypeForm.invalid)
+          errorCount++;
+
+      } else if (this.formStep == 3) {
+        if (!this.salaryDetailForm.get("IsHRAAllowance").value)
+          this.salaryDetailForm.get("HRAAllowanceAmount").setValue(0);
+
+        if (!this.salaryDetailForm.get("IsTravelAllowance").value)
+          this.salaryDetailForm.get("TravelAllowanceAmount").setValue(0);
+
+        if (!this.salaryDetailForm.get("IsFoodAllowance").value)
+          this.salaryDetailForm.get("FoodAllowanceAmount").setValue(0);
+
+        if (this.salaryDetailForm.invalid)
+          errorCount++;
+
+      } else if (this.formStep == 4) {
+        let overseasExp = (Number(this.ExpWorkingForm.get("OverseasExpYrs").value) * 12) + Number(this.ExpWorkingForm.get("OverseasExpMonth").value);
+        let localExp = (Number(this.ExpWorkingForm.get("LocalExpYrs").value) * 12) + (this.ExpWorkingForm.get("LocalExpMonth").value);
+        this.ExpWorkingForm.get("OverseasExperience").setValue(overseasExp);
+        this.ExpWorkingForm.get("LocalExperience").setValue(localExp);
+        if (this.ExpWorkingForm.invalid)
+          errorCount++;
+
+      } else if (this.formStep == 5) {
+        if (!this.otherDetailForm.get("IsForeignReturnCompulsory").value)
+          this.otherDetailForm.get("MinimunDaysRequired").setValue(0);
+
+        if (!this.otherDetailForm.get("IsOTIncluded").value)
+          this.otherDetailForm.get("MaxOTHours").setValue(0);
+
+        if (this.otherDetailForm.invalid)
+          errorCount++;
+      }
+
+      if (errorCount != 0) {
+        ErrorToast("Please fill all the mandatory filled.");
+        return;
+      }
       this.formStep++;
+      this.updateProgressbar();
+      this.submitted = false;
+    }
+  }
+
+  previousStep(e: any) {
+    let value = Number(e.currentTarget.getAttribute("data-index"));
+    if (value < this.formStep) {
+      this.formStep = value;
       this.updateProgressbar();
     }
   }
@@ -687,6 +774,14 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     const progressActive = document.querySelectorAll(".progress-step-active");
     progress.style.width =
     ((progressActive.length - 1) / (elem.length - 1)) * 100 + "%";
+  }
+
+  selectCurrency(id: number) {
+    this.salaryDetailForm.get("SalaryCurrency").setValue(id);
+  }
+
+  selectJobType(e: any) {
+    this.selectedJobType = Number(e.target.value);
   }
 }
 
@@ -712,25 +807,31 @@ class PostJobModal {
   FoodAllowanceAmount: number = null;
   IsForeignReturnCompulsory: boolean = false;
   MinimunDaysRequired: number = null;
-  MinimunCTC: number = 0;
-  MaximunCTC: number = 0;
+  MinimunCTC: number = null;
+  MaximunCTC: number = null;
   IsOTIncluded: boolean = false;
   MaxOTHours: number = null;
   Bonus: number = 0;
   SalaryCurrency: string = null;
-  MinAgeLimit: number = 0;
-  MaxAgeLimit: number = 0;
-  NoOfPosts: number = 0;
+  SpecialAllowance: number = 0;
+  MinAgeLimit: number = null;
+  MaxAgeLimit: number = null;
+  NoOfPosts: number = null;
   ContractPeriodInMonths: number = 0;
   Files: Array<any> = [];
   FileDetail: string = null;
   JobCategoryId: number = 1;
-  DailyWorkingHours: number = 0;
+  DailyWorkingHours: number = null;
   ShiftId: number = null;
   VisaType: number = null;
   IsMedicalInsuranceProvide: boolean = true;
   OverseasExperience: number = 0;
   LocalExperience: number = 0;
+  JobTypeId: number = null;
+  OverseasExpYrs: number = 0;
+  OverseasExpMonth: number = 0;
+  LocalExpYrs: number = 0;
+  LocalExpMonth: number = 0;
 }
 
 interface ShiftDays {
