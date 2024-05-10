@@ -553,11 +553,11 @@
       <div class="modal-body pt-0 text-start">
         <div class="progressbar">
           <div class="progress-line" id="progress"></div>
-          <div class="progress-step progress-step-active" data-title="Job Type" data-index="1" (click)="previousStep($event)"></div>
-          <div class="progress-step" data-index="2" (click)="previousStep($event)" data-title="Job Detail"></div>
-          <div class="progress-step" data-index="3" (click)="previousStep($event)" data-title="Salary Detail"></div>
-          <div class="progress-step" data-index="4" (click)="previousStep($event)" data-title="Exp. & Working Detail"></div>
-          <div class="progress-step" data-index="5" (click)="previousStep($event)" data-title="Others Detail"></div>
+          <div class="progress-step progress-step-active" [ngClass]="{'pe-auto': formStep > 1}" data-title="Job Type" data-index="1" (click)="previousStep($event)"></div>
+          <div class="progress-step" [ngClass]="{'pe-auto': formStep > 2}" data-index="2" (click)="previousStep($event)" data-title="Job Detail"></div>
+          <div class="progress-step" [ngClass]="{'pe-auto': formStep > 3}" data-index="3" (click)="previousStep($event)" data-title="Salary Detail"></div>
+          <div class="progress-step" [ngClass]="{'pe-auto': formStep > 4}" data-index="4" (click)="previousStep($event)" data-title="Exp. & Working Detail"></div>
+          <div class="progress-step" [ngClass]="{'pe-auto': formStep > 5}" data-index="5" (click)="previousStep($event)" data-title="Others Detail"></div>
           <div class="progress-step" data-index="6" (click)="previousStep($event)" data-title="Upload File"></div>
         </div>
 
@@ -961,13 +961,17 @@
                 <h5>Preview Images</h5>
                 <div class="row">
                   @for (item of previews; track item) {
-                    <div class="col-md-3 my-2">
+                    <div class="col-md-3 my-2 upload-img position-relative">
                       @if (item.Format == "image") {
                         <img [src]="item.Url" class="img-fluid" alt="image">
                       }
                       @else {
                         <video [src]="item.Url" style="width: 98%; height: 12vh" controls></video>
                       }
+                      <a href="javascript:void(0)" class="text-decoration-none position-absolute img-delete-icon"
+                      (click)="removePreviewImg(item)">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                      </a>
                     </div>
                   }
                 </div>
