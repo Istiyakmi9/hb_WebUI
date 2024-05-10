@@ -529,7 +529,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           this.days[index].isEnabled = true;
 
         this.initForm();
-        this.formStep = 6;
+        this.formStep = 1;
         this.previews = [];
         $("#postJobModal").modal("show");
         this.updateProgressbar();
