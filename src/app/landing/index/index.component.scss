@@ -434,3 +434,15 @@ a {
   color: #286090 !important;
   font-weight: 600 !important;
 }
+
+.img-delete-icon {
+  top: 0;
+  right: 13px;
+  opacity: 0.5;
+}
+
+.upload-img:hover {
+  .img-delete-icon {
+    opacity: 1;
+  }
+}

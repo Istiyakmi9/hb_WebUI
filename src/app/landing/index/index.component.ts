@@ -152,6 +152,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   totalYears: Array<number> = [];
   totalMonths: Array<number> = [];
   selectedJobCategoryId: number = 1;
+
   constructor(private user: UserService,
     private nav: iNavigation,
     private http: AjaxService,
@@ -349,6 +350,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         } else if (selectedfile[i].type.indexOf('video') > -1) {
           type = 'video';
         }
+        let imageIndex = new Date().getTime() + i;
         reader.onload = (e: any) => {
           if (e.target.result.includes("image"))
             type = 'image';
@@ -356,15 +358,16 @@ export class IndexComponent implements OnInit, AfterViewChecked {
             type = 'video';
           this.previews.push({
             Url: e.target.result,
-            Format: type
+            Format: type,
+            Id: imageIndex
           });
         };
         reader.readAsDataURL(selectedfile[i]);
         let file = <File>selectedfile[i];
-        let imageIndex = new Date().getTime();
         this.fileDetail.push({
           name: $`post_${imageIndex}`,
-          file: file
+          file: file,
+          id: imageIndex
         });
       }
       let totalFileSize = this.fileDetail.map(x => x.file.size).reduce((acc, curr) => { return acc + curr; }, 0) / (1024 * 1024);
@@ -372,6 +375,17 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         this.isFilesizeExceed = true;
       else
         this.isFilesizeExceed = false;
+    }
+  }
+
+  removePreviewImg(item: any) {
+    if (item) {
+      let previewIndex = this.previews.findIndex(x => x.Id == item.Id);
+      let fileIndex = this.fileDetail.findIndex(x => x.id == item.Id);
+      if (previewIndex > -1 && fileIndex > -1) {
+        this.previews.splice(previewIndex, 1);
+        this.fileDetail.splice(fileIndex, 1);
+      }
     }
   }
 
@@ -515,7 +529,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           this.days[index].isEnabled = true;
 
         this.initForm();
-        this.formStep = 1;
+        this.formStep = 6;
         this.previews = [];
         $("#postJobModal").modal("show");
         this.updateProgressbar();
@@ -543,7 +557,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     this.http.post("userposts/addLikedPost", item).then((res: ResponseModel) => {
       if (res.ResponseBody) {
         item.IsLiked = true;
-        Toast("liked details added");
+        Toast("Post liked successfully");
         this.isLoading = false;
       }
     }).catch(e => {
@@ -721,6 +735,11 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         if (!this.salaryDetailForm.get("IsFoodAllowance").value)
           this.salaryDetailForm.get("FoodAllowanceAmount").setValue(0);
 
+        if (Number(this.salaryDetailForm.get("MinimunCTC").value) > Number(this.salaryDetailForm.get("MaximunCTC").value)) {
+          errorCount++;
+          ErrorToast("Maximum CTC must be greater than to Mininum CTC.");
+          return;
+        }
         if (this.salaryDetailForm.invalid)
           errorCount++;
 
@@ -738,6 +757,12 @@ export class IndexComponent implements OnInit, AfterViewChecked {
 
         if (!this.otherDetailForm.get("IsOTIncluded").value)
           this.otherDetailForm.get("MaxOTHours").setValue(0);
+
+        if (Number(this.otherDetailForm.get("MinAgeLimit").value) > Number(this.otherDetailForm.get("MaxAgeLimit").value)) {
+          errorCount++;
+          ErrorToast("Maximum age limit must be greater than to Mininum age limit.")
+          return;
+        }
 
         if (this.otherDetailForm.invalid)
           errorCount++;
