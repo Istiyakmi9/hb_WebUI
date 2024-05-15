@@ -270,26 +270,29 @@
                   }
                 </div>
                 <div class="col-auto">
-                  <a
-                    href="javascript:void(0)"
-                    class="text-decoration-none"
-                    (click)="addComment($event)"
-                  >
+                  <a href="javascript:void(0)" class="text-decoration-none">
+                    <i class="fa-solid fa-retweet pe-2"></i>
+                    Share
+                  </a>
+                </div>
+                <div class="col-auto">
+                  <a href="javascript:void(0)" class="text-decoration-none" (click)="addComment($event)">
                     <i class="fa-regular fa-comment-dots pe-2"></i>
                     Comment
                   </a>
                 </div>
                 <div class="col-auto">
-                  <a href="javascript:void(0)" class="text-decoration-none">
-                    <i class="fa-solid fa-retweet pe-2"></i>
-                    Repost
+                  @if (!item.IsApplied) {
+                  <a href="javascript:void(0)" class="text-decoration-none" (click)="addApply(item)">
+                    <i class="fa-regular fa-file pe-2"></i>
+                    Apply
                   </a>
-                </div>
-                <div class="col-auto">
+                  } @if (item.IsApplied) {
                   <a href="javascript:void(0)" class="text-decoration-none">
-                    <i class="fa-regular fa-paper-plane pe-2"></i>
-                    Send
+                    <i class="fa-solid fa-file pe-2"></i>
+                    Applied
                   </a>
+                  }
                 </div>
               </div>
               <div class="d-none" data-name="comment-box">
