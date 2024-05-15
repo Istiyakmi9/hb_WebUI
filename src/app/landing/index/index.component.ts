@@ -564,7 +564,21 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       alert(e.message)
       this.isLoading = false;
     })
+  }
 
+  addApply(item) {
+    this.isLoading = true;
+    // let value = this.postJobForm.value;
+    this.http.post("userposts/addAppliedPost", item).then((res: ResponseModel) => {
+      if (res.ResponseBody) {
+        Toast("Applied details added");
+        item.IsApplied = true;
+        this.isLoading = false;
+      }
+    }).catch(e => {
+      alert(e.message)
+      this.isLoading = false;
+    })
   }
 
   get jobTypeFormControl() {

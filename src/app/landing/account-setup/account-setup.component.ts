@@ -7,6 +7,15 @@ import { Index } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 import { IautocompleteComponent } from '../../util/iautocomplete/iautocomplete.component';
 
+interface IAccountType {
+  TypeId: number;
+  TypeName: string;
+  Desc: string;
+  ImgUrl: string;
+  RoleId: number;
+  purpose: string;
+}
+
 @Component({
     selector: 'app-account-setup',
     templateUrl: './account-setup.component.html',
@@ -15,6 +24,22 @@ import { IautocompleteComponent } from '../../util/iautocomplete/iautocomplete.c
     imports: [IautocompleteComponent]
 })
 export class AccountSetupComponent implements OnInit {
+
+  accountType: IAccountType[] = [{
+    TypeId: 1,
+    TypeName: "Job Seeker",
+    Desc:"An individual who is looking for employment opportunities",
+    ImgUrl: "assets/blue_collar.png",
+    RoleId:3,
+    purpose: 'looking for',
+  }, {
+    TypeId: 2,
+    TypeName: "Job Provider",
+    Desc:"Recruiter or placement agency that connects job seekers with job opportunities",
+    ImgUrl: "assets/grey_collar.png",
+    RoleId:2,
+    purpose:'offering'
+  }];
 
   jobCategory: Array<any> = [{
     CategoryId: 1,
@@ -34,6 +59,7 @@ export class AccountSetupComponent implements OnInit {
   }];
   activePage: number = 1;
   selectedJobType: any = null;
+  selectedAccountType: IAccountType = null;
   locationData: autoCompleteModal = null;
   JobTypeData: autoCompleteModal = null;
   isLoading: boolean = false;
@@ -76,6 +102,13 @@ export class AccountSetupComponent implements OnInit {
     }
   }
 
+  selectAccountType(accountType: IAccountType) {
+    if (accountType) {
+      this.selectedAccountType = accountType;  
+      this.activePage = 2;    
+    }
+  }
+
   getJobsandLocation() {
     this.isLoading = true;
     this.http.get(`user/getJobandLocation/${this.selectedJobType.CategoryId}`).then((res: ResponseModel) => {
@@ -102,7 +135,7 @@ export class AccountSetupComponent implements OnInit {
         this.JobTypeData.className="";
         this.selectedJobTitle = [];
         this.selectedLocation = [];
-        this.activePage = 2;
+        this.activePage = 3;
         this.isLoading = false;
       }
     }).catch(e => {
@@ -130,6 +163,7 @@ export class AccountSetupComponent implements OnInit {
     this.isLoading = true;
     let value = {
       UserId: this.userId,
+      RoleId:this.selectedAccountType.RoleId,
       JobCategoryId: this.selectedJobType.CategoryId,
       CategoryTypeIds: this.selectedJobTitle.length > 0 ? this.selectedJobTitle.map(x => x.value) : [],
       JobLocationIds: this.selectedLocation.length > 0 ? this.selectedLocation.map(x => x.value): []
@@ -145,6 +179,8 @@ export class AccountSetupComponent implements OnInit {
   }
 
   gotoPreviousTab() {
-    this.activePage = 1;
+    if (this.activePage>1 && this.activePage < 4) {      
+      this.activePage--;
+    }  
   }
 }
