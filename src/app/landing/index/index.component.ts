@@ -152,7 +152,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   totalYears: Array<number> = [];
   totalMonths: Array<number> = [];
   selectedJobCategoryId: number = 1;
-
+  
   constructor(private user: UserService,
     private nav: iNavigation,
     private http: AjaxService,
@@ -184,6 +184,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     for (let i = 0; i <= 12; i++) {
       this.totalMonths.push(i);
     }
+    this.imgBaseUrl = environment.baseImgUrl;
+
     this.currentUser = this.user.getInstance();
     if (this.currentUser && this.currentUser.FirstName) {
       if (this.currentUser.LastName)
@@ -191,6 +193,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
       else
         this.userName = this.currentUser.FirstName;
     }
+    if (this.currentUser.ImageURL)
+      this.profileURL = this.imgBaseUrl + this.currentUser.ImageURL;
+
     this.countryData = new autoCompleteModal();
     this.countryData.data = [];
     this.countryData.placeholder = "Select Country";
@@ -205,7 +210,6 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     this.jobTypeData.className = "disable-field";
     this.posts = [];
     this.totalImageCount = this.posts.length;
-    this.imgBaseUrl = environment.baseImgUrl;
     this.isPageReady = false;
     this.loadData();
   }
@@ -403,6 +407,25 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         name: $`profile_${imageIndex}`,
         file: file
       });
+      this.uploadProfileImage();
+    }
+  }
+
+  uploadProfileImage() {
+    if (this.fileDetail.length > 0) {
+      this.isLoading = true;
+      let formData = new FormData();
+      formData.append("userimage", this.fileDetail[0].file);
+      this.http.post(`user/addUserImage/${this.currentUser.UserId}`, formData).then((res:ResponseModel) => {
+        if (res.ResponseBody) {
+          this.currentUser.ImageURL = res.ResponseBody;
+          this.user.setInstance(this.currentUser);
+          Toast("Profile uploaded successfully");
+          this.isLoading = false;
+        }
+      }).catch(e => {
+        this.isLoading = false;
+      })
     }
   }
 
