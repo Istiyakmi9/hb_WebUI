@@ -76,9 +76,9 @@ export class AccountSetupComponent implements OnInit {
     this.isPageReady = false;
     let data = this.nav.getValue();
     if (data) {
-      if (data.UserId > 0 && !data.IsAccountConfig) {
+      if (data.userId > 0 && !data.IsAccountConfig) {
         this.isPageReady= true;
-        this.userId = data.UserId;
+        this.userId = data.userId;
         this.locationData = new autoCompleteModal();
         this.locationData.data = [];
         this.locationData.placeholder = "Select location";
@@ -104,8 +104,8 @@ export class AccountSetupComponent implements OnInit {
 
   selectAccountType(accountType: IAccountType) {
     if (accountType) {
-      this.selectedAccountType = accountType;  
-      this.activePage = 2;    
+      this.selectedAccountType = accountType;
+      this.activePage = 2;
     }
   }
 
@@ -119,14 +119,14 @@ export class AccountSetupComponent implements OnInit {
         this.JobTypeData.data = [];
         countries.map(x => {
           this.locationData.data.push({
-            value: x.Id,
-            text: x.Name
+            value: x.id,
+            text: x.name
           })
         });
         jobtypes.map(x => {
           this.JobTypeData.data.push({
-            value: x.JobTypeId,
-            text: x.JobTypeName
+            value: x.jobTypeId,
+            text: x.jobTypeName
           })
         });
         this.locationData.className="";
@@ -179,8 +179,8 @@ export class AccountSetupComponent implements OnInit {
   }
 
   gotoPreviousTab() {
-    if (this.activePage>1 && this.activePage < 4) {      
+    if (this.activePage>1 && this.activePage < 4) {
       this.activePage--;
-    }  
+    }
   }
 }
