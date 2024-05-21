@@ -153,14 +153,14 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   otherDetailForm: FormGroup;
   salaryDetailForm: FormGroup;
   ExpWorkingForm: FormGroup;
-  
+
   submitted: boolean = false;
   selectedJobType: number = 0;
   totalYears: Array<number> = [];
   totalMonths: Array<number> = [];
   selectedJobCategoryId: number = 1;
   jobTypeForm: FormGroup;
-  
+
   constructor(private user: UserService,
     private nav: iNavigation,
     private http: AjaxService,
@@ -235,9 +235,9 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         if (x.files && x.files.length > 0) {
           x.files.forEach(y => {
             if (y.filePath.includes(".jpg") || y.filePath.includes(".png") || y.filePath.includes(".jpeg") || y.filePath.includes(".gif"))
-              y.Format = "image"
+              y.format = "image"
             else
-              y.Format = "video"
+              y.format = "video"
 
             y.filePath = this.imgBaseUrl + y.filePath;
           })
@@ -370,7 +370,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
             type = 'video';
           this.previews.push({
             Url: e.target.result,
-            Format: type,
+            format: type,
             Id: imageIndex
           });
         };
@@ -444,7 +444,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         for (let i = 0; i < this.previews.length; i++) {
           postimg.push({
             ImageSrc: this.previews[i].Url,
-            Format: this.previews[i].Format,
+            format: this.previews[i].format,
             ImageAlt: i + 1
           })
         }
@@ -545,7 +545,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
           })
         });
         this.currenciesData.className="";
-        this.jobTypes = res.ResponseBody.JobTypes;        
+        this.jobTypes = res.ResponseBody.JobTypes;
         if (this.postJobDeatil.jobCategoryId > 0) {
           let filterJobTypes = this.jobTypes.filter(x => x.categoryId == this.postJobDeatil.jobCategoryId);
           filterJobTypes.map(x => {
