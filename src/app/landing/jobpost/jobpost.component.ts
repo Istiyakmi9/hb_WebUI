@@ -171,7 +171,7 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
   loadData() {
     this.isPageReady = false;
     this.http
-      .get(`userposts/getPostByUserId/${this.currentUser.UserId}`)
+      .get(`userposts/getPostByUserId/${this.currentUser.userId}`)
       .then((res: ResponseModel) => {
         if (res.ResponseBody) {
           this.bindData(res.ResponseBody);
@@ -231,11 +231,11 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
       isForeignReturnCompulsory: new FormControl(
         this.postJobDeatil.isForeignReturnCompulsory
       ),
-      minimunDaysRequired: new FormControl(
-        this.postJobDeatil.minimunDaysRequired
+      minimumDaysRequired: new FormControl(
+        this.postJobDeatil.minimumDaysRequired
       ),
-      minimunCTC: new FormControl(this.postJobDeatil.minimunCTC),
-      maximunCTC: new FormControl(this.postJobDeatil.maximunCTC),
+      minimumCTC: new FormControl(this.postJobDeatil.minimumCTC),
+      maximumCTC: new FormControl(this.postJobDeatil.maximumCTC),
       isOTIncluded: new FormControl(this.postJobDeatil.isOTIncluded),
       maxOTHours: new FormControl(this.postJobDeatil.maxOTHours),
       bonus: new FormControl(this.postJobDeatil.bonus),
@@ -388,7 +388,7 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
   saveJobPost() {
     this.isLoading = true;
     if (!this.postJobForm.value.isForeignReturnCompulsory)
-      this.postJobForm.value.minimunDaysRequired = 0;
+      this.postJobForm.value.minimumDaysRequired = 0;
 
     if (!this.postJobForm.value.isOTIncluded)
       this.postJobForm.value.maxOTHours = 0;
@@ -644,9 +644,9 @@ class PostJobModal {
   isFoodAllowance: boolean = false;
   foodAllowanceAmount: number = null;
   isForeignReturnCompulsory: boolean = false;
-  minimunDaysRequired: number = null;
-  minimunCTC: number = 0;
-  maximunCTC: number = 0;
+  minimumDaysRequired: number = null;
+  minimumCTC: number = 0;
+  maximumCTC: number = 0;
   isOTIncluded: boolean = false;
   maxOTHours: number = null;
   bonus: number = 0;
