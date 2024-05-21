@@ -217,33 +217,33 @@ export class AjaxService {
 }
 
 export class Filter {
-  EmployeeId?: number = 0;
-  ClientId?: number = 0;
-  SearchString: string = "1=1";
-  PageIndex: number = 1;
-  StartIndex?: number = 0;
-  EndIndex?: number = 0;
-  PageSize: number = 10;
-  SortBy?: string = "";
-  CompanyId: number = 0;
-  TotalRecords?: number = 0;
-  ShowPageNo?: number = 5;
-  ActivePageNumber?: number = 1;
+  employeeId?: number = 0;
+  clientId?: number = 0;
+  searchString: string = "1=1";
+  pageIndex: number = 1;
+  startIndex?: number = 0;
+  endIndex?: number = 0;
+  pageSize: number = 10;
+  sortBy?: string = "";
+  companyId: number = 0;
+  totalRecords?: number = 0;
+  showPageNo?: number = 5;
+  activePageNumber?: number = 1;
   isReUseSame?: boolean = false;
   isActive?: boolean = true;
 
   update(total: any) {
     if(!isNaN(Number(total))) {
-      this.TotalRecords = total;
-      this.StartIndex = 1;
-      this.PageIndex = 1;
+      this.totalRecords = total;
+      this.startIndex = 1;
+      this.pageIndex = 1;
     }
   }
 
   reset() {
-    this.TotalRecords = 0;
-    this.StartIndex = 1;
-    this.PageIndex = 1;
-    this.ActivePageNumber = 1;
+    this.totalRecords = 0;
+    this.startIndex = 1;
+    this.pageIndex = 1;
+    this.activePageNumber = 1;
   }
 }

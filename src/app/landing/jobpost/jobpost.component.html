@@ -152,11 +152,11 @@
                 @if (data.Format == 'image') {
                 <img
                   (click)="onPreviewImage(i, item.files)"
-                  [src]="data.FilePath"
-                  [alt]="data.FileDetailId"
+                  [src]="data.filePath"
+                  [alt]="data.fileDetailId"
                 />
                 } @if (data.Format == 'video') {
-                <video [src]="data.FilePath" width="100%" controls></video>
+                <video [src]="data.filePath" width="100%" controls></video>
                 }
               </div>
               }

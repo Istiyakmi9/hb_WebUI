@@ -16,16 +16,16 @@
                       <img src="assets/face.jpg" alt="" class="rounded rounded-circle profile-image">
                     </div>
                     <div class="col-auto">
-                      <span class="mb-0">{{item.FirstName}} {{(item.LastName != null && item.LastName != "") ? item.LastName : ''}}</span>
+                      <span class="mb-0">{{item.firstName}} {{(item.lastName != null && item.lastName != "") ? item.LastName : ''}}</span>
                       <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" class="ms-1" alt="" width="4%">
                     </div>
                   </div>
                 </div>
                 <div class="col-auto">
-                  @if (item.IsFriend) {
+                  @if (item.isFriend) {
                     <button class="btn btn-success" (click)="addFriend(item)"><i class="fa-solid fa-user-check pe-2"></i>Friend</button>
                   }
-                  @if (!item.IsFriend) {
+                 @else {
                     <button class="btn btn-primary-c" (click)="addFriend(item)"><i class="fa-solid fa-user-plus pe-2"></i>Add Friend</button>
                   }
                 </div>

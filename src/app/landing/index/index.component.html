@@ -143,7 +143,7 @@
                     <div
                       class="mb-0 fw-bold text-start d-flex align-items-center"
                     >
-                      {{ item.FullName }}.
+                      {{ item.fullName }}.
                       <!-- <i class="fa-solid fa-circle-check ms-1 text-primary"></i> -->
                       <img
                         src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg"
@@ -154,7 +154,7 @@
                       <!-- <a href="javascript:void(0)" class="text-decoration-none ms-2">Follow</a> -->
                     </div>
                     <small>
-                      {{ item.PostedOn | date : "MMMM d, y, h:mm:ss a" }}
+                      {{ item.postedOn | date : "MMMM d, y, h:mm:ss a" }}
                       <i class="fa-solid fa-earth-americas ps-1"></i>
                     </small>
                   </div>
@@ -164,7 +164,7 @@
                 class="description-container text-start"
                 [attr.data-name]="'description' + i"
               >
-                {{ item.CompleteDescription }}
+                {{ item.completeDescription }}
               </div>
               <p class="mb-0 text-end">
                 <a
@@ -174,25 +174,25 @@
                   >Read more ...</a
                 >
               </p>
-              @if (item.Files != null && item.Files.length > 0) {
+              @if (item.files != null && item.files.length > 0) {
               <div class="gallery-lightbox-container">
                 <div
                   class="gallery"
                   [ngStyle]="{
                     'column-count':
-                      item.Files.length == 1 ? 1 : item.Files.length == 2 ? 2 : 3
+                      item.files.length == 1 ? 1 : item.files.length == 2 ? 2 : 3
                   }"
                 >
-                  @for (data of item.Files; track data; let i = $index) {
+                  @for (data of item.files; track data; let i = $index) {
                   <div class="gallery-img">
                     @if (data.Format == 'image') {
                     <img
-                      (click)="onPreviewImage(i, item.Files)"
-                      [src]="data.FilePath"
-                      [alt]="data.FileDetailId"
+                      (click)="onPreviewImage(i, item.files)"
+                      [src]="data.filePath"
+                      [alt]="data.fileDetailId"
                     />
                     } @if (data.Format == 'video') {
-                    <video [src]="data.FilePath" width="100%" controls></video>
+                    <video [src]="data.filePath" width="100%" controls></video>
                     }
                   </div>
                   }
@@ -231,14 +231,14 @@
                     (@animation.done)="onAnimationEnd($event)"
                     class="lightbox-img col-md-8"
                   >
-                    @if (currentLightboxImage.Format == 'image') {
+                    @if (currentLightboxImage.format == 'image') {
                     <img
-                      [src]="currentLightboxImage.FilePath"
-                      [alt]="currentLightboxImage.ImageAlt"
+                      [src]="currentLightboxImage.filePath"
+                      [alt]="currentLightboxImage.imageAlt"
                     />
-                    } @if (currentLightboxImage.Format == 'video') {
+                    } @if (currentLightboxImage.format == 'video') {
                     <video
-                      [src]="currentLightboxImage.FilePath"
+                      [src]="currentLightboxImage.filePath"
                       style="max-width: 100%; height: 88vh"
                       controls
                     ></video>
@@ -253,7 +253,7 @@
                 class="d-flex align-items-center justify-content-between mt-3 px-3 pt-3 border-top"
               >
                 <div class="col-auto">
-                  @if (!item.IsLiked) {
+                  @if (!item.isLiked) {
                   <a
                     href="javascript:void(0)"
                     class="text-decoration-none"
@@ -262,7 +262,7 @@
                     <i class="fa-regular fa-thumbs-up pe-2"></i>
                     Like
                   </a>
-                  } @if (item.IsLiked) {
+                  } @if (item.isLiked) {
                   <a href="javascript:void(0)" class="text-decoration-none">
                     <i class="fa-solid fa-thumbs-up pe-2"></i>
                     Liked
@@ -282,12 +282,12 @@
                   </a>
                 </div>
                 <div class="col-auto">
-                  @if (!item.IsApplied) {
+                  @if (!item.isApplied) {
                   <a href="javascript:void(0)" class="text-decoration-none" (click)="addApply(item)">
                     <i class="fa-regular fa-file pe-2"></i>
                     Apply
                   </a>
-                  } @if (item.IsApplied) {
+                  } @if (item.isApplied) {
                   <a href="javascript:void(0)" class="text-decoration-none">
                     <i class="fa-solid fa-file pe-2"></i>
                     Applied
@@ -572,11 +572,11 @@
                   <div class="card px-4 py-2" [ngClass]="{'active-category': selectedJobCategoryId == i + 1}">
                     <div class="row align-items-center">
                       <div class="col-auto">
-                        <img [src]="item.ImgUrl" class="category-img" alt="blue-color-jox"/>
+                        <img [src]="item.imgUrl" class="category-img" alt="blue-color-jox"/>
                       </div>
                       <div class="col">
                         <h5 class="text-dark fw-bold mb-0">
-                          {{ item.CategoryName }}
+                          {{ item.categoryName }}
                         </h5>
                       </div>
                     </div>
@@ -590,14 +590,14 @@
             <form [formGroup]="jobTypeForm">
               <div class="col-md-12 mt-2">
                 <label class="form-label">Title <span class="text-danger">*</span></label>
-                <textarea class="form-control" formControlName="ShortDescription" placeholder="Job Title" maxlength="250" rows="2"
-                [ngClass]="{'error-field': submitted && jobTypeFormControl['ShortDescription'].errors !== null && jobTypeFormControl['ShortDescription'].errors['required']}">
+                <textarea class="form-control" formControlName="shortDescription" placeholder="Job Title" maxlength="250" rows="2"
+                [ngClass]="{'error-field': submitted && jobTypeFormControl['shortDescription'].errors !== null && jobTypeFormControl['shortDescription'].errors['required']}">
                 </textarea>
               </div>
               <div class="col-md-12 mt-2">
                 <label class="form-label">Job Description <span class="text-danger">*</span></label>
-                <textarea class="form-control" formControlName="CompleteDescription" placeholder="Job Description" rows="3"
-                [ngClass]="{'error-field': submitted && jobTypeFormControl['CompleteDescription'].errors !== null && jobTypeFormControl['CompleteDescription'].errors['required']}">
+                <textarea class="form-control" formControlName="completeDescription" placeholder="Job Description" rows="3"
+                [ngClass]="{'error-field': submitted && jobTypeFormControl['completeDescription'].errors !== null && jobTypeFormControl['completeDescription'].errors['required']}">
                 </textarea>
               </div>
               <div class="mt-2 row">
@@ -607,7 +607,7 @@
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Country <span class="text-danger">*</span></label>
-                  <bot-autocomplete [data]="countryData" formControlName="CountryId"></bot-autocomplete>
+                  <bot-autocomplete [data]="countryData" formControlName="countryId"></bot-autocomplete>
                 </div>
               </div>
             </form>
@@ -624,10 +624,10 @@
                         <input
                           type="text"
                           class="form-control"
-                          formControlName="MinimunCTC"
-                          placeholder="Minimun CTC"
+                          formControlName="minimumCTC"
+                          placeholder="Minimum CTC"
                           [OnlyNumber]="10"
-                          [ngClass]="{'error-field': submitted && salaryDetailFormControl['MinimunCTC'].errors !== null && salaryDetailFormControl['MinimunCTC'].errors['required']}"
+                          [ngClass]="{'error-field': submitted && salaryDetailFormControl['minimumCTC'].errors !== null && salaryDetailFormControl['minimumCTC'].errors['required']}"
                         />
                       </div>
                       <div class="col-md-6 d-flex align-items-center">
@@ -635,10 +635,10 @@
                         <input
                           type="text"
                           class="form-control"
-                          formControlName="MaximunCTC"
+                          formControlName="maximumCTC"
                           placeholder="Maximum CTC"
                           [OnlyNumber]="10"
-                          [ngClass]="{'error-field': submitted && salaryDetailFormControl['MaximunCTC'].errors !== null && salaryDetailFormControl['MaximunCTC'].errors['required']}"
+                          [ngClass]="{'error-field': submitted && salaryDetailFormControl['maximumCTC'].errors !== null && salaryDetailFormControl['maximumCTC'].errors['required']}"
                         />
                       </div>
                     </div>
@@ -646,7 +646,7 @@
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Bonus</label>
-                  <input type="text" class="form-control" formControlName="Bonus"
+                  <input type="text" class="form-control" formControlName="bonus"
                     placeholder="Bonus" [OnlyNumber]="5"/>
                 </div>
               </div>
@@ -658,13 +658,13 @@
                     <div class="mt-3 row align-items-center justify-content-between">
                       <div class="col-md-4 mb-3 ms-1 row align-items-center">
                         <div class="form-check col-auto">
-                          <input class="form-check-input" type="checkbox" formControlName="IsHRAAllowance" id="IsHRAAllowance"/>
+                          <input class="form-check-input" type="checkbox" formControlName="isHRAAllowance" id="isHRAAllowance"/>
                           <label class="form-check-label text-dark" for="IsHRAAllowance">
                             HRA
                           </label>
                         </div>
                         <div class="col">
-                          <input type="text" [readOnly]="salaryDetailFormControl['IsHRAAllowance'].value == false" class="form-control" formControlName="HRAAllowanceAmount" placeholder="HRA Amount" [OnlyNumber]="10"/>
+                          <input type="text" [readOnly]="salaryDetailFormControl['isHRAAllowance'].value == false" class="form-control" formControlName="hRAAllowanceAmount" placeholder="HRA Amount" [OnlyNumber]="10"/>
                         </div>
                       </div>
                       <div class="col-md-4 mb-3 row align-items-center">
@@ -672,7 +672,7 @@
                           <input
                             class="form-check-input"
                             type="checkbox"
-                            formControlName="IsTravelAllowance"
+                            formControlName="isTravelAllowance"
                             id="IsTravelAllowance"
                           />
                           <label
@@ -686,8 +686,8 @@
                           <input
                             type="text"
                             class="form-control"
-                            [readOnly]="salaryDetailFormControl['IsTravelAllowance'].value == false"
-                            formControlName="TravelAllowanceAmount"
+                            [readOnly]="salaryDetailFormControl['isTravelAllowance'].value == false"
+                            formControlName="travelAllowanceAmount"
                             placeholder="Travel Amount"
                             [OnlyNumber]="10"
                           />
@@ -698,7 +698,7 @@
                           <input
                             class="form-check-input"
                             type="checkbox"
-                            formControlName="IsFoodAllowance"
+                            formControlName="isFoodAllowance"
                             id="IsFoodAllowance"
                           />
                           <label
@@ -712,8 +712,8 @@
                           <input
                             type="text"
                             class="form-control"
-                            [readOnly]="salaryDetailFormControl['IsFoodAllowance'].value == false"
-                            formControlName="FoodAllowanceAmount"
+                            [readOnly]="salaryDetailFormControl['isFoodAllowance'].value == false"
+                            formControlName="foodAllowanceAmount"
                             placeholder="Food Amount"
                             [OnlyNumber]="10"
                           />
@@ -726,11 +726,11 @@
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">Salary Currency <span class="text-danger">*</span></label>
-                  <bot-autocomplete [data]="currenciesData" (OnSelect)="selectCurrency($event)" formControlName="SalaryCurrency"></bot-autocomplete>
+                  <bot-autocomplete [data]="currenciesData" (OnSelect)="selectCurrency($event)" formControlName="salaryCurrency"></bot-autocomplete>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Special Allowance</label>
-                  <input type="number" placeholder="Special Allowance" formControlName="SpecialAllowance" class="form-control">
+                  <input type="number" placeholder="Special Allowance" formControlName="specialAllowance" class="form-control">
                 </div>
               </div>
             </form>
@@ -744,7 +744,7 @@
                     <div class="d-flex align-items-center">
                       <label class="form-label col-md-3">Overseas</label>
                       <div class="col-auto d-flex align-items-center">
-                        <select class="form-select" formControlName="OverseasExpYrs">
+                        <select class="form-select" formControlName="overseasExpYrs">
                           @for (item of totalYears; track item) {
                             <option [value]="item">{{item}}</option>
                           }
@@ -752,7 +752,7 @@
                         <label class="form-label mx-2">Yrs</label>
                       </div>
                       <div class="col-auto d-flex align-items-center">
-                        <select class="form-select" formControlName="OverseasExpMonth">
+                        <select class="form-select" formControlName="overseasExpMonth">
                           @for (item of totalMonths; track item) {
                             <option [value]="item">{{item}}</option>
                           }
@@ -763,7 +763,7 @@
                     <div class="d-flex align-items-center mt-3">
                       <label class="form-label col-md-3">Local</label>
                       <div class="col-auto d-flex align-items-center">
-                        <select class="form-select" formControlName="LocalExpYrs">
+                        <select class="form-select" formControlName="localExpYrs">
                           @for (item of totalYears; track item) {
                             <option [value]="item">{{item}}</option>
                           }
@@ -771,7 +771,7 @@
                         <label class="form-label mx-2">Yrs</label>
                       </div>
                       <div class="col-auto d-flex align-items-center">
-                        <select class="form-select"  formControlName="LocalExpMonth">
+                        <select class="form-select"  formControlName="localExpMonth">
                           @for (item of totalMonths; track item) {
                             <option [value]="item">{{item}}</option>
                           }
@@ -784,8 +784,8 @@
                 <div class="col-md-6">
                   <div class="col-md-12 mt-3">
                     <label class="form-label">Working Shift <span class="text-danger">*</span></label>
-                    <select class="form-select" formControlName="ShiftId"
-                    [ngClass]="{'error-field': submitted && ExpWorkingFormControl['ShiftId'].errors !== null && ExpWorkingFormControl['ShiftId'].errors['required']}">
+                    <select class="form-select" formControlName="shiftId"
+                    [ngClass]="{'error-field': submitted && ExpWorkingFormControl['shiftId'].errors !== null && ExpWorkingFormControl['shiftId'].errors['required']}">
                       <option [value]="null" disabled>Select Shift</option>
                       <option value="0">Any Shift</option>
                       <option value="1">Morning Shift</option>
@@ -796,8 +796,8 @@
                   </div>
                   <div class="col-md-12 mt-3">
                     <label class="form-label">Working Hours <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" formControlName="DailyWorkingHours" (input)="allowWorkingHrs($event)" placeholder="Working Hours" maxlength="2"
-                    [ngClass]="{'error-field': submitted && ExpWorkingFormControl['DailyWorkingHours'].errors !== null && ExpWorkingFormControl['DailyWorkingHours'].errors['required']}">
+                    <input type="number" class="form-control" formControlName="dailyWorkingHours" (input)="allowWorkingHrs($event)" placeholder="Working Hours" maxlength="2"
+                    [ngClass]="{'error-field': submitted && ExpWorkingFormControl['dailyWorkingHours'].errors !== null && ExpWorkingFormControl['dailyWorkingHours'].errors['required']}">
                   </div>
                 </div>
               </div>
@@ -837,10 +837,10 @@
                           <input
                             type="text"
                             class="form-control"
-                            formControlName="MinAgeLimit"
+                            formControlName="minAgeLimit"
                             placeholder="Min Age Limit"
                             [OnlyNumber]="2"
-                            [ngClass]="{'error-field': submitted && otherDetailFormControl['MinAgeLimit'].errors !== null && otherDetailFormControl['MinAgeLimit'].errors['required']}"
+                            [ngClass]="{'error-field': submitted && otherDetailFormControl['minAgeLimit'].errors !== null && otherDetailFormControl['minAgeLimit'].errors['required']}"
                           />
                         </div>
                         <div class="col-md-6 d-flex align-items-center">
@@ -848,10 +848,10 @@
                           <input
                             type="text"
                             class="form-control"
-                            formControlName="MaxAgeLimit"
+                            formControlName="maxAgeLimit"
                             placeholder="Max Age Limit"
                             [OnlyNumber]="2"
-                            [ngClass]="{'error-field': submitted && otherDetailFormControl['MaxAgeLimit'].errors !== null && otherDetailFormControl['MaxAgeLimit'].errors['required']}"
+                            [ngClass]="{'error-field': submitted && otherDetailFormControl['maxAgeLimit'].errors !== null && otherDetailFormControl['maxAgeLimit'].errors['required']}"
                           />
                         </div>
                       </div>
@@ -865,7 +865,7 @@
                           <input
                             class="form-check-input"
                             type="checkbox"
-                            formControlName="IsForeignReturnCompulsory"
+                            formControlName="isForeignReturnCompulsory"
                             id="IsForeignReturnCompulsory"
                           />
                           <label
@@ -879,9 +879,9 @@
                           <input
                             type="text"
                             class="form-control"
-                            [readOnly]="otherDetailFormControl['IsForeignReturnCompulsory'].value == false"
-                            formControlName="MinimunDaysRequired"
-                            placeholder="Minimun Days Required"
+                            [readOnly]="otherDetailFormControl['isForeignReturnCompulsory'].value == false"
+                            formControlName="minimumDaysRequired"
+                            placeholder="Minimum Days Required"
                             [OnlyNumber]="10"
                           />
                         </div>
@@ -896,10 +896,10 @@
                           <input
                             class="form-check-input"
                             type="checkbox"
-                            formControlName="IsOTIncluded"
-                            id="IsOTIncluded"
+                            formControlName="isOTIncluded"
+                            id="isOTIncluded"
                           />
-                          <label class="form-check-label" for="IsOTIncluded">
+                          <label class="form-check-label" for="isOTIncluded">
                             Include
                           </label>
                         </div>
@@ -907,8 +907,8 @@
                           <input
                             type="text"
                             class="form-control"
-                            [readOnly]="otherDetailFormControl['IsOTIncluded'].value == false"
-                            formControlName="MaxOTHours"
+                            [readOnly]="otherDetailFormControl['isOTIncluded'].value == false"
+                            formControlName="maxOTHours"
                             placeholder="Maximum OT Hours"
                             [OnlyNumber]="1"
                           />
@@ -920,20 +920,20 @@
                 <div class="col-md-6">
                   <div class="col-md-12 text-truncate">
                     <label class="form-label">Medical Insurance</label>
-                    <select formControlName="IsMedicalInsuranceProvide" class="form-select">
+                    <select formControlName="isMedicalInsuranceProvide" class="form-select">
                       <option [value]="true">Provided By Company</option>
                       <option [value]="false">Not Provided</option>
                     </select>
                   </div>
                   <div class="col-md-12 mt-3">
                     <label class="form-label">No of Vacancy <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" formControlName="NoOfPosts" placeholder="No of Vacancy" [OnlyNumber]="5"
-                    [ngClass]="{'error-field': submitted && otherDetailFormControl['NoOfPosts'].errors !== null && otherDetailFormControl['NoOfPosts'].errors['required']}">
+                    <input type="text" class="form-control" formControlName="noOfPosts" placeholder="No of Vacancy" [OnlyNumber]="5"
+                    [ngClass]="{'error-field': submitted && otherDetailFormControl['noOfPosts'].errors !== null && otherDetailFormControl['noOfPosts'].errors['required']}">
                   </div>
                   <div class="col-md-12 mt-3">
                     <label class="form-label">Visa Type <span class="text-danger">*</span></label>
-                    <select class="form-select" formControlName="VisaType"
-                    [ngClass]="{'error-field': submitted && otherDetailFormControl['VisaType'].errors !== null && otherDetailFormControl['VisaType'].errors['required']}">
+                    <select class="form-select" formControlName="visaType"
+                    [ngClass]="{'error-field': submitted && otherDetailFormControl['visaType'].errors !== null && otherDetailFormControl['visaType'].errors['required']}">
                       <option [value]="null" disabled>Select Visa Type</option>
                       <option value="1">Tourist</option>
                       <option value="2">Employment</option>
@@ -941,8 +941,8 @@
                   </div>
                   <div class="col-md-12 mt-3">
                     <label class="form-label">Job Type <span class="text-danger">*</span></label>
-                    <select class="form-select" (change)="selectJobType($event)" formControlName="JobTypeId"
-                    [ngClass]="{'error-field': submitted && otherDetailFormControl['JobTypeId'].errors !== null && otherDetailFormControl['JobTypeId'].errors['required']}">
+                    <select class="form-select" (change)="selectJobType($event)" formControlName="jobTypeId"
+                    [ngClass]="{'error-field': submitted && otherDetailFormControl['jobTypeId'].errors !== null && otherDetailFormControl['jobTypeId'].errors['required']}">
                       <option [value]="null" disabled>Select Job Type</option>
                       <option [value]="1">Contractual</option>
                       <option [value]="2">Permanent</option>
@@ -951,7 +951,7 @@
                   @if (selectedJobType == 1) {
                     <div class="col-md-12 mt-3">
                       <label class="form-label">Contract Period (Months)</label>
-                      <input type="text" class="form-control" formControlName="ContractPeriodInMonths" placeholder="Contract Period In Months" [OnlyNumber]="5">
+                      <input type="text" class="form-control" formControlName="contractPeriodInMonths" placeholder="Contract Period In Months" [OnlyNumber]="5">
                     </div>
                   }
                 </div>
