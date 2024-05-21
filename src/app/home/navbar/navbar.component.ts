@@ -114,9 +114,9 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   UserLogin() {
     this.isLoading = true;
     let loginValue = {
-      Password: null,
-      Email: null,
-      Mobile: null,
+      password: null,
+      email: null,
+      mobile: null,
     };
 
     let userId: any = document.getElementById('EmailOrMobile');
@@ -134,12 +134,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
     if (userId.value !== '' && password.value !== '') {
       if (userId.value.indexOf('@') !== -1) {
-        loginValue.Email = userId.value;
+        loginValue.email = userId.value;
       } else {
-        loginValue.Mobile = userId.value;
+        loginValue.mobile = userId.value;
       }
 
-      loginValue.Password = password.value;
+      loginValue.password = password.value;
       this.http
         .login('authenticate', loginValue, AUTHSERVICE)
         .then((result: ResponseModel) => {
@@ -199,23 +199,23 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   initSignUpForm() {
     this.signUpForm = this.fb.group(
       {
-        FullName: new FormControl('', [Validators.required]),
-        Mobile: new FormControl('', [Validators.required]),
-        Email: new FormControl('', [Validators.required, Validators.email]),
-        Password: new FormControl('', [Validators.required]),
-        ConfirmPassword: new FormControl('', [Validators.required]),
+        fullName: new FormControl('', [Validators.required]),
+        mobile: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [Validators.required]),
+        confirmPassword: new FormControl('', [Validators.required]),
       },
       { validators: this.matchPassword }
     );
   }
 
   matchPassword(control: AbstractControl) {
-    let password = control.get('Password').value;
-    let confirmPassword = control.get('ConfirmPassword').value;
+    let password = control.get('password').value;
+    let confirmPassword = control.get('confirmPassword').value;
 
     if (password != confirmPassword)
-      control.get('ConfirmPassword').setErrors({ mismatch: true });
-    else control.get('ConfirmPassword').setErrors(null);
+      control.get('confirmPassword').setErrors({ mismatch: true });
+    else control.get('confirmPassword').setErrors(null);
   }
 
   signUp() {
