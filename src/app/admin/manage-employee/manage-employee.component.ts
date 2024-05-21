@@ -33,8 +33,10 @@ export class ManageEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     let data = this.nav.getValue();
+    console.warn('test employeeid',data);
     if (data){
-      this.employeeId = data.employeeId;
+      this.employeeId = data.userId;
+      console.warn('employeeid',this.employeeId);
       this.loadData();
     } else{
       this.initForm();

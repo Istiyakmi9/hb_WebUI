@@ -36,8 +36,8 @@ export class PaginationComponent implements OnInit {
     this.pageCount = 0;
     if(this._pagination != null) {
       this.getPageCount();
-      this.pages = this.getArrayOfPage(this.pageCount, this._pagination.PageIndex);
-      this.activePage = this._pagination.ActivePageNumber;
+      this.pages = this.getArrayOfPage(this.pageCount, this._pagination.pageIndex);
+      this.activePage = this._pagination.activePageNumber;
     } else {
       this.pages = this.getArrayOfPage(1, 1);
       this.activePage = 1;
@@ -48,9 +48,9 @@ export class PaginationComponent implements OnInit {
   private  getPageCount() {
     this.pageCount = 0;
 
-    if (this._pagination.TotalRecords > 0 && this._pagination.PageSize > 0) {
-      this.activePage = this._pagination.PageIndex;
-      const pageCount = this._pagination.TotalRecords / this._pagination.PageSize;
+    if (this._pagination.totalRecords > 0 && this._pagination.pageSize > 0) {
+      this.activePage = this._pagination.pageIndex;
+      const pageCount = this._pagination.totalRecords / this._pagination.pageSize;
       const roundedPageCount = Math.floor(pageCount);
       this.pageCount = roundedPageCount < pageCount ? roundedPageCount + 1 : roundedPageCount;
       this.calculatePagination(this.activePage);
@@ -58,10 +58,10 @@ export class PaginationComponent implements OnInit {
   }
 
   private calculatePagination(currentPageIndex: number) {
-    this._pagination.StartIndex = (currentPageIndex - 1) * 10 + 1;
-    this._pagination.EndIndex = this._pagination.PageSize * currentPageIndex;
-    if(this._pagination.EndIndex > this._pagination.TotalRecords) {
-      this._pagination.EndIndex = this._pagination.TotalRecords;
+    this._pagination.startIndex = (currentPageIndex - 1) * 10 + 1;
+    this._pagination.endIndex = this._pagination.pageSize * currentPageIndex;
+    if(this._pagination.endIndex > this._pagination.totalRecords) {
+      this._pagination.endIndex = this._pagination.totalRecords;
     }
   }
 
@@ -80,17 +80,17 @@ export class PaginationComponent implements OnInit {
 
   onNextPage(pageNumber: number): void {
     this.isPaginationUpdated = false;
-    this._pagination.ActivePageNumber = pageNumber;
+    this._pagination.activePageNumber = pageNumber;
     if (pageNumber >= 1 && pageNumber <= this.lastPage) {
         this.activePage = pageNumber;
-        this._pagination.PageIndex = this.activePage;
+        this._pagination.pageIndex = this.activePage;
         this.calculatePagination(this.activePage);
         this.onPageChange.emit(this._pagination);
     } else if(pageNumber > this.pages.length && pageNumber <= this.pageCount) {
       this.pages = this.getArrayOfPage(this.pageCount, pageNumber);
       if(this.pages.length > 0) {
         this.activePage = pageNumber;
-        this.pagination.PageIndex = this.activePage;
+        this.pagination.pageIndex = this.activePage;
         this.calculatePagination(this.activePage);
         this.onPageChange.emit(this.pagination);
       }
@@ -102,22 +102,22 @@ export class PaginationComponent implements OnInit {
 
   onPreviousPage(pageNumber: number): void {
     this.isPaginationUpdated = false;
-    this._pagination.ActivePageNumber = pageNumber;
+    this._pagination.activePageNumber = pageNumber;
     if (pageNumber >= this.startPage) {
         this.activePage = pageNumber;
-        this._pagination.PageIndex = this.activePage;
+        this._pagination.pageIndex = this.activePage;
         this.calculatePagination(this.activePage);
         this.onPageChange.emit(this._pagination);
     } else if(pageNumber > 0) {
       this.activePage = pageNumber;
-      if(pageNumber - this._pagination.ActivePageNumber > 0) {
-        pageNumber = pageNumber - this._pagination.ActivePageNumber;
+      if(pageNumber - this._pagination.activePageNumber > 0) {
+        pageNumber = pageNumber - this._pagination.activePageNumber;
       } else {
         pageNumber = 1;
       }
       this.pages = this.getArrayOfPage(this.pageCount, pageNumber);
       if(this.pages.length > 0) {
-        this._pagination.PageIndex = this.activePage;
+        this._pagination.pageIndex = this.activePage;
         this.calculatePagination(this.activePage);
         this.onPageChange.emit(this._pagination);
       }
@@ -129,7 +129,7 @@ export class PaginationComponent implements OnInit {
 
   // New Pagination
   get totalPages(): number {
-    return Math.ceil(this._pagination.TotalRecords / this._pagination.PageSize);
+    return Math.ceil(this._pagination.totalRecords / this._pagination.pageSize);
   }
 
   get newpages(): number[] {
@@ -150,10 +150,10 @@ export class PaginationComponent implements OnInit {
   }
 
   onPageChanges(page: number): void {
-    this._pagination.ActivePageNumber = page;
+    this._pagination.activePageNumber = page;
     if (page >= 1 && page <= this.lastPage) {
         this.activePage = page;
-        this._pagination.PageIndex = this.activePage;
+        this._pagination.pageIndex = this.activePage;
         this.calculatePagination(this.activePage);
         this.onPageChange.emit(this._pagination);
     }

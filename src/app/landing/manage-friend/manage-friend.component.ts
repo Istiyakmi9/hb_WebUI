@@ -45,8 +45,8 @@ export class ManageFriendComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.user.getInstance();
-    if (this.currentUser && this.currentUser.FirstName) {
-      this.userName = this.currentUser.FirstName + " " + this.currentUser.LastName;
+    if (this.currentUser && this.currentUser.firstName) {
+      this.userName = this.currentUser.firstName + " " + this.currentUser.lastName;
     }
     this.loadData();
   }
@@ -59,7 +59,7 @@ export class ManageFriendComponent implements OnInit {
         this.friendList = res.ResponseBody;
         this.filterFriendList = res.ResponseBody;
         this.filterFriendList.forEach(x => {
-          x.IsFriend = true;
+          x.isFriend = true;
         });
         this.isPageReady = true;
       }
@@ -84,16 +84,16 @@ export class ManageFriendComponent implements OnInit {
         if (res.ResponseBody) {
           this.filterFriendList = res.ResponseBody;
           if (this.filterFriendList.length > 0) {
-            this.filterFriendList = this.filterFriendList.filter(x => x.UserId != this.currentUser.UserId);
+            this.filterFriendList = this.filterFriendList.filter(x => x.userId != this.currentUser.userId);
             this.filterFriendList.forEach(x => {
               if (this.friendList.length > 0) {
-                let existUser = this.friendList.find(i => i.UserId == x.UserId);
+                let existUser = this.friendList.find(i => i.userId == x.userId);
                 if (existUser != null)
-                  x.IsFriend = true;
+                  x.isFriend = true;
                 else
-                  x.IsFriend = false;
+                  x.isFriend = false;
               } else {
-                x.IsFriend = false;
+                x.isFriend = false;
               }
             })
           }
@@ -111,7 +111,7 @@ export class ManageFriendComponent implements OnInit {
 
   addFriend(item: any) {
     if (item) {
-      this.http.get(`user/manageFriend/${item.UserId}`).then((res:ResponseModel) => {
+      this.http.get(`user/manageFriend/${item.userId}`).then((res:ResponseModel) => {
         if (res.ResponseBody) {
           Toast(res.ResponseBody);
         }

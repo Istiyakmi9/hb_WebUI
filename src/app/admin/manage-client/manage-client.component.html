@@ -17,23 +17,23 @@
               <div class="col-12 row">
                 <div class="col-md-4 mt-3">
                   <label class="form-label">Company Name</label>
-                  <input type="text" formControlName="CompanyName" placeholder="Company Name" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250">
+                  <input type="text" formControlName="companyName" placeholder="Company Name" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250">
                   </div>
                   <div class="col-md-4 mt-3">
                     <label class="form-label">Client Type</label>
-                    <select class="form-select" formControlName="ClientTypeId">
+                    <select class="form-select" formControlName="clientTypeId">
                       <option value=null disabled selected>Select Client Type</option>
                       @for (item of clientTypes; track item) {
-                        <option [value]="item.ClientTypeId">{{item.ClientType}}</option>
+                        <option [value]="item.clientTypeId">{{item.clientType}}</option>
                       }
                     </select>
                   </div>
                   <div class="col-md-4 mt-3">
                     <label class="form-label">Country</label>
-                    <select class="form-select" (change)="selectCountry($event)" formControlName="Country">
+                    <select class="form-select" (change)="selectCountry($event)" formControlName="country">
                       <option value=null disabled selected>Select Country</option>
                       @for (item of countries; track item) {
-                        <option [value]="item.Name">{{item.Name}}</option>
+                        <option [value]="item.name">{{item.name}}</option>
                       }
                     </select>
                   </div>
@@ -42,61 +42,61 @@
                   <div class="col-md-4 mt-3">
                     <label class="form-label" >Mobile No.#</label>
                     <div class="input-group">
-                      <div class="input-group-text">{{clientForm.get('CountryPhoneCode').value}}</div>
-                      <input OnlyNumber="15" placeholder="Mobile No." formControlName="Mobile"class="form-control">
+                      <div class="input-group-text">{{clientForm.get('countryPhoneCode').value}}</div>
+                      <input OnlyNumber="15" placeholder="Mobile No." formControlName="mobile"class="form-control">
                     </div>
                   </div>
                   <div class="col-md-4 mt-3">
                     <label class="form-label">Alternate Mobile No.#</label>
                     <div class="input-group">
-                      <div class="input-group-text">{{clientForm.get('CountryPhoneCode').value}}</div>
-                      <input placeholder="Alternate Mobile No." formControlName="AlternetModile_1" class="form-control"  OnlyNumber="15">
+                      <div class="input-group-text">{{clientForm.get('countryPhoneCode').value}}</div>
+                      <input placeholder="Alternate Mobile No." formControlName="alternetModile_1" class="form-control"  OnlyNumber="15">
                     </div>
                   </div>
                   <div class="col-md-4 mt-3">
                     <label class="form-label">Alternate Mobile No.#</label>
                     <div class="input-group">
-                      <div class="input-group-text">{{clientForm.get('CountryPhoneCode').value}}</div>
-                      <input placeholder="Alternate Mobile No."  formControlName="AlternetModile_2" class="form-control"  OnlyNumber="15">
+                      <div class="input-group-text">{{clientForm.get('countryPhoneCode').value}}</div>
+                      <input placeholder="Alternate Mobile No."  formControlName="alternetModile_2" class="form-control"  OnlyNumber="15">
                     </div>
                   </div>
                 </div>
                 <div class="col-md-12 row">
                   <div class="col-md-4 mt-3">
                     <label class="form-label">Email</label>
-                    <input type="email" placeholder="Email" formControlName="Email" class="form-control" maxlength="75">
+                    <input type="email" placeholder="Email" formControlName="email" class="form-control" maxlength="75">
                     </div>
                     <div class="col-md-4 mt-3">
                       <label class="form-label">Alternate Email</label>
-                      <input type="email" placeholder="Alternate Email" formControlName="AlternateEmail_1" class="form-control" maxlength="75">
+                      <input type="email" placeholder="Alternate Email" formControlName="alternateEmail_1" class="form-control" maxlength="75">
                     </div>
                     <div class="col-md-4 mt-3">
                       <label class="form-label">Alternate Email</label>
-                      <input type="email" placeholder="Alternate Email"  formControlName="AlternateEmail_2" class="form-control" maxlength="75">
+                      <input type="email" placeholder="Alternate Email"  formControlName="alternateEmail_2" class="form-control" maxlength="75">
                     </div>
                   </div>
                   <div class="row col-md-12">
                     <div class="col-md-4 mt-3">
                       <label class="form-label">GSTIN No.#</label>
-                      <input type="text" placeholder="GSTIN No." formControlName="GSTIN" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="20">
+                      <input type="text" placeholder="GSTIN No." formControlName="gSTIN" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="20">
                     </div>
                     <div class="col-md-4 mt-3">
                       <label class="form-label">License No.#</label>
-                      <input type="text" placeholder="License No." formControlName="LicenseNo" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="25">
+                      <input type="text" placeholder="License No." formControlName="licenseNo" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="25">
                     </div>
                     <div class="col-md-4 mt-3">
                       <label class="form-label">PAN No.#</label>
-                      <input type="text" placeholder="PAN No." formControlName="PANNum" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="20">
+                      <input type="text" placeholder="PAN No." formControlName="pANNum" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="20">
                     </div>
                   </div>
                   <div class="col-md-12 row">
                     <div class="col-md-4 mt-3">
                       <label class="form-label">Legan Entity</label>
-                      <input type="text" placeholder="Legan Entity" formControlName="LegalEntity" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250">
+                      <input type="text" placeholder="Legan Entity" formControlName="legalEntity" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="250">
                       </div>
                       <div class="col-md-4 mt-3">
                         <label class="form-label">Website</label>
-                        <input type="text" placeholder="Website" formControlName="Website" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="150">
+                        <input type="text" placeholder="Website" formControlName="website" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="150">
                       </div>
                     </div>
                     <div class="col-12 row mt-4">
@@ -110,22 +110,22 @@
                           <div class="col-md-12 mb-3 mb-3 row">
                             <div class="col-md-12">
                               <label class="form-label">Bank Name</label>
-                              <input placeholder="Bank name" formControlName="BankName" class="form-control"oninput="this.value = this.value.toUpperCase()" maxlength="40"
+                              <input placeholder="Bank name" formControlName="bankName" class="form-control"oninput="this.value = this.value.toUpperCase()" maxlength="40"
                                 onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"/>
                               </div>
                               <div class="col-md-12 mt-4">
                                 <label class="form-label">Account No.#</label>
-                                <input placeholder="Account No.#" formControlName="AccountNo" class="form-control" OnlyNumber="30"
+                                <input placeholder="Account No.#" formControlName="accountNo" class="form-control" OnlyNumber="30"
                                   onkeypress="return event.charCode >=48 && event.charCode <=57">
                                 </div>
                                 <div class="col-md-12 mt-4">
                                   <label class="form-label">IFSC Code</label>
-                                  <input placeholder="IFSC Code" formControlName="IFSC" class="form-control"onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"
+                                  <input placeholder="IFSC Code" formControlName="iFSC" class="form-control"onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"
                                   oninput="this.value = this.value.toUpperCase()"  maxlength="11" />
                                 </div>
                                 <div class="col-md-12 mt-4">
                                   <label class="form-label">Branch Name (Optional)</label>
-                                  <input placeholder="Branch name" formControlName="Branch" class="form-control"  oninput="this.value = this.value.toUpperCase()" maxlength="40"
+                                  <input placeholder="Branch name" formControlName="branch" class="form-control"  oninput="this.value = this.value.toUpperCase()" maxlength="40"
                                     onkeypress="return (event.charCode >=48 && event.charCode <=57) || (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
                                   </div>
                                 </div>
@@ -141,27 +141,27 @@
                                 <div class="col-md-12 mb-3 mb-3 row">
                                   <div class="col-md-12">
                                     <label class="form-label">Description </label>
-                                    <textarea placeholder="Decription" formControlName="Description" rows="3" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="700"></textarea>
+                                    <textarea placeholder="Decription" formControlName="description" rows="3" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="700"></textarea>
                                   </div>
                                   <div class="col-md-6 mt-4">
                                     <label class="form-label">Country Code</label>
-                                    <input type="text" placeholder="Country Code" formControlName="CountryCode" readonly class="form-control">
+                                    <input type="text" placeholder="Country Code" formControlName="countryCode" readonly class="form-control">
                                   </div>
                                   <div class="col-md-6 mt-4">
                                     <label class="form-label">State *</label>
-                                    <input placeholder="State" class="form-control" formControlName="State" maxlength="50" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()"/>
+                                    <input placeholder="State" class="form-control" formControlName="state" maxlength="50" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()"/>
                                   </div>
                                   <div class="col-md-6 mt-4">
                                     <label class="form-label">City *</label>
-                                    <input placeholder="City" class="form-control" formControlName="City" maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()"/>
+                                    <input placeholder="City" class="form-control" formControlName="city" maxlength="40" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32"  oninput="this.value = this.value.toUpperCase()"/>
                                   </div>
                                   <div class="col-md-6 mt-4">
                                     <label class="form-label">Pincode *</label>
-                                    <input placeholder="Pincode" type="number" formControlName="Pincode" class="form-control" OnlyNumber="6" maxlength="6"/>
+                                    <input placeholder="Pincode" type="number" formControlName="pincode" class="form-control" OnlyNumber="6" maxlength="6"/>
                                   </div>
                                   <div class="col-md-12 mt-4">
                                     <label class="form-label">Address *</label>
-                                    <textarea placeholder="Address Line" formControlName="Address" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="500"></textarea>
+                                    <textarea placeholder="Address Line" formControlName="address" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="500"></textarea>
                                   </div>
                                 </div>
                               </div>
