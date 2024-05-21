@@ -5,6 +5,7 @@ import { UserDetail } from "./common.service";
 @Injectable()
 export class UserService {
     private userModel: UserDetail = null;
+
     getInstance(): UserDetail {
         let localUserData = localStorage.getItem(Master);
         if (localUserData !== null && localUserData !== "") {
@@ -14,5 +15,14 @@ export class UserService {
             this.userModel = new UserDetail();
         }
         return this.userModel;
+    }
+
+    setInstance(user: UserDetail) {
+        let localUserData = localStorage.getItem(Master);
+        if (localUserData !== null && localUserData !== "") {
+            localUserData = JSON.parse(localUserData);
+            localUserData["UserDetail"] = user;
+            localStorage.setItem(Master, JSON.stringify(localUserData));
+        }
     }
 }

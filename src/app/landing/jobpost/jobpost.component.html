@@ -267,11 +267,11 @@
                 href="javascript:void(0)"
                 class="text-decoration-none d-flex align-items-center text-muted"
               >
-                <i class="{{ item.icon }}"></i>
+                <i class="{{ item.Icon }}"></i>
                 <div
                   class="px-2 mb-0 fw-normal text-truncate col-lg-10 col-md-9 col-sm-8"
                 >
-                  {{ item.title }}
+                  {{ item.Title }}
                 </div>
                 <small>
                   <i class="fa-solid fa-circle-exclamation"></i>
@@ -279,7 +279,7 @@
               </a>
             </div>
             <div class="col-auto ps-0">
-              {{ item.total }}
+              {{ item.Total }}
             </div>
           </div>
           }
@@ -378,9 +378,9 @@
       <div class="modal-header border-bottom-0">
         <h1 class="modal-title fs-5" id="postJobModalLabel">
           {{
-            f["JobCategoryId"].value == 1
+            f["jobCategoryId"].value == 1
               ? "Blue Collar Job Form"
-              : f["JobCategoryId"].value == 2
+              : f["jobCategoryId"].value == 2
               ? "Grey Collar Job Form"
               : "White Collar Job Form"
           }}
@@ -523,7 +523,7 @@
                     <div class="col">
                       <input
                         type="text"
-                        [readOnly]="f['IsHRAAllowance'].value == false"
+                        [readOnly]="f['isHRAAllowance'].value == false"
                         class="form-control"
                         formControlName="hRAAllowanceAmount"
                         placeholder="HRA Amount"
@@ -550,7 +550,7 @@
                       <input
                         type="text"
                         class="form-control"
-                        [readOnly]="f['IsTravelAllowance'].value == false"
+                        [readOnly]="f['isTravelAllowance'].value == false"
                         formControlName="travelAllowanceAmount"
                         placeholder="Travel Amount"
                         [OnlyNumber]="10"
@@ -576,7 +576,7 @@
                       <input
                         type="text"
                         class="form-control"
-                        [readOnly]="f['IsFoodAllowance'].value == false"
+                        [readOnly]="f['isFoodAllowance'].value == false"
                         formControlName="foodAllowanceAmount"
                         placeholder="Food Amount"
                         [OnlyNumber]="10"
@@ -688,7 +688,7 @@
                     <input
                       type="text"
                       class="form-control"
-                      [readOnly]="f['IsForeignReturnCompulsory'].value == false"
+                      [readOnly]="f['isForeignReturnCompulsory'].value == false"
                       formControlName="minimumDaysRequired"
                       placeholder="Minimum Days Required"
                       [OnlyNumber]="10"
@@ -716,7 +716,7 @@
                     <input
                       type="text"
                       class="form-control"
-                      [readOnly]="f['IsOTIncluded'].value == false"
+                      [readOnly]="f['isOTIncluded'].value == false"
                       formControlName="maxOTHours"
                       placeholder="Maximum OT Hours"
                       [OnlyNumber]="1"

@@ -38,7 +38,7 @@ export class JwtService {
       if(res !== undefined && res !== null) {
           if(res.UserDetail !== null) {
               this.removeJwtToken();
-              this.setJwtToken(res.UserDetail["Token"], res.UserDetail["TokenExpiryDuration"]);
+              this.setJwtToken(res.UserDetail["token"], res.UserDetail["tokenExpiryDuration"]);
               localStorage.setItem(Master, JSON.stringify(res));
               flag = true;
           }
@@ -127,7 +127,7 @@ export class JwtService {
       } catch {
         ErrorToast("Unknown error occured. Please contact to admin.");
         flag = false;
-      }      
+      }
 
       return flag;
     }
