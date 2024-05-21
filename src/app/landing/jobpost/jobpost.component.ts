@@ -151,9 +151,10 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.currentUser = this.user.getInstance();
-    if (this.currentUser && this.currentUser.FirstName) {
+    console.warn(this.currentUser);
+    if (this.currentUser && this.currentUser.firstName) {
       this.userName =
-        this.currentUser.FirstName + ' ' + this.currentUser.LastName;
+        this.currentUser.firstName + ' ' + this.currentUser.lastName;
     }
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
@@ -443,6 +444,7 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
     this.isLoading = true;
     this.fileDetail = [];
     this.uploadedFile = [];
+    console.warn('getPostDetail called');
     this.http
       .get(`userposts/getUserPostByUserPostId/${posiId}`)
       .then((res: ResponseModel) => {
@@ -573,13 +575,13 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
   deletePostImage() {
     if (
       this.selectedImage &&
-      this.selectedImage.FileDetailId &&
+      this.selectedImage.fileDetailId &&
       this.postJobDeatil.userPostId > 0
     ) {
       this.isLoading = true;
       this.http
         .delete(
-          `userposts/deleteImages/${this.postJobDeatil.userPostId}/${this.selectedImage.FileDetailId}`
+          `userposts/deleteImages/${this.postJobDeatil.userPostId}/${this.selectedImage.fileDetailId}`
         )
         .then((res) => {
           if (res.ResponseBody) {
@@ -587,15 +589,15 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
             this.uploadedFile = res.ResponseBody;
             this.uploadedFile.forEach((y) => {
               if (
-                y.FilePath.includes('.jpg') ||
-                y.FilePath.includes('.png') ||
-                y.FilePath.includes('.jpeg') ||
-                y.FilePath.includes('.gif')
+                y.filePath.includes('.jpg') ||
+                y.filePath.includes('.png') ||
+                y.filePath.includes('.jpeg') ||
+                y.filePath.includes('.gif')
               )
                 y.Format = 'image';
               else y.Format = 'video';
 
-              y.FilePath = this.imgBaseUrl + y.FilePath;
+              y.filePath = this.imgBaseUrl + y.filePath;
             });
             Toast('Image deleted successfully');
             $('#delteImageConfirmModal').modal('hide');

@@ -61,7 +61,7 @@ export class EmployeeComponent implements OnInit {
     this.http.get("user/getAllUser").then((res:ResponseModel) => {
       if (res.ResponseBody) {
         this.employees = res.ResponseBody;
-          this.employeeData.TotalRecords = this.employees.length;
+          this.employeeData.totalRecords = this.employees.length;
           this.isEmployeeFound = true;
           this.isLoading = false;
       }
@@ -88,12 +88,14 @@ export class EmployeeComponent implements OnInit {
     if (FieldName == 'country')
       this.orderByCountryAsc = !flag;
     this.employeeData = new Filter();
-    this.employeeData.SortBy = FieldName +" "+ Order;
+    this.employeeData.sortBy = FieldName +" "+ Order;
     this.loadData()
   }
 
   EditCurrent(data: any){
     if(data !== null){
+      console.warn('testa passing edit employee', ManageEmployee)
+      console.warn('test passing edit  data', data)
       this.nav.navigate(ManageEmployee, data)
     }
   }
@@ -132,7 +134,7 @@ export class EmployeeComponent implements OnInit {
         delimiter = "and";
     }
     if(searchQuery !== "") {
-      this.employeeData.SearchString = `1=1 And ${searchQuery}`;
+      this.employeeData.searchString = `1=1 And ${searchQuery}`;
     }
 
     this.loadData();
@@ -143,17 +145,17 @@ export class EmployeeComponent implements OnInit {
     this.employeeData.reset();
     searchQuery = ` firstName like '${this.anyFilter}%' OR email like '${this.anyFilter}%' OR mobile like '%${this.anyFilter}%' OR country like '${this.anyFilter}%'`;
     if(searchQuery !== "") {
-      this.employeeData.SearchString = `1=1 And ${searchQuery}`;
+      this.employeeData.searchString = `1=1 And ${searchQuery}`;
     }
     this.loadData()
   }
 
   resetFilter(){
-    this.employeeData.SearchString = "1=1";
-    this.employeeData.PageIndex = 1;
-    this.employeeData.PageSize = 10;
-    this.employeeData.StartIndex = 1;
-    this.employeeData.EndIndex = (this.employeeData.PageSize * this.employeeData.PageIndex);
+    this.employeeData.searchString = "1=1";
+    this.employeeData.pageIndex = 1;
+    this.employeeData.pageSize = 10;
+    this.employeeData.startIndex = 1;
+    this.employeeData.endIndex = (this.employeeData.pageSize * this.employeeData.pageIndex);
     this.loadData();
     this.employeeDetails.firstName="";
     this.employeeDetails.email ="";

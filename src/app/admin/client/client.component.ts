@@ -64,9 +64,9 @@ export class ClientComponent implements OnInit {
       if (res.ResponseBody) {
         this.clients = res.ResponseBody;
         if (this.clients && this.clients.length > 0)
-          this.clientsData.TotalRecords = this.clients[0].Total;
+          this.clientsData.totalRecords = this.clients[0].Total;
         else
-          this.clientsData.TotalRecords = 0;
+          this.clientsData.totalRecords = 0;
 
         Toast("Record found");
         this.isLoading = false;
@@ -97,7 +97,7 @@ export class ClientComponent implements OnInit {
       this.orderByAddressAsc = !flag;
 
     this.clientsData = new Filter();
-    this.clientsData.SortBy = FieldName +" "+ Order;
+    this.clientsData.sortBy = FieldName +" "+ Order;
     this.loadData()
   }
 
@@ -141,7 +141,7 @@ export class ClientComponent implements OnInit {
         delimiter = "and";
     }
     if(searchQuery !== "") {
-      this.clientsData.SearchString = `1=1 And ${searchQuery}`;
+      this.clientsData.searchString = `1=1 And ${searchQuery}`;
     }
 
     this.loadData();
@@ -152,18 +152,18 @@ export class ClientComponent implements OnInit {
     this.clientsData.reset();
     searchQuery = ` CompanyName like '${this.anyFilter}%' OR Email like '${this.anyFilter}%' OR Mobile like '%${this.anyFilter}%' OR ClientTypeId like '${this.anyFilter}%'`;
     if(searchQuery !== "") {
-      this.clientsData.SearchString = `1=1 And ${searchQuery}`;
+      this.clientsData.searchString = `1=1 And ${searchQuery}`;
     }
     this.loadData();
   }
 
 
   resetFilter() {
-    this.clientsData.SearchString = "1=1";
-    this.clientsData.PageIndex = 1;
-    this.clientsData.PageSize = 10;
-    this.clientsData.StartIndex = 1;
-    this.clientsData.EndIndex = (this.clientsData.PageSize * this.clientsData.PageIndex);
+    this.clientsData.searchString = "1=1";
+    this.clientsData.pageIndex = 1;
+    this.clientsData.pageSize = 10;
+    this.clientsData.startIndex = 1;
+    this.clientsData.endIndex = (this.clientsData.pageSize * this.clientsData.pageIndex);
     this.loadData();
     this.clientDetails.CompanyName="";
     this.clientDetails.Mobile = null;
@@ -179,10 +179,10 @@ export class ClientComponent implements OnInit {
 }
 
 class clientModel {
-  CompanyName: string = '';
-  ClientTypeId: number = 0;
-  Mobile: number = null;
-  Email: string = '';
-  Address: string = '';
-  Total: number = 0;
+  companyName: string = '';
+  clientTypeId: number = 0;
+  mobile: number = null;
+  email: string = '';
+  address: string = '';
+  total: number = 0;
 }

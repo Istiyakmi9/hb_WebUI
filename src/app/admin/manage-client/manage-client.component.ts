@@ -57,40 +57,40 @@ export class ManageClientComponent implements OnInit {
   }
 
   initForm() {
-    if (this.clientDetail.CountryCode) {
-      let counytry = this.countries.find(x => x.ISO == this.clientDetail.CountryCode);
-      this.clientDetail.Country = counytry.Name;
-      this.clientDetail.CountryPhoneCode = counytry.PhoneCode;
+    if (this.clientDetail.countryCode) {
+      let counytry = this.countries.find(x => x.iSO == this.clientDetail.countryCode);
+      this.clientDetail.country = counytry.Name;
+      this.clientDetail.countryPhoneCode = counytry.PhoneCode;
     }
     this.clientForm = this.fb.group({
-      Id: new FormControl(this.clientDetail.Id),
-      RepresenterId: new FormControl(this.clientDetail.RepresenterId),
-      BankDetailId: new FormControl(this.clientDetail.BankDetailId),
-      CompanyName: new FormControl(this.clientDetail.CompanyName, [Validators.required]),
-      ClientTypeId: new FormControl(this.clientDetail.ClientTypeId, [Validators.required]),
-      Country: new FormControl(this.clientDetail.Country, [Validators.required]),
-      Mobile: new FormControl(this.clientDetail.Mobile, [Validators.required]),
-      AlternetModile_2: new FormControl(this.clientDetail.AlternetModile_2),
-      AlternetModile_1: new FormControl(this.clientDetail.AlternetModile_1),
-      Email: new FormControl(this.clientDetail.Email, [Validators.required]),
-      AlternateEmail_2: new FormControl(this.clientDetail.AlternateEmail_2),
-      AlternateEmail_1: new FormControl(this.clientDetail.AlternateEmail_1),
-      GSTIN: new FormControl(this.clientDetail.GSTIN),
-      LicenseNo: new FormControl(this.clientDetail.LicenseNo),
-      PANNum: new FormControl(this.clientDetail.PANNum),
-      LegalEntity: new FormControl(this.clientDetail.LegalEntity, [Validators.required]),
-      Website: new FormControl(this.clientDetail.Website),
-      Description: new FormControl(this.clientDetail.Description),
-      CountryCode: new FormControl(this.clientDetail.CountryCode),
-      Address: new FormControl(this.clientDetail.Address, [Validators.required]),
-      Pincode: new FormControl(this.clientDetail.Pincode, [Validators.required]),
-      City: new FormControl(this.clientDetail.City, [Validators.required]),
-      State: new FormControl(this.clientDetail.State, [Validators.required]),
-      Branch: new FormControl(this.clientDetail.Branch),
-      IFSC: new FormControl(this.clientDetail.IFSC, [Validators.required]),
-      BankName: new FormControl(this.clientDetail.BankName, [Validators.required]),
-      AccountNo: new FormControl(this.clientDetail.AccountNo, [Validators.required]),
-      CountryPhoneCode: new FormControl(this.clientDetail.CountryPhoneCode)
+      id: new FormControl(this.clientDetail.id),
+      representerId: new FormControl(this.clientDetail.representerId),
+      bankDetailId: new FormControl(this.clientDetail.bankDetailId),
+      companyName: new FormControl(this.clientDetail.companyName, [Validators.required]),
+      clientTypeId: new FormControl(this.clientDetail.clientTypeId, [Validators.required]),
+      country: new FormControl(this.clientDetail.country, [Validators.required]),
+      mobile: new FormControl(this.clientDetail.mobile, [Validators.required]),
+      alternetModile_2: new FormControl(this.clientDetail.alternetModile_2),
+      alternetModile_1: new FormControl(this.clientDetail.alternetModile_1),
+      email: new FormControl(this.clientDetail.email, [Validators.required]),
+      alternateEmail_2: new FormControl(this.clientDetail.alternateEmail_2),
+      alternateEmail_1: new FormControl(this.clientDetail.alternateEmail_1),
+      gSTIN: new FormControl(this.clientDetail.gSTIN),
+      licenseNo: new FormControl(this.clientDetail.licenseNo),
+      pANNum: new FormControl(this.clientDetail.pANNum),
+      legalEntity: new FormControl(this.clientDetail.legalEntity, [Validators.required]),
+      website: new FormControl(this.clientDetail.website),
+      description: new FormControl(this.clientDetail.description),
+      countryCode: new FormControl(this.clientDetail.countryCode),
+      address: new FormControl(this.clientDetail.address, [Validators.required]),
+      pincode: new FormControl(this.clientDetail.pincode, [Validators.required]),
+      city: new FormControl(this.clientDetail.city, [Validators.required]),
+      state: new FormControl(this.clientDetail.state, [Validators.required]),
+      branch: new FormControl(this.clientDetail.branch),
+      iFSC: new FormControl(this.clientDetail.iFSC, [Validators.required]),
+      bankName: new FormControl(this.clientDetail.bankName, [Validators.required]),
+      accountNo: new FormControl(this.clientDetail.accountNo, [Validators.required]),
+      countryPhoneCode: new FormControl(this.clientDetail.countryPhoneCode)
     })
   }
 
@@ -124,15 +124,15 @@ export class ManageClientComponent implements OnInit {
   reset() {
     this.clientDetail = new ClientDetail();
     this.initForm();
-    this.clientForm.get("CountryPhoneCode").setValue("+91");
+    this.clientForm.get("countryPhoneCode").setValue("+91");
   }
 
   selectCountry(e: any) {
     let value = e.target.value;
     if (value) {
-      let data = this.countries.find(x => x.Name == value);
-      this.clientForm.get("CountryCode").setValue(data.ISO);
-      this.clientForm.get("CountryPhoneCode").setValue(data.PhoneCode);
+      let data = this.countries.find(x => x.name == value);
+      this.clientForm.get("countryCode").setValue(data.iSO);
+      this.clientForm.get("countryPhoneCode").setValue(data.phoneCode);
     }
   }
 
@@ -142,32 +142,32 @@ export class ManageClientComponent implements OnInit {
 }
 
 class ClientDetail {
-  Id: number = 0;
-  RepresenterId: number = 0;
-  BankDetailId: number = 0;
-  CompanyName: string = null;
-  ClientTypeId: number = null;
-  Country: string = null;
-  Mobile: string = null;
-  AlternetModile_2: string = null;
-  AlternetModile_1: string = null;
-  Email: string = null;
-  AlternateEmail_2: string = null;
-  AlternateEmail_1: string = null;
-  GSTIN: string = null;
-  LicenseNo: string = null;
-  PANNum: string = null;
-  LegalEntity: string = null;
-  Website: string = null;
-  Description: string = null;
-  CountryCode: string = null;
-  Address: string = null;
-  Pincode: string = null;
-  City: string = null;
-  State: string = null;
-  Branch: string = null;
-  IFSC: string = null;
-  BankName: string = null;
-  AccountNo: string = null;
-  CountryPhoneCode: string = "+91";
+  id: number = 0;
+  representerId: number = 0;
+  bankDetailId: number = 0;
+  companyName: string = null;
+  clientTypeId: number = null;
+  country: string = null;
+  mobile: string = null;
+  alternetModile_2: string = null;
+  alternetModile_1: string = null;
+  email: string = null;
+  alternateEmail_2: string = null;
+  alternateEmail_1: string = null;
+  gSTIN: string = null;
+  licenseNo: string = null;
+  pANNum: string = null;
+  legalEntity: string = null;
+  website: string = null;
+  description: string = null;
+  countryCode: string = null;
+  address: string = null;
+  pincode: string = null;
+  city: string = null;
+  state: string = null;
+  branch: string = null;
+  iFSC: string = null;
+  bankName: string = null;
+  accountNo: string = null;
+  countryPhoneCode: string = "+91";
 }
