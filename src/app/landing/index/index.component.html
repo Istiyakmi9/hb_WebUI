@@ -185,13 +185,13 @@
                 >
                   @for (data of item.files; track data; let i = $index) {
                   <div class="gallery-img">
-                    @if (data.Format == 'image') {
+                    @if (data.format == 'image') {
                     <img
                       (click)="onPreviewImage(i, item.files)"
                       [src]="data.filePath"
                       [alt]="data.fileDetailId"
                     />
-                    } @if (data.Format == 'video') {
+                    } @if (data.format == 'video') {
                     <video [src]="data.filePath" width="100%" controls></video>
                     }
                   </div>
@@ -965,7 +965,7 @@
                 <div class="row">
                   @for (item of previews; track item) {
                     <div class="col-md-3 my-2 upload-img position-relative">
-                      @if (item.Format == "image") {
+                      @if (item.format == "image") {
                         <img [src]="item.Url" class="img-fluid" alt="image">
                       }
                       @else {
@@ -1011,7 +1011,7 @@
                 class="col-md-2 mt-2 img-view-container"
                 ngClass="position-relative"
               >
-                @if (item.Format == 'image') {
+                @if (item.format == 'image') {
                 <img
                   [src]="item.FilePath"
                   alt=""
@@ -1019,7 +1019,7 @@
                   class=""
                   width="100%"
                 />
-                } @if (item.Format == 'video') {
+                } @if (item.format == 'video') {
                 <video
                   [src]="item.FilePath"
                   style="width: 98%; height: 12vh"

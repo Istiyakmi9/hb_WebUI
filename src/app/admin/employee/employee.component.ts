@@ -130,7 +130,7 @@ export class EmployeeComponent implements OnInit {
         delimiter = "and";
     }
     if(this.employeeDetails.country !== null && this.employeeDetails.country !== "") {
-      searchQuery += ` ${delimiter} Address like '${this.employeeDetails.country}%' `;
+      searchQuery += ` ${delimiter} address like '${this.employeeDetails.country}%' `;
         delimiter = "and";
     }
     if(searchQuery !== "") {
