@@ -12,6 +12,3 @@ RUN npm run build -- --configuration production
 # STAGE 2
 FROM nginx:alpine
 COPY --from=node /app/dist/open_jobs /usr/share/nginx/html
-
-# Copy nginx.confi
-COPY /root/kuber-services/Nginx-config /etc/nginx/nginx.conf
