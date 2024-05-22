@@ -28,9 +28,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { autoCompleteModal } from 'src/app/util/iautocomplete/iautocomplete.component';
-import { AllownumberDirective } from '../../util/directives/allownumber.directive';
-import { IautocompleteComponent } from '../../util/iautocomplete/iautocomplete.component';
+import { autoCompleteModal } from 'src/app/common/iautocomplete/iautocomplete.component';
+import { AllownumberDirective } from '../../../common/directives/allownumber.directive';
+import { IautocompleteComponent } from '../../../common/iautocomplete/iautocomplete.component';
 import {
   NgClass,
   NgStyle,
@@ -38,6 +38,7 @@ import {
   TitleCasePipe,
   DatePipe,
 } from '@angular/common';
+import { IndexRepository } from '../../repository/IndexRepository';
 declare var $: any;
 
 interface IJobCategory {
@@ -222,7 +223,8 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     private user: UserService,
     private nav: iNavigation,
     private http: AjaxService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private repository: IndexRepository
   ) {}
 
   ngAfterViewChecked(): void {
@@ -518,7 +520,7 @@ export class IndexComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  uploadProfileImg(event: any) {
+  async uploadProfileImg(event: any) {
     if (event.target.files) {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
@@ -532,28 +534,24 @@ export class IndexComponent implements OnInit, AfterViewChecked {
         name: $`profile_${imageIndex}`,
         file: file,
       });
-      this.uploadProfileImage();
+
+      await this.uploadProfileImage();
     }
   }
 
-  uploadProfileImage() {
+  async uploadProfileImage() {
     if (this.fileDetail.length > 0) {
       this.isLoading = true;
-      let formData = new FormData();
-      formData.append('userimage', this.fileDetail[0].file);
-      this.http
-        .post(`user/addUserImage/${this.currentUser.userId}`, formData)
-        .then((res: ResponseModel) => {
-          if (res.ResponseBody) {
-            this.currentUser.imageURL = res.ResponseBody;
-            this.user.setInstance(this.currentUser);
-            Toast('Profile uploaded successfully');
-            this.isLoading = false;
-          }
-        })
-        .catch((e) => {
-          this.isLoading = false;
-        });
+      var flag = await this.repository.uploadProfileImage(
+        this.fileDetail,
+        this.currentUser
+      );
+      if (flag) {
+        Toast('Profile uploaded successfully');
+      } else {
+        ErrorToast('Fail to upload. Please contact to admin.');
+      }
+      this.isLoading = false;
     }
   }
 
@@ -847,20 +845,17 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   }
 
   async loadData() {
-    this.http
-      .get(`userposts/getHomePage/${this.page}`)
-      .then((res: ResponseModel) => {
-        if (res.ResponseBody) {
-          this.bindData(res.ResponseBody);
-          this.isPageReady = true;
-          this.isNextPageLoaded = false;
-          this.page++;
-          Toast('Your application is ready now.');
-        }
-      })
-      .catch((e) => {
-        this.isPageReady = true;
-      });
+    var response = await this.repository.loadData(this.page);
+    if (response) {
+      this.bindData(response);
+      this.isNextPageLoaded = false;
+      this.page++;
+      Toast('Your application is ready now.');
+    } else {
+      ErrorToast('Fail to load application.');
+    }
+
+    this.isPageReady = true;
   }
 
   // Listen for scroll events

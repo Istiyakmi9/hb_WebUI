@@ -7,7 +7,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { autoCompleteModal } from 'src/app/util/iautocomplete/iautocomplete.component';
+import { autoCompleteModal } from 'src/app/common/iautocomplete/iautocomplete.component';
 import { ResponseModel } from 'src/auth/jwtService';
 import { environment } from 'src/environments/environment';
 import { AjaxService } from 'src/providers/ajax.service';
@@ -15,8 +15,8 @@ import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
 import { Dashboard, Index, Profile } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 import { UserService } from 'src/providers/userService';
-import { AllownumberDirective } from '../../util/directives/allownumber.directive';
-import { IautocompleteComponent } from '../../util/iautocomplete/iautocomplete.component';
+import { AllownumberDirective } from '../../../common/directives/allownumber.directive';
+import { IautocompleteComponent } from '../../../common/iautocomplete/iautocomplete.component';
 import { NgStyle, NgClass, TitleCasePipe, DatePipe } from '@angular/common';
 declare var $: any;
 

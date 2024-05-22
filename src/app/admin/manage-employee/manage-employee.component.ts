@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { NgbDateStruct, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { ResponseModel } from 'src/auth/jwtService';
 import { AjaxService } from 'src/providers/ajax.service';
@@ -7,19 +13,25 @@ import { Toast } from 'src/providers/common.service';
 import { Employee } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 import { NgClass } from '@angular/common';
-import { AllownumberDirective } from '../../util/directives/allownumber.directive';
-import { BreadcrumsComponent } from '../../util/breadcrums/breadcrums.component';
+import { AllownumberDirective } from '../../common/directives/allownumber.directive';
+import { BreadcrumsComponent } from '../../common/breadcrums/breadcrums.component';
 declare var $: any;
 
 @Component({
-    selector: 'app-manage-employee',
-    templateUrl: './manage-employee.component.html',
-    styleUrls: ['./manage-employee.component.scss'],
-    standalone: true,
-    imports: [BreadcrumsComponent, FormsModule, ReactiveFormsModule, AllownumberDirective, NgbInputDatepicker, NgClass]
+  selector: 'app-manage-employee',
+  templateUrl: './manage-employee.component.html',
+  styleUrls: ['./manage-employee.component.scss'],
+  standalone: true,
+  imports: [
+    BreadcrumsComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    AllownumberDirective,
+    NgbInputDatepicker,
+    NgClass,
+  ],
 })
 export class ManageEmployeeComponent implements OnInit {
-
   isReady: boolean = false;
   employeeForm: FormGroup;
   employeeDetail: EmployeeDetail = new EmployeeDetail();
@@ -27,65 +39,74 @@ export class ManageEmployeeComponent implements OnInit {
   lastWorkingDatemodel: NgbDateStruct;
   isLoading: boolean = false;
 
-  constructor(private fb: FormBuilder,
-              private http: AjaxService,
-              private nav: iNavigation){}
+  constructor(
+    private fb: FormBuilder,
+    private http: AjaxService,
+    private nav: iNavigation
+  ) {}
 
   ngOnInit(): void {
     let data = this.nav.getValue();
-    console.warn('test employeeid',data);
-    if (data){
+    console.warn('test employeeid', data);
+    if (data) {
       this.employeeId = data.userId;
-      console.warn('employeeid',this.employeeId);
+      console.warn('employeeid', this.employeeId);
       this.loadData();
-    } else{
+    } else {
       this.initForm();
       this.isReady = true;
     }
-
   }
 
-  loadData(){
-    this.http.get(`user/getUserByUserId/${this.employeeId}`).then((res:ResponseModel)=>{
-      if(res.ResponseBody){
-        this.employeeDetail = res.ResponseBody;
-        this.initForm();
-        this.isReady = true;
-      }
-    })
+  loadData() {
+    this.http
+      .get(`user/getUserByUserId/${this.employeeId}`)
+      .then((res: ResponseModel) => {
+        if (res.ResponseBody) {
+          this.employeeDetail = res.ResponseBody;
+          this.initForm();
+          this.isReady = true;
+        }
+      });
   }
 
-  addEmployee(){
+  addEmployee() {
     this.isLoading = true;
     let value = this.employeeForm.value;
-    this.http.post("user/addUser", value).then((res:ResponseModel) => {
-      if(res.ResponseBody){
-        Toast("Employee Inserted successfully");
-        $('#messageModalEmployee').modal('show');
+    this.http
+      .post('user/addUser', value)
+      .then((res: ResponseModel) => {
+        if (res.ResponseBody) {
+          Toast('Employee Inserted successfully');
+          $('#messageModalEmployee').modal('show');
+          this.isLoading = false;
+        }
+      })
+      .catch((e) => {
+        alert(e.message);
         this.isLoading = false;
-      }
-    }).catch(e => {
-      alert(e.message)
-      this.isLoading = false;
-    })
+      });
   }
 
-  updateEmployee(){
+  updateEmployee() {
     this.isLoading = true;
     let value = this.employeeForm.value;
-    this.http.put(`user/updateUser/${this.employeeDetail.EmployeeId}`,value).then((res:ResponseModel) => {
-      if(res.ResponseBody){
-        Toast("Employee Updated successfully");
-        $('#messageModalEmployee').modal('show');
+    this.http
+      .put(`user/updateUser/${this.employeeDetail.EmployeeId}`, value)
+      .then((res: ResponseModel) => {
+        if (res.ResponseBody) {
+          Toast('Employee Updated successfully');
+          $('#messageModalEmployee').modal('show');
+          this.isLoading = false;
+        }
+      })
+      .catch((e) => {
+        alert(e.message);
         this.isLoading = false;
-      }
-    }).catch(e => {
-      alert(e.message)
-      this.isLoading = false;
-    })
+      });
   }
 
-  initForm(){
+  initForm() {
     this.employeeForm = this.fb.group({
       EmployeeId: new FormControl(this.employeeDetail.EmployeeId),
       FirstName: new FormControl(this.employeeDetail.FirstName),
@@ -108,28 +129,32 @@ export class ManageEmployeeComponent implements OnInit {
       BankName: new FormControl(this.employeeDetail.BankName),
       IfscCode: new FormControl(this.employeeDetail.IfscCode),
       Branch: new FormControl(this.employeeDetail.Branch),
-      ExperienceInMonths: new FormControl(this.employeeDetail.ExperienceInMonths),
+      ExperienceInMonths: new FormControl(
+        this.employeeDetail.ExperienceInMonths
+      ),
       PassportNumber: new FormControl(this.employeeDetail.PassportNumber),
       JobTypeId: new FormControl(this.employeeDetail.JobTypeId),
       LastCompanyName: new FormControl(this.employeeDetail.LastCompanyName),
       Designation: new FormControl(this.employeeDetail.Designation),
       Salary: new FormControl(this.employeeDetail.Salary),
       ExpectedSalary: new FormControl(this.employeeDetail.ExpectedSalary),
-      ExpectedDesignation: new FormControl(this.employeeDetail.ExpectedDesignation),
+      ExpectedDesignation: new FormControl(
+        this.employeeDetail.ExpectedDesignation
+      ),
       PinCode: new FormControl(this.employeeDetail.PinCode),
-      MedicalConsultancyId: new FormControl(this.employeeDetail.MedicalConsultancyId),
+      MedicalConsultancyId: new FormControl(
+        this.employeeDetail.MedicalConsultancyId
+      ),
       ConsultedBy: new FormControl(this.employeeDetail.ConsultedBy),
       ReferenceId: new FormControl(this.employeeDetail.ReferenceId),
       ReportId: new FormControl(this.employeeDetail.ReportId),
-      ReportPath: new FormControl(this.employeeDetail.ReportPath)
-    })
+      ReportPath: new FormControl(this.employeeDetail.ReportPath),
+    });
   }
 
-
-
-  gotoEmployeePage(){
+  gotoEmployeePage() {
     $('#messageModalEmployee').modal('hide');
-    this.nav.navigate(Employee, null)
+    this.nav.navigate(Employee, null);
   }
 
   reset() {
@@ -142,13 +167,13 @@ export class ManageEmployeeComponent implements OnInit {
   }
 
   onLastWorkingDateSelection(e: NgbDateStruct) {
-    let date = new Date(e.year, e.month -1, e.day);
-    this.employeeForm.get("lastWorkingDate").setValue(date);
+    let date = new Date(e.year, e.month - 1, e.day);
+    this.employeeForm.get('lastWorkingDate').setValue(date);
   }
 
   consultedOnSelection(e: NgbDateStruct) {
-    let date = new Date(e.year, e.month -1, e.day);
-    this.employeeForm.get("consultedOn").setValue(date);
+    let date = new Date(e.year, e.month - 1, e.day);
+    this.employeeForm.get('consultedOn').setValue(date);
   }
 }
 

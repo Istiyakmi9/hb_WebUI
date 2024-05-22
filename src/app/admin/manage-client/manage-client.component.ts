@@ -1,20 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { AjaxService } from 'src/providers/ajax.service';
 import { ErrorToast, Toast } from 'src/providers/common.service';
 import { Client } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 import { NgClass } from '@angular/common';
-import { AllownumberDirective } from '../../util/directives/allownumber.directive';
-import { BreadcrumsComponent } from '../../util/breadcrums/breadcrums.component';
+import { AllownumberDirective } from '../../common/directives/allownumber.directive';
+import { BreadcrumsComponent } from '../../common/breadcrums/breadcrums.component';
 declare var $: any;
 
 @Component({
-    selector: 'app-manage-client',
-    templateUrl: './manage-client.component.html',
-    styleUrls: ['./manage-client.component.scss'],
-    standalone: true,
-    imports: [BreadcrumsComponent, FormsModule, ReactiveFormsModule, AllownumberDirective, NgClass]
+  selector: 'app-manage-client',
+  templateUrl: './manage-client.component.html',
+  styleUrls: ['./manage-client.component.scss'],
+  standalone: true,
+  imports: [
+    BreadcrumsComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    AllownumberDirective,
+    NgClass,
+  ],
 })
 export class ManageClientComponent implements OnInit {
   isReady: boolean = false;
@@ -26,39 +39,45 @@ export class ManageClientComponent implements OnInit {
   clientTypes: Array<any> = [];
   submitted: boolean = false;
 
-  constructor(private fb: FormBuilder,
-              private http: AjaxService,
-              private nav: iNavigation) { }
+  constructor(
+    private fb: FormBuilder,
+    private http: AjaxService,
+    private nav: iNavigation
+  ) {}
 
   ngOnInit(): void {
     let data = this.nav.getValue();
-    if (data)
-      this.clientId = data.Id;
+    if (data) this.clientId = data.Id;
 
     this.loadData();
   }
 
   loadData() {
     this.isLoading = true;
-    this.http.get(`client/getClientById/${this.clientId}`).then(res => {
-      if (res.ResponseBody) {
-        if (res.ResponseBody.Client)
-          this.clientDetail = res.ResponseBody.Client;
+    this.http
+      .get(`client/getClientById/${this.clientId}`)
+      .then((res) => {
+        if (res.ResponseBody) {
+          if (res.ResponseBody.Client)
+            this.clientDetail = res.ResponseBody.Client;
 
-        this.countries = res.ResponseBody.Country;
-        this.clientTypes = res.ResponseBody.ClientType;
-        this.initForm();
+          this.countries = res.ResponseBody.Country;
+          this.clientTypes = res.ResponseBody.ClientType;
+          this.initForm();
+          this.isLoading = false;
+          this.isReady = true;
+        }
+      })
+      .catch((e) => {
         this.isLoading = false;
-        this.isReady = true;
-      }
-    }).catch(e => {
-      this.isLoading = false;
-    })
+      });
   }
 
   initForm() {
     if (this.clientDetail.countryCode) {
-      let counytry = this.countries.find(x => x.iSO == this.clientDetail.countryCode);
+      let counytry = this.countries.find(
+        (x) => x.iSO == this.clientDetail.countryCode
+      );
       this.clientDetail.country = counytry.Name;
       this.clientDetail.countryPhoneCode = counytry.PhoneCode;
     }
@@ -66,9 +85,15 @@ export class ManageClientComponent implements OnInit {
       id: new FormControl(this.clientDetail.id),
       representerId: new FormControl(this.clientDetail.representerId),
       bankDetailId: new FormControl(this.clientDetail.bankDetailId),
-      companyName: new FormControl(this.clientDetail.companyName, [Validators.required]),
-      clientTypeId: new FormControl(this.clientDetail.clientTypeId, [Validators.required]),
-      country: new FormControl(this.clientDetail.country, [Validators.required]),
+      companyName: new FormControl(this.clientDetail.companyName, [
+        Validators.required,
+      ]),
+      clientTypeId: new FormControl(this.clientDetail.clientTypeId, [
+        Validators.required,
+      ]),
+      country: new FormControl(this.clientDetail.country, [
+        Validators.required,
+      ]),
       mobile: new FormControl(this.clientDetail.mobile, [Validators.required]),
       alternetModile_2: new FormControl(this.clientDetail.alternetModile_2),
       alternetModile_1: new FormControl(this.clientDetail.alternetModile_1),
@@ -78,20 +103,30 @@ export class ManageClientComponent implements OnInit {
       gSTIN: new FormControl(this.clientDetail.gSTIN),
       licenseNo: new FormControl(this.clientDetail.licenseNo),
       pANNum: new FormControl(this.clientDetail.pANNum),
-      legalEntity: new FormControl(this.clientDetail.legalEntity, [Validators.required]),
+      legalEntity: new FormControl(this.clientDetail.legalEntity, [
+        Validators.required,
+      ]),
       website: new FormControl(this.clientDetail.website),
       description: new FormControl(this.clientDetail.description),
       countryCode: new FormControl(this.clientDetail.countryCode),
-      address: new FormControl(this.clientDetail.address, [Validators.required]),
-      pincode: new FormControl(this.clientDetail.pincode, [Validators.required]),
+      address: new FormControl(this.clientDetail.address, [
+        Validators.required,
+      ]),
+      pincode: new FormControl(this.clientDetail.pincode, [
+        Validators.required,
+      ]),
       city: new FormControl(this.clientDetail.city, [Validators.required]),
       state: new FormControl(this.clientDetail.state, [Validators.required]),
       branch: new FormControl(this.clientDetail.branch),
       iFSC: new FormControl(this.clientDetail.iFSC, [Validators.required]),
-      bankName: new FormControl(this.clientDetail.bankName, [Validators.required]),
-      accountNo: new FormControl(this.clientDetail.accountNo, [Validators.required]),
-      countryPhoneCode: new FormControl(this.clientDetail.countryPhoneCode)
-    })
+      bankName: new FormControl(this.clientDetail.bankName, [
+        Validators.required,
+      ]),
+      accountNo: new FormControl(this.clientDetail.accountNo, [
+        Validators.required,
+      ]),
+      countryPhoneCode: new FormControl(this.clientDetail.countryPhoneCode),
+    });
   }
 
   addClientDetail() {
@@ -99,40 +134,40 @@ export class ManageClientComponent implements OnInit {
     this.isLoading = true;
     if (this.clientForm.invalid) {
       this.isLoading = false;
-      ErrorToast("Please fill all the mandatory filled");
+      ErrorToast('Please fill all the mandatory filled');
       return;
     }
 
     let value = this.clientForm.value;
-    this.http.post("client/manageClient", value).then(res => {
+    this.http.post('client/manageClient', value).then((res) => {
       if (res.ResponseBody) {
-        Toast("Client Inserted/Updated successfully");
+        Toast('Client Inserted/Updated successfully');
         $('#messageModal').modal('show');
         this.isLoading = false;
       } else {
-        ErrorToast("Failed to generated, Please contact to admin.");
+        ErrorToast('Failed to generated, Please contact to admin.');
         this.isLoading = false;
       }
-    })
+    });
   }
 
   gotoClientPage() {
     $('#messageModal').modal('hide');
-    this.nav.navigate(Client, null)
+    this.nav.navigate(Client, null);
   }
 
   reset() {
     this.clientDetail = new ClientDetail();
     this.initForm();
-    this.clientForm.get("countryPhoneCode").setValue("+91");
+    this.clientForm.get('countryPhoneCode').setValue('+91');
   }
 
   selectCountry(e: any) {
     let value = e.target.value;
     if (value) {
-      let data = this.countries.find(x => x.name == value);
-      this.clientForm.get("countryCode").setValue(data.iSO);
-      this.clientForm.get("countryPhoneCode").setValue(data.phoneCode);
+      let data = this.countries.find((x) => x.name == value);
+      this.clientForm.get('countryCode').setValue(data.iSO);
+      this.clientForm.get('countryPhoneCode').setValue(data.phoneCode);
     }
   }
 
@@ -169,5 +204,5 @@ class ClientDetail {
   iFSC: string = null;
   bankName: string = null;
   accountNo: string = null;
-  countryPhoneCode: string = "+91";
+  countryPhoneCode: string = '+91';
 }
