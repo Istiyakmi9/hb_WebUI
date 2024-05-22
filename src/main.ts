@@ -39,68 +39,72 @@ const routes: Routes = [
     path: '',
     // path: 'landing',
     loadComponent: () =>
-      import('./app/home/home/home.component').then((c) => c.HomeComponent),
+      import('./app/home/presentation/home/home.component').then(
+        (c) => c.HomeComponent
+      ),
     // pathMatch: 'full',
     children: [
       // home module
       {
         path: '',
         loadComponent: () =>
-          import('./app/home/landingpage/landingpage.component').then(
-            (c) => c.LandingpageComponent
-          ),
+          import(
+            './app/home/presentation/landingpage/landingpage.component'
+          ).then((c) => c.LandingpageComponent),
       },
       {
         path: 'home',
         loadComponent: () =>
-          import('./app/home/landingpage/landingpage.component').then(
-            (c) => c.LandingpageComponent
-          ),
+          import(
+            './app/home/presentation/landingpage/landingpage.component'
+          ).then((c) => c.LandingpageComponent),
       },
       {
         path: 'joblisting',
         loadComponent: () =>
-          import('./app/home/joblisting/joblisting.component').then(
-            (c) => c.JoblistingComponent
-          ),
+          import(
+            './app/home/presentation/joblisting/joblisting.component'
+          ).then((c) => c.JoblistingComponent),
       },
       {
         path: 'about',
         loadComponent: () =>
-          import('./app/home/about/about.component').then(
+          import('./app/home/presentation/about/about.component').then(
             (c) => c.AboutComponent
           ),
       },
       {
         path: 'contact',
         loadComponent: () =>
-          import('./app/home/contact/contact.component').then(
+          import('./app/home/presentation/contact/contact.component').then(
             (c) => c.ContactComponent
           ),
       },
       {
         path: 'blog',
         loadComponent: () =>
-          import('./app/home/blog/blog.component').then((c) => c.BlogComponent),
+          import('./app/home/presentation/blog/blog.component').then(
+            (c) => c.BlogComponent
+          ),
       },
       {
         path: 'blogdetail',
         loadComponent: () =>
-          import('./app/home/blogdetail/blogdetail.component').then(
-            (c) => c.BlogdetailComponent
-          ),
+          import(
+            './app/home/presentation/blogdetail/blogdetail.component'
+          ).then((c) => c.BlogdetailComponent),
       },
       {
         path: 'elements',
         loadComponent: () =>
-          import('./app/home/elements/elements.component').then(
+          import('./app/home/presentation/elements/elements.component').then(
             (c) => c.ElementsComponent
           ),
       },
       {
         path: 'jobdetail',
         loadComponent: () =>
-          import('./app/home/jobdetail/jobdetail.component').then(
+          import('./app/home/presentation/jobdetail/jobdetail.component').then(
             (c) => c.JobdetailComponent
           ),
       },
@@ -171,51 +175,51 @@ const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./app/landing/index/index.component').then(
+          import('./app/home/presentation/index/index.component').then(
             (c) => c.IndexComponent
           ),
       },
       {
         path: Index,
         loadComponent: () =>
-          import('./app/landing/index/index.component').then(
+          import('./app/home/presentation/index/index.component').then(
             (c) => c.IndexComponent
           ),
       },
       {
         path: JobPost,
         loadComponent: () =>
-          import('./app/landing/jobpost/jobpost.component').then(
+          import('./app/home/presentation/jobpost/jobpost.component').then(
             (c) => c.JobpostComponent
           ),
       },
       {
         path: AccountSetup,
         loadComponent: () =>
-          import('./app/landing/account-setup/account-setup.component').then(
-            (c) => c.AccountSetupComponent
-          ),
+          import(
+            './app/home/presentation/account-setup/account-setup.component'
+          ).then((c) => c.AccountSetupComponent),
       },
       {
         path: Resume,
         loadComponent: () =>
-          import('./app/landing/resume/resume.component').then(
+          import('./app/home/presentation/resume/resume.component').then(
             (c) => c.ResumeComponent
           ),
       },
       {
         path: ResumeMaker,
         loadComponent: () =>
-          import('./app/landing/resume-maker/resume-maker.component').then(
-            (c) => c.ResumeMakerComponent
-          ),
+          import(
+            './app/home/presentation/resume-maker/resume-maker.component'
+          ).then((c) => c.ResumeMakerComponent),
       },
       {
         path: ManageFriend,
         loadComponent: () =>
-          import('./app/landing/manage-friend/manage-friend.component').then(
-            (c) => c.ManageFriendComponent
-          ),
+          import(
+            './app/home/presentation/manage-friend/manage-friend.component'
+          ).then((c) => c.ManageFriendComponent),
       },
     ],
   },

@@ -1,5 +1,5 @@
-.elements-about-bg{
-    background-image: url('../../../assets/img/hero/about.jpg');
+.contact-about-bg{
+    background-image: url('../../../../assets/img/hero/about.jpg');
     background-repeat: no-repeat;
 }
 
@@ -54,4 +54,13 @@
 .btn:focus {
     outline: 0;
     box-shadow: none
+}
+
+a {
+  color: #3892f3 !important;
+}
+
+a:hover {
+  color: #222 !important;
+  transition: all 0.2s linear !important;
 }
