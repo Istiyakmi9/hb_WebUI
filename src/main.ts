@@ -238,7 +238,7 @@ bootstrapApplication(AppComponent, {
       multi: true,
     },
     provideAnimations(),
-    provideRouter(routes, withHashLocation()),
+    provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
   ],
 }).catch((err) => console.error(err));
