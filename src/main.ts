@@ -108,6 +108,20 @@ const routes: Routes = [
             (c) => c.JobdetailComponent
           ),
       },
+      {
+        path: 'privacy-policy',
+        loadComponent: () =>
+          import('./app/home/presentation/privacy-policy/privacy-policy.component').then(
+            (c) => c.PrivacyPolicyComponent
+          ),
+      },
+      {
+        path: 'termandcondition',
+        loadComponent: () =>
+          import('./app/home/presentation/term-and-condition/term-and-condition.component').then(
+            (c) => c.TermAndConditionComponent
+          ),
+      },
     ],
   },
   {

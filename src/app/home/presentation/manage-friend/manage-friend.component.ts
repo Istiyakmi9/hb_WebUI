@@ -6,13 +6,14 @@ import { Index } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 import { UserService } from 'src/providers/userService';
 import { TitleCasePipe } from '@angular/common';
+import { BreadcrumsComponent } from 'src/app/common/breadcrums/breadcrums.component';
 
 @Component({
     selector: 'app-manage-friend',
     templateUrl: './manage-friend.component.html',
     styleUrls: ['./manage-friend.component.scss'],
     standalone: true,
-    imports: [TitleCasePipe]
+    imports: [TitleCasePipe, BreadcrumsComponent]
 })
 export class ManageFriendComponent implements OnInit {
 

@@ -3,12 +3,14 @@ import { AjaxService } from 'src/providers/ajax.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JwtService, ResponseModel } from 'src/auth/jwtService';
+import { BreadcrumsComponent } from 'src/app/common/breadcrums/breadcrums.component';
 
 @Component({
     selector: 'app-resume-maker',
     templateUrl: './resume-maker.component.html',
     styleUrls: ['./resume-maker.component.scss'],
-    standalone: true
+    standalone: true,
+    imports: [BreadcrumsComponent]
 })
 export class ResumeMakerComponent implements OnInit {
   htmlContent = `<!DOCTYPE html>
