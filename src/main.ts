@@ -33,6 +33,7 @@ import {
   Resume,
   ResumeMaker,
 } from './providers/constants';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -245,6 +246,7 @@ bootstrapApplication(AppComponent, {
     AjaxService,
     iNavigation,
     JwtService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     UserService,
     {
       provide: HTTP_INTERCEPTORS,
