@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-blog',
     templateUrl: './blog.component.html',
     styleUrls: ['./blog.component.scss'],
     standalone: true,
-    imports: [FormsModule]
+    imports: [FormsModule, RouterLink]
 })
 export class BlogComponent {
 

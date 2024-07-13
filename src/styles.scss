@@ -5958,7 +5958,7 @@ form.search-box .select-form .nice-select::after {
 
 form.search-box .search-form {
     width: 21%
-    
+
 }
 
 @media (max-width: 767px) {
@@ -8028,4 +8028,28 @@ input::-webkit-inner-spin-button {
     background-color: #e9ecef !important;
     pointer-events: none !important;
     opacity: 1;
+  }
+
+  .content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+    background: white;
+    border-radius: 10px 10px 0px 0px;
+    height: var(--content-header-height);
+    margin-bottom: .5rem !important;
+  }
+
+  .content-header h2 {
+    margin: 5px 0 6px;
+    float: left;
+    display: block;
+    font-size: 16px !important;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 500;
+    color: darkgray;
   }

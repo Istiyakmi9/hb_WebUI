@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, HostListener, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -10,14 +10,15 @@ import {
 import { autoCompleteModal } from 'src/app/common/iautocomplete/iautocomplete.component';
 import { ResponseModel } from 'src/auth/jwtService';
 import { environment } from 'src/environments/environment';
-import { AjaxService } from 'src/providers/ajax.service';
+import { AjaxService, Filter } from 'src/providers/ajax.service';
 import { ErrorToast, ToLocateDate, Toast } from 'src/providers/common.service';
-import { Dashboard, Index, Profile } from 'src/providers/constants';
+import { Dashboard, Index, ManageFriend, Profile, Resume, ResumeMaker } from 'src/providers/constants';
 import { iNavigation } from 'src/providers/iNavigation';
 import { UserService } from 'src/providers/userService';
 import { AllownumberDirective } from '../../../common/directives/allownumber.directive';
 import { IautocompleteComponent } from '../../../common/iautocomplete/iautocomplete.component';
 import { NgStyle, NgClass, TitleCasePipe, DatePipe } from '@angular/common';
+import { BreadcrumsComponent } from 'src/app/common/breadcrums/breadcrums.component';
 declare var $: any;
 
 @Component({
@@ -52,6 +53,7 @@ declare var $: any;
     AllownumberDirective,
     TitleCasePipe,
     DatePipe,
+    BreadcrumsComponent
   ],
 })
 export class JobpostComponent implements OnInit, AfterViewChecked {
@@ -131,6 +133,11 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
   ];
   countryData: autoCompleteModal = null;
   currenciesData: autoCompleteModal = null;
+  filterJob: Filter = new Filter();
+  isNextPageLoaded: boolean = false;
+  totalPages: number = 0;
+  totalRecords: number = 0;
+  page: number = 1;
 
   constructor(
     private user: UserService,
@@ -151,10 +158,8 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.currentUser = this.user.getInstance();
-    console.warn(this.currentUser);
     if (this.currentUser && this.currentUser.firstName) {
-      this.userName =
-        this.currentUser.firstName + ' ' + this.currentUser.lastName;
+      this.userName = this.currentUser.firstName + ' ' + this.currentUser.lastName;
     }
     this.totalImageCount = this.posts.length;
     this.imgBaseUrl = environment.baseImgUrl;
@@ -171,11 +176,12 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
 
   loadData() {
     this.isPageReady = false;
-    this.http
-      .get(`userposts/getPostByUserId/${this.currentUser.userId}`)
+    this.http.post("userposts/getMyJob", this.filterJob)
       .then((res: ResponseModel) => {
         if (res.ResponseBody) {
           this.bindData(res.ResponseBody);
+          this.page++;
+          this.isNextPageLoaded = false;
           this.isPageReady = true;
         }
       })
@@ -185,26 +191,52 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
   }
 
   bindData(res: any) {
-    this.posts = [];
-    this.posts = res;
-    if (this.posts) {
-      this.posts.forEach((x) => {
-        x.PostedOn = ToLocateDate(x.PostedOn);
-        if (x.Files && x.Files.length > 0) {
-          x.Files.forEach((y) => {
-            if (
-              y.FilePath.includes('.jpg') ||
-              y.FilePath.includes('.png') ||
-              y.FilePath.includes('.jpeg') ||
-              y.FilePath.includes('.gif')
-            )
-              y.Format = 'image';
-            else y.Format = 'video';
+    if (res) {
+      this.totalRecords = res[0].totalRecords;
+      this.totalPages =
+        parseInt((this.totalRecords / 10).toString()) +
+        (this.totalRecords % 10 > 0 ? 1 : 0);
+      res.forEach((x) => {
+        x.postedOn = ToLocateDate(x.postedOn);
+        if (x.files && x.files.length > 0) {
+          x.files.forEach((y) => {
+            if (y.filePath != null && y.filePath != '') {
+              if (
+                y.filePath.includes('.jpg') ||
+                y.filePath.includes('.png') ||
+                y.filePath.includes('.jpeg') ||
+                y.filePath.includes('.gif')
+              ) {
+                y.format = 'image';
+              } else {
+                y.format = 'video';
+              }
 
-            y.FilePath = this.imgBaseUrl + y.FilePath;
+              y.filePath = this.imgBaseUrl + y.filePath;
+            }
           });
         }
       });
+      this.posts = this.posts.concat(res);
+    }
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: any) {
+    const bottomOffset = 900; // Adjust as needed
+    let div: any = document.getElementById('main-container');
+    const scrollPosition = div.scrollTop;
+    const scrollHeight = div.scrollHeight;
+
+    if (
+      scrollPosition > scrollHeight - bottomOffset &&
+      !this.isNextPageLoaded &&
+      this.totalPages >= this.page
+    ) {
+      // Load more data when scrolled to the bottom
+      this.isNextPageLoaded = true;
+      console.log('Loading page: ' + this.page);
+      this.loadData();
     }
   }
 
@@ -618,6 +650,18 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
     this.nav.navigate(Index, null);
   }
 
+  navigateToResumeMaker() {
+    this.nav.navigate(ResumeMaker, null);
+  }
+
+  gotoResume() {
+    this.nav.navigate(Resume, null);
+  }
+
+  navToAddFriend() {
+    this.nav.navigate(ManageFriend, null);
+  }
+
   selectJobCategory(item: any) {
     this.postJobForm.value.jobCategoryId = item.categoryId;
     this.filterJobTypes = this.jobTypes.filter(
@@ -627,9 +671,10 @@ export class JobpostComponent implements OnInit, AfterViewChecked {
 }
 
 interface Item {
-  ImageSrc: string;
-  ImageAlt: string;
-  FilePath?: string;
+  imageSrc: string;
+  imageAlt: string;
+  filePath?: string;
+  format?: string
 }
 
 class PostJobModal {
