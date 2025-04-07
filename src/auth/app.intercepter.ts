@@ -54,7 +54,7 @@ export class AppHttpIntercepter implements HttpInterceptor {
                   headers: new HttpHeaders({
                       "Content-Type": "application/json; charset=utf-8",
                       "Accept": "application/json",
-                      "Authorization": `Bearer ${this.tokenHelper.getJwtToken()}`
+                      "Authorization": `${this.tokenHelper.getJwtToken()}`
                   })
               });
           }
