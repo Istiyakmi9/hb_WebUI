@@ -87,21 +87,32 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       let credential = resp.credential;
 
       if (credential) {
+        const payload = credential.split(".")[1];
+        const decodedPayload = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
         this.jwtService.setGoogleJwtToken(credential);
+        let user = {
+          email: decodedPayload.email,
+          firstName: decodedPayload.given_name,
+          lastName: decodedPayload.family_name,
+          token: credential
+        };
+
         this.http
-          .login(`googlelogin`, { token: credential }, AUTHSERVICE)
+          .login(`googlelogin`, user, AUTHSERVICE)
           .then((res: ResponseModel) => {
             $('#loginModal').modal('hide');
-            if (res.ResponseBody.IsAccountConfig) {
-              Toast('Please wait loading dashboard ...', 15);
+            // if (res.ResponseBody.IsAccountConfig) {
+            //   Toast('Please wait loading dashboard ...', 15);
+            //   this.nav.navigate(Index, null);
+            // } else {
+            //   let response = {
+            //     UserId: res.ResponseBody.UserDetail.UserId,
+            //     IsAccountConfig: res.ResponseBody.IsAccountConfig,
+            //   };
+            //   this.nav.navigate(AccountSetup, response);
+            // }
+            Toast('Please wait loading dashboard ...');
               this.nav.navigate(Index, null);
-            } else {
-              let response = {
-                UserId: res.ResponseBody.UserDetail.UserId,
-                IsAccountConfig: res.ResponseBody.IsAccountConfig,
-              };
-              this.nav.navigate(AccountSetup, response);
-            }
           });
       }
     }
@@ -141,7 +152,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
       loginValue.password = password.value;
       this.http
-        .login('authenticate', loginValue, AUTHSERVICE)
+        .login('authenticateweb', loginValue, AUTHSERVICE)
         .then((result: ResponseModel) => {
           if (result.ResponseBody) {
             $('#loginModal').modal('hide');

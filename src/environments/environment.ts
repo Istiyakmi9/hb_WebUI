@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   env: "local",
-  baseUrl: "http://localhost:8090/hb/api/",
-  baseImgUrl: "http://localhost:8090/resources/",
+  baseUrl: "http://localhost:8101/hb/api/",
+  baseImgUrl: "https://pub-4730fc00b41c4298819c43031df77172.r2.dev/",
 
   FolderDelimiter: "\\"
 };

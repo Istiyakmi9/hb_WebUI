@@ -34,7 +34,7 @@ export class IndexRepository {
   }
 
   async loadData(page: number): Promise<any> {
-    var response = await this.http.get(`userposts/getHomePage/${page}`);
+    var response = await this.http.get(`generaluserposts/getGeneralHomePage/${page}`);
     if (response.ResponseBody) {
       return response.ResponseBody;
     }
